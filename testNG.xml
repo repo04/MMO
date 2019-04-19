@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
+<suite name="TmpSuite" >
+    <!-- <listeners>
+    	<listener class-name="com.mmo.util.TestNGCustomReport" />
+	</listeners> -->
+	<test name="TmpTest">
+    	<!-- <groups>
+            <run>
+                <include name="prerequisite"/>
+            </run>
+        </groups> -->
+        <classes>
+            <!-- <class name="com.mmo.tests.Home"/>  
+            <class name="com.mmo.tests.SignUp"/>
+            <class name="com.mmo.tests.Email"/>
+            <class name="com.mmo.tests.Login"/>
+            <class name="com.mmo.tests.Dashboard"/>-->
+            <class name="com.mmo.tests.Job"/>
+        </classes>
+    </test>
+</suite>
