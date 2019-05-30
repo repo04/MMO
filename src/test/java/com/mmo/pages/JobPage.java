@@ -20,7 +20,7 @@ public class JobPage extends BaseClass{
 
 	//private static String jobDetails[] = new String[3];
 	private static String outputFileName;
-	private static String jobStatus;
+	private String jobStatus;
 	private String jobId;
 	private String jobStreetGeocodes;
 	private String jobFallbackGeocodes;
@@ -156,11 +156,12 @@ public class JobPage extends BaseClass{
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outputFileName);
 		ip.isTextPresentByXPATH(driver, "//tr[1]/td[2]", outputFormat.toUpperCase());
-		waitforJobToGetCompleteAndReturnStatus(outputFileName);
-		getJobDetailsAfterCompletion(outputFileName);
+		if(!driver.findElement(By.xpath("//tr[1]/td[7]")).getText().equalsIgnoreCase("Geocoding")) {
+			u.illegalStateException("Job status is not geocoding");
+		}
 	}
 
-	public void waitforJobToGetCompleteAndReturnStatus(String outputFileName) {
+	public void waitforJobToGetComplete(String outputFileName) {
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
@@ -183,18 +184,15 @@ public class JobPage extends BaseClass{
 					e.printStackTrace();
 				}
 			}else {
-				this.jobStatus = driver.findElement(By.xpath("//tr[1]/td[7]")).getText();
 				driver.navigate().refresh();
 				break;
 			}
 		} while(x < 10);
-		
-		System.out.print("****jobStatus**** : " + this.jobStatus + "\n");
 	}
 
-	public void getJobDetailsAfterCompletion(String outputFileName) {
+	public void getJobDetails(String outputFileName) {
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
-		System.out.print("****aage****" + "\n");
+//		String abc = driver.findElement(By.xpath("//tr[1]/td[8]/a")).getAttribute("title").toString();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
@@ -203,6 +201,7 @@ public class JobPage extends BaseClass{
 		driver.findElement(By.xpath("//tr[1]/td[8]/a[1]/i")).click();
 		ip.isElementClickableByXpath(driver, "//a[@id='downloadFile']", 60);
 		driver.findElement(By.xpath("//h1")).getText().contains(outputFileName);
+		this.jobStatus = driver.findElement(By.xpath("//tr[1]/td[7]")).getText();
 		this.jobId = driver.findElement(By.xpath("//div/div/div/div/div")).getText();
 		this.jobStreetGeocodes = driver.findElement(By.xpath("//div[@id='streetBuilding']")).getText();
 		this.jobFallbackGeocodes = driver.findElement(By.xpath("//div[@id='geographicPostal']")).getText();
@@ -225,6 +224,14 @@ public class JobPage extends BaseClass{
 	 * @return
 	 */
 	public static String getOutputFileName() {
+		return outputFileName;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static String getJobDetails() {
 		return outputFileName;
 	}
 }

@@ -85,9 +85,14 @@ public class Actions extends BaseClass{
 				outputFormat, country, matchMode);
     }
     
-    public void getJobDetailsAfterCompletion(String outputFilename) {
+    public void waitforJobToGetComplete(String outputFileName) {
     	JobPage jp = new JobPage();
-		jp.getJobDetailsAfterCompletion(outputFilename);
+		jp.waitforJobToGetComplete(outputFileName);
+    }
+    
+    public void getJobDetails(String outputFilename) {
+    	JobPage jp = new JobPage();
+		jp.getJobDetails(outputFilename);
     }
     
     /**

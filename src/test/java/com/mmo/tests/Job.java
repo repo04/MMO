@@ -28,14 +28,14 @@ public class Job extends BaseClass{
 	}
 
 	@Test(dataProvider = "DP1")
-	public void testUploadFileAndStartGeocoding(String inputFileName, String dragColumns, String dropFieldsToGeocode, String outputFields,
+	public void testUploadFileConfigureAndStartGeocoding(String inputFileName, String dragColumns, String dropFieldsToGeocode, String outputFields,
 			String outputFormat, String country, String matchMode) throws Exception {
 
 		a.navigateToDashboard();
 		a.navigateToUploadFile();
 		a.uploadFileConfigureAndStartJob(inputFileName, dragColumns, dropFieldsToGeocode, outputFields,
 				outputFormat, country, matchMode);
-		a.getJobDetailsAfterCompletion("Cntrs204_180419161121");
+		//a.getJobDetailsAfterCompletion("Cntrs204_180419161121");
 	}
 
 	//@Test()

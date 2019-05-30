@@ -83,6 +83,7 @@ public class SignUp extends BaseClass{
 	
 	//@Test
 	public void testSignUpPaid5kUser() throws Exception {
+		signUpDetails =  a.signUpUser("5k", "US");
 		signUpPaid5kUserIDArray[0][0] = signUpDetails[0];
 		signUpPaid5kUserFirstNameArray[0][0] = signUpDetails[1];
 		signUpPaid5kUserSecondNameArray[0][0] = signUpDetails[2];
@@ -93,6 +94,7 @@ public class SignUp extends BaseClass{
 	
 	//@Test
 	public void testSignUpPaidProfUser() throws Exception {
+		signUpDetails =  a.signUpUser("prof", "US");
 		signUpProfUserIDArray[0][0] = signUpDetails[0];
 		signUpProfUserFirstNameArray[0][0] = signUpDetails[1];
 		signUpProfUserSecondNameArray[0][0] = signUpDetails[2];

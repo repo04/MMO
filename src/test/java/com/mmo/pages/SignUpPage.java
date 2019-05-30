@@ -19,7 +19,7 @@ public class SignUpPage extends BaseClass{
 	private String userSecondName;
 	private String dateAndTime;
 	public Actions a = new Actions();
-	
+
 	public void signUpUser(String plan, String region) {
 
 		this.dateAndTime = u.currentDateTime();
@@ -56,7 +56,7 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//a[contains(text(),'Privacy')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
 		u.verifyWindowTitle(driver, "Privacy Statement | Pitney Bowes", ip);
-		
+
 		if(!region.equalsIgnoreCase("US")) {
 			this.userFirstName = "autoMMOPb";	
 			this.userSecondName = "FreeNonUS" + this.dateAndTime;
@@ -109,15 +109,18 @@ public class SignUpPage extends BaseClass{
 		ip.isURLContains(driver, "payment/geocoding");
 		ip.isTextPresentByXPATH(driver, "//div[@id='paymentinfoheading']", "Payment Info");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Payment')]");
-		
+
 		List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
 		System.out.println("iframes count:" + iframes.size());
 		String iframeID = null;
-			for (WebElement frame : iframes) {
-				iframeID = frame.getAttribute("id");
-				System.out.println("Iframe ID: " + iframeID);
+		for (WebElement frame : iframes) {
+			iframeID = frame.getAttribute("id");
+			System.out.println("Iframe ID: " + iframeID);
+			if(iframeID.contentEquals("paymetricsForm")) {
+				driver.switchTo().frame(iframeID);
+				break;
 			}
-		driver.switchTo().frame(iframeID);
+		}
 		ip.isElementClickableByXpath(driver, "//input[@id='c-cardname']", 60);
 		driver.findElement(By.xpath("//input[@id='c-cardname']")).clear();
 		driver.findElement(By.xpath("//input[@id='c-cardname']")).sendKeys("CARD NAME");
@@ -136,7 +139,7 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
 		new Select(driver.findElement(By.xpath("//select[@id='c-exyr']"))).selectByVisibleText("2021");
 		driver.switchTo().defaultContent();
-		
+
 		//Terms of Use
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
 		driver.findElement(By.xpath("//a[contains(text(),'Terms of Use')]")).click();
@@ -144,9 +147,9 @@ public class SignUpPage extends BaseClass{
 		u.verifyWindowTitle(driver, "Subscription Agreement", ip);
 		ip.isElementClickableByXpath(driver, "//button[@id='activateplanbutton']", 60);
 		driver.findElement(By.xpath("//button[@id='activateplanbutton']")).click();
-	    ip.isURLContains(driver, "thanks/geocoding");
+		ip.isURLContains(driver, "thanks/geocoding");
 	}
-	
+
 	/**
 	 * @return userDetails
 	 */

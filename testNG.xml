@@ -11,12 +11,12 @@
             </run>
         </groups> -->
         <classes>
-            <!-- <class name="com.mmo.tests.Home"/>  
+            <!--<class name="com.mmo.tests.Home"/>-->  
             <class name="com.mmo.tests.SignUp"/>
-            <class name="com.mmo.tests.Email"/>
+            <!-- <class name="com.mmo.tests.Email"/>
             <class name="com.mmo.tests.Login"/>
-            <class name="com.mmo.tests.Dashboard"/>-->
-            <class name="com.mmo.tests.Job"/>
+            <class name="com.mmo.tests.Dashboard"/>
+            <class name="com.mmo.tests.Job"/>-->
         </classes>
     </test>
 </suite>
