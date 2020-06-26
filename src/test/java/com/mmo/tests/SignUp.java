@@ -2,6 +2,8 @@ package com.mmo.tests;
 
 import java.util.Iterator;
 
+import com.mmo.util.EmailUtils;
+import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
@@ -30,11 +32,12 @@ public class SignUp extends BaseClass{
 	static String[][] signUpProfUserFirstNameArray = new String[1][1];
 	static String[][] signUpProfUserSecondNameArray = new String[1][1];
 	public Actions a = new Actions();
+	private static EmailUtils emailUtils;
 	
 	@DataProvider(name = "FreeUSUserDetails") 	
     public static Iterator<Object[]> FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-        return DataProviderUtility.cartesianProviderFrom(signUpFreeUSUserIDArray, signUpFreeUSUserFirstNameArray, signUpFreeUSUserSecondNameArray);        
+        return DataProviderUtility.cartesianProviderFrom(signUpFreeUSUserIDArray, signUpFreeUSUserFirstNameArray, signUpFreeUSUserSecondNameArray);
     }
 	
     @DataProvider(name = "FreeNonUSUserDetails") 	
@@ -56,12 +59,18 @@ public class SignUp extends BaseClass{
     }
 	
     @BeforeClass(groups = {"prerequisite"})
-	public void testLogIn(ITestContext context) throws Exception {
-		//a.login("someshb04+free@gmail.com");
+	public static void connectToEmail() {
+		try {
+			emailUtils = new EmailUtils("autommopb@gmail.com", "Pitney@123",
+					"smtp.gmail.com", EmailUtils.EmailFolder.INBOX);
+		} catch (Exception e) {
+			e.printStackTrace();
+			Assert.fail(e.getMessage());
+		}
 	}
 
-	@Test
-	public void testSignUpFreeUSUser() throws Exception {
+	//@Test
+	public void testSignUpFreeUSUserAndCompleteEmailRegisteration() throws Exception {
 		signUpDetails =  a.signUpUser("free", "US");
 		signUpFreeUSUserIDArray[0][0] = signUpDetails[0];
 		signUpFreeUSUserFirstNameArray[0][0] = signUpDetails[1];
@@ -69,6 +78,9 @@ public class SignUp extends BaseClass{
 		Reporter.log("signUpFreeUSUserID: " + signUpFreeUSUserIDArray[0][0], true);
 		Reporter.log("signUpFreeUSUserFirstName: " + signUpFreeUSUserFirstNameArray[0][0], true);
 		Reporter.log("signUpFreeUSUserSecondName: " + signUpFreeUSUserSecondNameArray[0][0], true);
+		Thread.sleep(10000);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpFreeUSUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegisteration(signUpFreeUSUserIDArray[0][0], signUpFreeUSUserFirstNameArray[0][0], signUpFreeUSUserSecondNameArray[0][0]  , claimTokenID);
 	}
 	
 	//@Test
@@ -79,9 +91,12 @@ public class SignUp extends BaseClass{
 		Reporter.log("signUpFreeNonUSUserID: " + signUpFreeNonUSUserIDArray[0][0], true);
 		Reporter.log("signUpFreeNonUSUserFirstName: " + signUpFreeNonUSUserFirstNameArray[0][0], true);
 		Reporter.log("signUpFreeNonUSUserSecondName: " + signUpFreeNonUSUserSecondNameArray[0][0], true);
+		Thread.sleep(10000);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpFreeNonUSUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegisteration(signUpFreeNonUSUserIDArray[0][0], signUpFreeNonUSUserFirstNameArray[0][0], signUpFreeNonUSUserSecondNameArray[0][0]  , claimTokenID);
 	}
 	
-	//@Test
+	@Test
 	public void testSignUpPaid5kUser() throws Exception {
 		signUpDetails =  a.signUpUser("5k", "US");
 		signUpPaid5kUserIDArray[0][0] = signUpDetails[0];
@@ -90,6 +105,9 @@ public class SignUp extends BaseClass{
 		Reporter.log("signUpPaid5kUserID: " + signUpPaid5kUserIDArray[0][0], true);
 		Reporter.log("signUpPaid5kUserFirstName: " + signUpPaid5kUserFirstNameArray[0][0], true);
 		Reporter.log("signUpPaid5kUserSecondName: " + signUpPaid5kUserSecondNameArray[0][0], true);
+		Thread.sleep(10000);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpPaid5kUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegisteration(signUpPaid5kUserIDArray[0][0], signUpPaid5kUserFirstNameArray[0][0], signUpPaid5kUserSecondNameArray[0][0]  , claimTokenID);
 	}
 	
 	//@Test
@@ -101,6 +119,9 @@ public class SignUp extends BaseClass{
 		Reporter.log("signUpPaidProfUserID: " + signUpProfUserIDArray[0][0], true);
 		Reporter.log("signUpPaidProfUserFirstName: " + signUpProfUserFirstNameArray[0][0], true);
 		Reporter.log("signUpPaidProfUserSecondName: " + signUpProfUserSecondNameArray[0][0], true);
+		Thread.sleep(10000);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpProfUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegisteration(signUpProfUserIDArray[0][0], signUpProfUserFirstNameArray[0][0], signUpProfUserSecondNameArray[0][0]  , claimTokenID);
 	}
 
 	@AfterClass(groups = {"prerequisite"})

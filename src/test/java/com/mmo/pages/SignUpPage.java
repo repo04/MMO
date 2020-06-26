@@ -39,9 +39,9 @@ public class SignUpPage extends BaseClass{
 			this.userSecondName = "5k" + this.dateAndTime;
 			break;
 		case "prof":
-			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=starter_100k_monthly')\"]");
-			driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=starter_100k_monthly')\"]")).click();
-			ip.isURLContains(driver, "signup/geocoding?plan=starter_100k_monthly");
+			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=starter_300k_quarterly')\"]");
+			driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=starter_300k_quarterly')\"]")).click();
+			ip.isURLContains(driver, "signup/geocoding?plan=starter_300k_quarterly");
 			this.userFirstName = "autoMMOPb";
 			this.userSecondName = "Prof" + this.dateAndTime;
 		}
@@ -50,12 +50,12 @@ public class SignUpPage extends BaseClass{
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
 		driver.findElement(By.xpath("//a[contains(text(),'Terms of Use')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Terms of Use | Pitney Bowes", ip);
+		u.verifyWindowTitle(driver, "Terms of Use - Precisely", ip);
 		//Privacy
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Privacy')]", 60);
 		driver.findElement(By.xpath("//a[contains(text(),'Privacy')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Privacy Statement | Pitney Bowes", ip);
+		u.verifyWindowTitle(driver, "Privacy Policy - Precisely", ip);
 
 		if(!region.equalsIgnoreCase("US")) {
 			this.userFirstName = "autoMMOPb";	
@@ -125,11 +125,12 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//input[@id='c-cardname']")).clear();
 		driver.findElement(By.xpath("//input[@id='c-cardname']")).sendKeys("CARD NAME");
 		driver.findElement(By.xpath("//input[@id='c-cardnumber']")).clear();
-		driver.findElement(By.xpath("//input[@id='c-cardnumber']")).sendKeys("");
+		driver.findElement(By.xpath("//input[@id='c-cardnumber']")).sendKeys("4111111111111111");
 		driver.findElement(By.xpath("//input[@id='c-cvv']")).clear();
-		driver.findElement(By.xpath("//input[@id='c-cvv']")).sendKeys("");
-		new Select(driver.findElement(By.xpath("//select[@id='c-ct']"))).selectByVisibleText("");
+		driver.findElement(By.xpath("//input[@id='c-cvv']")).sendKeys("123");
+		new Select(driver.findElement(By.xpath("//select[@id='c-ct']"))).selectByVisibleText("VISA");
 		new Select(driver.findElement(By.xpath("//select[@id='c-exmth']"))).selectByVisibleText("Jan");
+		new Select(driver.findElement(By.xpath("//select[@id='c-exyr']"))).selectByVisibleText("2021");
 		driver.findElement(By.xpath("//input[@id='address1']")).clear();
 		driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("DERRY STREETS");
 		driver.findElement(By.xpath("//input[@id='city']")).clear();
@@ -137,17 +138,21 @@ public class SignUpPage extends BaseClass{
 		new Select(driver.findElement(By.xpath("//select[@id='us-state']"))).selectByVisibleText("NH");
 		driver.findElement(By.xpath("//input[@id='postalCode']")).clear();
 		driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
-		new Select(driver.findElement(By.xpath("//select[@id='c-exyr']"))).selectByVisibleText("2021");
 		driver.switchTo().defaultContent();
 
 		//Terms of Use
-		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
-		driver.findElement(By.xpath("//a[contains(text(),'Terms of Use')]")).click();
-		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Subscription Agreement", ip);
+//		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
+//		driver.findElement(By.xpath("//a[contains(text(),'Terms of Use')]")).click();
+//		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+//		u.verifyWindowTitle(driver, "Subscription Agreement", ip);
 		ip.isElementClickableByXpath(driver, "//button[@id='activateplanbutton']", 60);
-		driver.findElement(By.xpath("//button[@id='activateplanbutton']")).click();
+		//driver.findElement(By.xpath("//button[@id='activateplanbutton']")).click();
+		//u.clickByJavaScript(driver, "//button[@id='activateplanbutton']");
+		u.actionBuilderMoveToClick(driver, "//button[@id='activateplanbutton']");
 		ip.isURLContains(driver, "thanks/geocoding");
+		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
+		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
+				+ "Please check your email to complete your registration process. You may safely close this window.");
 	}
 
 	/**

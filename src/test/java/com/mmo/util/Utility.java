@@ -11,7 +11,9 @@ import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -47,6 +49,7 @@ import jxl.Workbook;
 public class Utility {
 
 	public static String str;
+	private int totalRows;
 
 	/**
 	 * Uses js to click on hidden element on the page by XPATH
@@ -63,7 +66,7 @@ public class Utility {
 	 * Uses js to click on hidden element on the page by CSS
 	 * 
 	 * @param driver
-	 * @param menuCSS 
+	 * @param menuCSS
 	 */
 	public void clickByJavaScriptUsingCSS(WebDriver driver, String menuCSS) {
 		WebElement hiddenElement = driver.findElement(By.cssSelector(menuCSS));
@@ -85,7 +88,8 @@ public class Utility {
 			System.out.println("button not found:");
 		}
 
-		new WebDriverWait(driver, 60).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(buttonRemoveUserFilter)));
+		new WebDriverWait(driver, 60)
+				.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(buttonRemoveUserFilter)));
 	}
 
 	/**
@@ -95,6 +99,7 @@ public class Utility {
 	 */
 	public void illegalStateException(String message) {
 		throw new IllegalStateException(message);
+		//throw new IllegalSta
 	}
 
 	/**
@@ -108,7 +113,6 @@ public class Utility {
 		org.openqa.selenium.interactions.Actions builder = new org.openqa.selenium.interactions.Actions(driver);
 		builder.click(elm).perform();
 	}
-
 
 	/**
 	 * Wait max 60sec for specified 'number' of Windows to be present/open
@@ -141,6 +145,10 @@ public class Utility {
 			if (i == driver.getWindowHandles().size()) {
 				try {
 					ip.isTitleContains(driver, text);
+					if(text.contains("Agreement")) {
+						ip.isTextPresentByXPATH(driver, "//a[contains(@href, '/app/uploads/2020/05/mapmarker-com-service-agreement-may-28-2020.pdf')]", 
+								"Mapmarker Online Agreement (May 2020)");
+					}
 					driver.close();
 				} catch (Exception e) {
 					System.out.println(text + " not found");
@@ -166,8 +174,8 @@ public class Utility {
 		if (alert.getText().contains(text)) {
 			alert.accept();
 		} else {
-			String error = "Incorrect Alert present with Text as '" + alert.getText() + "'. "
-					+ "Expected text: '" + text + "'";
+			String error = "Incorrect Alert present with Text as '" + alert.getText() + "'. " + "Expected text: '"
+					+ text + "'";
 			alert.dismiss();
 			illegalStateException(error);
 		}
@@ -181,8 +189,7 @@ public class Utility {
 	 */
 	public String getCurrentNewYorkDate(WebDriver driver) {
 		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("America/New_York"));
-		String dt = (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH)
-		+ "/" + c.get(Calendar.YEAR);
+		String dt = (c.get(Calendar.MONTH) + 1) + "/" + c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.YEAR);
 		System.out.println("Date in US->" + dt);
 		return dt;
 	}
@@ -202,8 +209,8 @@ public class Utility {
 		} catch (ParseException ex) {
 			Logger.getLogger(Utility.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		c.add(Calendar.DATE, 1);  // number of days to add
-		String nextDate = sdf.format(c.getTime());  // dt is now the new date
+		c.add(Calendar.DATE, 1); // number of days to add
+		String nextDate = sdf.format(c.getTime()); // dt is now the new date
 		System.out.println("New date->" + nextDate);
 		return nextDate;
 	}
@@ -224,8 +231,8 @@ public class Utility {
 		} catch (AWTException ex) {
 			Logger.getLogger(Actions.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		//robot.keyPress(KeyEvent.VK_ENTER);
-		//robot.keyRelease(KeyEvent.VK_ENTER);
+		// robot.keyPress(KeyEvent.VK_ENTER);
+		// robot.keyRelease(KeyEvent.VK_ENTER);
 		robot.keyPress(KeyEvent.VK_CONTROL);
 		robot.keyPress(KeyEvent.VK_V);
 		robot.keyRelease(KeyEvent.VK_V);
@@ -247,7 +254,7 @@ public class Utility {
 			robot.delay(1000);
 		} catch (AWTException ex) {
 			System.out.println("excptn:");
-			//Logger.getLogger(Activity.class.getName()).log(Level.SEVERE, null, ex);
+			// Logger.getLogger(Activity.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		robot.keyPress(KeyEvent.VK_CONTROL);
 		element.click();
@@ -262,8 +269,8 @@ public class Utility {
 	 */
 	public void verifyCurrentUrlContains(WebDriver driver, String textInUrl) {
 		if (!driver.getCurrentUrl().contains(textInUrl)) {
-			illegalStateException("Actual URL: '" + textInUrl + "' is not present "
-					+ "in Expected URL: " + driver.getCurrentUrl());
+			illegalStateException(
+					"Actual URL: '" + textInUrl + "' is not present " + "in Expected URL: " + driver.getCurrentUrl());
 		}
 	}
 
@@ -287,18 +294,17 @@ public class Utility {
 		List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
 		System.out.println("iframes count:" + iframes.size());
 		int x = 1;
-		loop:
-			for (WebElement frame : iframes) {
-				String iframeID = frame.getAttribute("id");
-				System.out.println("Iframe ID: " + iframeID);
-				if (x == iframeIndex) {
-					driver.switchTo().frame(iframeID);
-					break loop;
-				}
-				x++;
+		loop: for (WebElement frame : iframes) {
+			String iframeID = frame.getAttribute("id");
+			System.out.println("Iframe ID: " + iframeID);
+			if (x == iframeIndex) {
+				driver.switchTo().frame(iframeID);
+				break loop;
 			}
+			x++;
+		}
 
-		//Switch focus
+		// Switch focus
 		WebElement editableTxtArea = driver.switchTo().activeElement();
 		editableTxtArea.sendKeys(Keys.chord(Keys.CONTROL, "a"), textInIframe);
 		driver.switchTo().defaultContent();
@@ -331,7 +337,8 @@ public class Utility {
 	}
 
 	/**
-	 * Read contents from a file and paste the contents in a text box field in website
+	 * Read contents from a file and paste the contents in a text box field in
+	 * website
 	 *
 	 * @param filePathName
 	 * @param xPath
@@ -355,7 +362,7 @@ public class Utility {
 	 * 
 	 * @param driver
 	 * @param iframeIndex
-	 * @return 
+	 * @return
 	 */
 	public String getTextFromContentEditableIframe(WebDriver driver, int iframeIndex) {
 		List<WebElement> iFrames = driver.findElements(By.tagName("iframe"));
@@ -370,14 +377,14 @@ public class Utility {
 			x++;
 		}
 
-		//Switch focus
+		// Switch focus
 		WebElement editableTxtArea = driver.switchTo().activeElement();
 		String text = editableTxtArea.getText();
 		driver.switchTo().defaultContent();
 		return text;
 	}
 
-	//**NEW**
+	// **NEW**
 
 	/**
 	 * 
@@ -385,10 +392,9 @@ public class Utility {
 	 * @param xpath
 	 * @return
 	 */
-	public String getFirstSelectedOptionFromSelect(WebDriver driver, String xpath){
+	public String getFirstSelectedOptionFromSelect(WebDriver driver, String xpath) {
 		return new Select(driver.findElement(By.xpath(xpath))).getFirstSelectedOption().getText();
 	}
-
 
 	/**
 	 * Uses jsLibrary to click on element on the page by XPATH
@@ -399,7 +405,7 @@ public class Utility {
 	public void clickByJavaScriptLibrary(WebDriver driver, String menuXPATH) {
 		WebElement hiddenElement = driver.findElement(By.xpath(menuXPATH));
 		JavascriptLibrary jsLib = new JavascriptLibrary();
-		jsLib.callEmbeddedSelenium(driver,"triggerMouseEventAt", hiddenElement, "click", "0,0");
+		jsLib.callEmbeddedSelenium(driver, "triggerMouseEventAt", hiddenElement, "click", "0,0");
 	}
 
 	/**
@@ -428,7 +434,8 @@ public class Utility {
 			e1.printStackTrace();
 		}
 
-		Path filePath = Paths.get(defaultDownloadPath,  fileName);
+		System.out.print("****Final FileName****:" + fileName + "\n");
+		Path filePath = Paths.get(defaultDownloadPath, fileName);
 		try {
 			await().atMost(60, TimeUnit.SECONDS).ignoreExceptions().until(() -> filePath.toFile().exists());
 		} catch (ConditionTimeoutException e) {
@@ -437,22 +444,21 @@ public class Utility {
 		File directory = new File(defaultDownloadPath);
 		File[] filesList = null;
 		int x = 0;
-		LOOP:   
-			while(x < 10) {
-				filesList =  directory.listFiles();
-				for (File file : filesList) {
-					if(file.getName().contains(".crdownload") || file.getName().contains(".part")) {
-						try {
-							Thread.sleep(12000);														
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						x++;
-						continue LOOP;
+		LOOP: while (x < 10) {
+			filesList = directory.listFiles();
+			for (File file : filesList) {
+				if (file.getName().contains(".crdownload") || file.getName().contains(".part")) {
+					try {
+						Thread.sleep(12000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
+					x++;
+					continue LOOP;
 				}
-				return true;
 			}
+			return true;
+		}
 		return false;
 	}
 
@@ -463,39 +469,40 @@ public class Utility {
 	 * @param tableName
 	 * @return
 	 */
-	public String[][] getTableArray(String xlFilePath, String sheetName, String tableName){
-		String[][] tabArray=null;
-		try{
+	public String[][] getTableArray(String xlFilePath, String sheetName, String tableName) {
+		String[][] tabArray = null;
+		try {
 			Workbook workbook = Workbook.getWorkbook(new File(xlFilePath));
-			Sheet sheet = workbook.getSheet(sheetName); 
-			int startRow,startCol, endRow, endCol,ci,cj;
-			Cell tableStart=sheet.findCell(tableName);
-			startRow=tableStart.getRow();
-			startCol=tableStart.getColumn();
+			Sheet sheet = workbook.getSheet(sheetName);
+			int startRow, startCol, endRow, endCol, ci, cj, totalCols;
+			Cell tableStart = sheet.findCell(tableName);
+			startRow = tableStart.getRow();
+			startCol = tableStart.getColumn();
 
-			Cell tableEnd= sheet.findCell(tableName, startCol+1,startRow+1, 100, 64000,  false);
+			Cell tableEnd = sheet.findCell(tableName, startCol + 1, startRow + 1, 100, 64000, false);
 
-			endRow=tableEnd.getRow();
-			endCol=tableEnd.getColumn();
-			System.out.println("startRow="+startRow+", endRow="+endRow+", " +
-					"startCol="+startCol+", endCol="+endCol);
-			tabArray=new String[endRow-startRow-1][endCol-startCol-1];
-			ci=0;
+			endRow = tableEnd.getRow();
+			endCol = tableEnd.getColumn();
+			System.out.println("startRow=" + startRow + ", endRow=" + endRow + ", " + "startCol=" + startCol
+					+ ", endCol=" + endCol);
+			totalRows = endRow - startRow - 1;
+			totalCols = endCol - startCol - 1;
+			tabArray = new String[totalRows][totalCols];
+			ci = 0;
 
-			for (int i=startRow+1;i<endRow;i++,ci++){
-				cj=0;
-				for (int j=startCol+1;j<endCol;j++,cj++){
-					tabArray[ci][cj]=sheet.getCell(j,i).getContents();
+			for (int i = startRow + 1; i < endRow; i++, ci++) {
+				cj = 0;
+				for (int j = startCol + 1; j < endCol; j++, cj++) {
+					tabArray[ci][cj] = sheet.getCell(j, i).getContents();
 				}
 			}
-		}
-		catch (Exception e)    {
+		} catch (Exception e) {
 			System.out.println("error in getTableArray()");
 		}
 
-		return(tabArray);
+		return (tabArray);
 	}
-
+	
 	/**
 	 * 
 	 * @return
@@ -507,29 +514,22 @@ public class Utility {
 		return simpleDateFormat.format(new Date());
 	}
 
-	
-	public void waitForPageToBeReloaded(WebDriver driver)
-	{
-		ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() 
-		{
-			public Boolean apply(WebDriver driver)
-			{
-				return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
+	public void waitForPageToBeReloaded(WebDriver driver) {
+		ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver driver) {
+				return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
 			}
 		};
-		
-		Wait<WebDriver> wait = new WebDriverWait(driver,15);
-		try
-		{
+
+		Wait<WebDriver> wait = new WebDriverWait(driver, 15);
+		try {
 			wait.until(expectation);
-		}
-		catch(Throwable error)
-		{
-			//assertFalse("Timeout waiting for Page Load Request to complete.",true);
+		} catch (Throwable error) {
+			// assertFalse("Timeout waiting for Page Load Request to complete.",true);
 			illegalStateException("Timeout waiting for Page Load Request to complete.");
 		}
 	}
-	
+
 //	public boolean waitForJStoLoad(WebDriver driver) {
 //
 //	    WebDriverWait wait = new WebDriverWait(driver, 30);
@@ -558,16 +558,50 @@ public class Utility {
 //
 //	  return wait.until(jQueryLoad) && wait.until(jsLoad);
 //	}
-	
+
 	public void isjQueryLoaded(WebDriver driver) {
-        System.out.println("Waiting for ready state complete");
-        (new WebDriverWait(driver, 30)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                JavascriptExecutor js = (JavascriptExecutor) d;
-                String readyState = js.executeScript("return document.readyState").toString();
-                System.out.println("Ready State: " + readyState);
-                return (Boolean) js.executeScript("return !!window.jQuery && window.jQuery.active == 0");
-            }
-        });
-    }
+		System.out.println("Waiting for ready state complete");
+		(new WebDriverWait(driver, 30)).until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver d) {
+				JavascriptExecutor js = (JavascriptExecutor) d;
+				String readyState = js.executeScript("return document.readyState").toString();
+				System.out.println("Ready State: " + readyState);
+				return (Boolean) js.executeScript("return !!window.jQuery && window.jQuery.active == 0");
+			}
+		});
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public int getTotalRows() {
+		return this.totalRows;
+	}
+
+	/**
+	 * 
+	 * @param defaultDownloadPath
+	 */
+	public void emptyDefaultDownloadPath(String defaultDownloadPath) {
+		File file = new File(defaultDownloadPath);
+		if(file.isDirectory()){
+	         if(file.list().length > 0) { 
+	            System.out.println("Directory is not empty!");
+	            try {
+					Files.walk(Paths.get(defaultDownloadPath)).filter(Files::isRegularFile).map(Path::toFile).forEach(File::delete);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	         }
+	         System.out.println("Directory is empty!");
+		}
+	}
+
+	public void checkFieldsDraggedAutomatically() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

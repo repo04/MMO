@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -45,8 +46,7 @@ public class TestNGCustomReport extends TestListenerAdapter {
             System.out.println("***" + result.isSuccess());
             
             //Get current date time with Date() to create unique file name
-            SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "ddMMMyy__hhmmaa");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMMyy__hhmmaa");
             // get current date time with Date()
             Date date = new Date();
 
@@ -61,6 +61,10 @@ public class TestNGCustomReport extends TestListenerAdapter {
             
             File screenshot = ((TakesScreenshot) BaseClass.driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenshot, new File(NewFileNamePath));
+            
+//            Screenshot screenshot=new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(BaseClass.driver);
+//            ImageIO.write(screenshot.getImage(),"jpg",new File(NewFileNamePath));
+            
             Reporter.log(methodName + " failed; Click on image to enlarge<br/>"
                     + "<a target=\"_blank\" href=\"" + "file:///" + NewFileNamePath + "\"><img src=\"file:///" + NewFileNamePath
                     + "\" alt=\"\"" + "height='100' width='100'/></a><br/>");

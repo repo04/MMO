@@ -1,5 +1,5 @@
 package com.mmo.util;
-
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -18,6 +18,10 @@ public class DataProviderUtility {
      */
     public static Iterator<Object[]> cartesianProviderFrom(Object[][]... dataProviderData) {
         return cartesianProviderFrom(ImmutableList.copyOf(dataProviderData));
+    }
+
+    public static Object[][] cartesianProviderFrom2(Object[][] dataProviderData1, Object[][] dataProviderData2) {
+        return cartesianProviderFrom1(dataProviderData1, dataProviderData2);
     }
 
     /**
@@ -57,11 +61,35 @@ public class DataProviderUtility {
 
         for (Object[] array : arrays) {
             for (int i = 0; i < array.length; i++) {
-                mergedArray[index++] = array[i];
+            	mergedArray[index++] = array[i];
             }
         }
 
         return mergedArray;
     }
 
+    public static Object[][] cartesianProviderFrom1(Object[][] dataProviderData1, Object[][] dataProviderData2) {
+        List<Object[]> data = Lists.newArrayList();
+        Object[][] c = new Object[dataProviderData1.length][11];
+
+        System.out.println("c len: " + c.length);
+
+        for (int i = 0; i < dataProviderData1.length; i++) {
+            for (int j = 0; j < 11; j++) {
+                if(j < 10) {
+                    c[i][j] = dataProviderData1[i][j];
+                }else {
+                    c[i][j] = dataProviderData2[i][0];
+                }
+            }
+        }
+
+        for (Object[] row : c)
+
+            // converting each row as string
+            // and then printing in a separate line
+            System.out.println(Arrays.toString(row));
+
+        return c;
+    }
 }

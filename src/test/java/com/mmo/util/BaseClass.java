@@ -1,6 +1,8 @@
 package com.mmo.util;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -63,29 +65,33 @@ public class BaseClass {
         System.out.println("env: " + this.env);
         System.out.println("browser: " + this.browser);
         System.out.println("test: " + this.test);
+        defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
 
         switch (browser) {
             case "chrome":
                 String chromDrvrPath = directory.getCanonicalPath() + File.separator + "lib" + File.separator;
-                System.setProperty("webdriver.chrome.driver", chromDrvrPath + "chromedriver_win32" + File.separator + "chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", chromDrvrPath + "chromedriver_win32_L" + File.separator + "chromedriver.exe");
+                
+                // Setting new download directory path
+                Map<String, Object> prefs = new HashMap<String, Object>();
+                prefs.put("download.default_directory", defaultDownloadPath);
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--start-maximized");
                 options.addArguments("--disable-extensions");
+                options.setExperimentalOption("prefs", prefs);
                 driver = new ChromeDriver(options);
                 Reporter.log("Browser: " + browser);
                 break;
             case "ie":
             	String ieDrvrPath = directory.getCanonicalPath() + File.separator + "lib" + File.separator;
-            	System.setProperty("webdriver.ie.driver", ieDrvrPath + "IEDriverServer_Win32_3.14.0" + File.separator + "IEDriverServer.exe");
+            	System.setProperty("webdriver.ie.driver", ieDrvrPath + "IEDriverServer_Win32_3.150.1" + File.separator + "IEDriverServer.exe");
             	driver = new InternetExplorerDriver();
             	driver.manage().window().maximize();
             	Reporter.log("Browser: " + browser);
             	break;
             default:
             	String ffDrvrPath = directory.getCanonicalPath() + File.separator + "lib" + File.separator;
-            	defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "defaultTemplates";
-            	System.setProperty("webdriver.gecko.driver", ffDrvrPath + "geckodriver-v0.24.0-win64" + File.separator + "geckodriver.exe");
-            	//System.setProperty("webdriver.gecko.driver", ffDrvrPath + "geckodriver-v0.19.0-win64" + File.separator + "geckodriver.exe");
+            	System.setProperty("webdriver.gecko.driver", ffDrvrPath + "geckodriver-v0.25.0-win64" + File.separator + "geckodriver.exe");
             	FirefoxProfile profile = new FirefoxProfile();
             	profile.setPreference("browser.download.dir", defaultDownloadPath);
             	profile.setPreference("browser.download.folderList",2);
@@ -99,6 +105,7 @@ public class BaseClass {
             	profile.setPreference("browser.download.manager.focusWhenStarting", false);
             	profile.setPreference("browser.download.manager.showAlertOnComplete", false);
             	profile.setPreference("browser.download.manager.closeWhenDone", true);
+            	profile.setPreference("javascript.enabled", true);
             	FirefoxOptions option = new FirefoxOptions();
             	option.setProfile(profile);
             	driver = new FirefoxDriver(option);
@@ -109,14 +116,14 @@ public class BaseClass {
         if(this.env.equalsIgnoreCase("qa"))
         {
         	System.out.print("****OPEN QA URL****" + "\n");
-        	driver.get("https://" + xpv.getTokenValue("qaURL"));        	
+        	driver.get("https://" + xpv.getTokenValue("qaURL"));
         } else if(this.env.equalsIgnoreCase("ppd"))
         {
         	System.out.print("****OPEN PPD URL****");
-        	driver.get(xpv.getTokenValue("ppdURL"));
+        	driver.get("https://" + xpv.getTokenValue("ppdURL"));
         } else {
         	System.out.print("****OPEN PROD URL****");
-        	driver.get(xpv.getTokenValue("prodURL"));
+        	driver.get("https://" + xpv.getTokenValue("prodURL"));
         }        
     }
 
@@ -128,6 +135,6 @@ public class BaseClass {
      */
     @AfterTest(alwaysRun = true, groups = {"prerequisite"})
     public void tearDown() throws Exception {
-        //driver.quit();
+//        driver.quit();
     }
 }

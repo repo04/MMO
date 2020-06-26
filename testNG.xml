@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://beust.com/testng/testng-1.0.dtd" >
-<suite name="TmpSuite" >
-    <!-- <listeners>
-    	<listener class-name="com.mmo.util.TestNGCustomReport" />
-	</listeners> -->
-	<test name="TmpTest">
-    	<!-- <groups>
-            <run>
-                <include name="prerequisite"/>
-            </run>
-        </groups> -->
-        <classes>
-            <!--<class name="com.mmo.tests.Home"/>-->  
-            <class name="com.mmo.tests.SignUp"/>
+<suite name="TmpSuite">
+    <listeners>
+    	<listener class-name="com.mmo.util.Transform"/>
+    	<listener class-name="com.mmo.util.TestNGCustomReport"/>
+	</listeners>
+	<test name="TmpTest1" preserve-order="true">
+		<parameter name="env" value="qa"/>
+        <parameter name="browser" value="chrome"/>
+    	<parameter name="test" value="test"/>
+    	<classes>
             <!-- <class name="com.mmo.tests.Email"/>
-            <class name="com.mmo.tests.Login"/>
+            <class name="com.mmo.tests.Home"/> 
+            <class name="com.mmo.tests.Login"/> 
             <class name="com.mmo.tests.Dashboard"/>
-            <class name="com.mmo.tests.Job"/>-->
-        </classes>
+         	<class name="com.mmo.tests.Job"/>
+            <class name="com.mmo.tests.SignUp"/>
+			<class name="com.mmo.tests.EmailTests"/>-->
+			<class name="com.mmo.tests.SignUp"/>
+
+		</classes>
     </test>
 </suite>
