@@ -13,92 +13,147 @@ import com.mmo.util.BaseClass;
 
 public class SignUpPage extends BaseClass{
 
-	private static String signUpDetails[] = new String[3];
+	private static String[][] signUpDetails = new String[1][3];
 	private String userEmailId;
 	private String userFirstName;
 	private String userSecondName;
 	private String dateAndTime;
 	public Actions a = new Actions();
 
-	public void signUpUser(String plan, String region) {
+	public void signUpUser(String plan, String region, String addProductFlow) {
 
 		this.dateAndTime = u.currentDateTime();
 		switch (plan) {
 		case "free":
 			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
-			driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=free')\"]")).click();
+			//driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=free')\"]")).click();
+			u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
 			ip.isURLContains(driver, "signup/geocoding?plan=free");
-			this.userFirstName = "autoMMOPb";
+			this.userFirstName = "mmoAutomated";
 			this.userSecondName = "FreeUS" + this.dateAndTime;
 			break;
 		case "5k":
 			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
-			driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]")).click();
+			//driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]")).click();
+			u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
 			ip.isURLContains(driver, "signup/geocoding?plan=gc_5k_monthly");
-			this.userFirstName = "autoMMOPb";
+			this.userFirstName = "mmoAutomated";
 			this.userSecondName = "5k" + this.dateAndTime;
 			break;
 		case "prof":
-			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=starter_300k_quarterly')\"]");
-			driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=starter_300k_quarterly')\"]")).click();
-			ip.isURLContains(driver, "signup/geocoding?plan=starter_300k_quarterly");
-			this.userFirstName = "autoMMOPb";
+			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
+			//driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]")).click();
+			u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
+			ip.isURLContains(driver, "signup/geocoding?plan=gc_300k_quarterly");
+			this.userFirstName = "mmoAutomated";
 			this.userSecondName = "Prof" + this.dateAndTime;
 		}
 
-		//Terms of Use
-		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
-		driver.findElement(By.xpath("//a[contains(text(),'Terms of Use')]")).click();
-		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Terms of Use - Precisely", ip);
-		//Privacy
-		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Privacy')]", 60);
-		driver.findElement(By.xpath("//a[contains(text(),'Privacy')]")).click();
-		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Privacy Policy - Precisely", ip);
-
 		if(!region.equalsIgnoreCase("US")) {
-			this.userFirstName = "autoMMOPb";	
+			this.userFirstName = "mmoAutomated";
 			this.userSecondName = "FreeNonUS" + this.dateAndTime;
-		}else {
 			ip.isElementClickableByXpath(driver, "//select[@id='regionChangeDropdown']", 60);
+			new Select(driver.findElement(By.xpath("//select[@id='regionChangeDropdown']"))).selectByVisibleText("Asia Pacific");
 			ip.isElementClickableByXpath(driver, "//select[@id='localeChangeDropdown']", 60);
+			new Select(driver.findElement(By.xpath("//select[@id='localeChangeDropdown']"))).selectByVisibleText("Australia");
+			ip.isElementClickableByXpath(driver, "//input[@id='address1']", 60);
+			driver.findElement(By.xpath("//input[@id='address1']")).clear();
+			driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("1110 TRL");
+			ip.isElementPresentByXPATH(driver, "//div[@id='geoitem1']");
+			assertEquals(driver.findElement(By.xpath("//div[@id='geoitem1']")).getText(), "1110 TRL, PEMBROOKE, NSW 2446");
+			driver.findElement(By.xpath("//div[@id='geoitem1']")).click();
+			ip.isElementClickableByXpath(driver, "//input[@id='zip']", 60);
+			assertEquals(driver.findElement(By.xpath("//input[@id='zip']")).getAttribute("value"), "2446");
+			ip.isElementClickableByXpath(driver, "//input[@id='city']", 60);
+			assertEquals(driver.findElement(By.xpath("//input[@id='city']")).getAttribute("value"), "PEMBROOKE");
+			ip.isElementClickableByXpath(driver, "//select[@id='stateselectbox']", 60);
+			assertEquals(u.getFirstSelectedOptionFromSelect(driver, "//select[@id='stateselectbox']"), "NSW - New South Wales");
+		}
+		else {
+			ip.isElementClickableByXpath(driver, "//select[@id='regionChangeDropdown']", 60);
 			new Select(driver.findElement(By.xpath("//select[@id='regionChangeDropdown']"))).selectByVisibleText("North, Central and South America");
-			new Select(driver.findElement(By.xpath("//select[@id='localeChangeDropdown']"))).selectByVisibleText("United States");			
+			ip.isElementClickableByXpath(driver, "//select[@id='localeChangeDropdown']", 60);
+			new Select(driver.findElement(By.xpath("//select[@id='localeChangeDropdown']"))).selectByVisibleText("United States");
+			ip.isElementClickableByXpath(driver, "//input[@id='address1']", 60);
+			driver.findElement(By.xpath("//input[@id='address1']")).clear();
+			driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("13 Route 111");
+			ip.isElementPresentByXPATH(driver, "//div[@id='geoitem1']");
+			assertEquals(driver.findElement(By.xpath("//div[@id='geoitem1']")).getText(), "13 Route 111, Derry, NH 03038");
+			driver.findElement(By.xpath("//div[@id='geoitem1']")).click();
+			ip.isElementClickableByXpath(driver, "//input[@id='zip']", 60);
+			assertEquals(driver.findElement(By.xpath("//input[@id='zip']")).getAttribute("value"), "03038");
+			ip.isElementClickableByXpath(driver, "//input[@id='city']", 60);
+			assertEquals(driver.findElement(By.xpath("//input[@id='city']")).getAttribute("value"), "Derry");
+			ip.isElementClickableByXpath(driver, "//select[@id='stateselectbox']", 60);
+			assertEquals(u.getFirstSelectedOptionFromSelect(driver, "//select[@id='stateselectbox']"), "NH - New Hampshire");
 		}
 
-		ip.isElementClickableByXpath(driver, "//input[@id='firstname-nf']", 60);
-		driver.findElement(By.xpath("//input[@id='firstname-nf']")).clear();
-		driver.findElement(By.xpath("//input[@id='firstname-nf']")).sendKeys(this.userFirstName);
-		driver.findElement(By.xpath("//input[@id='lastname-nf']")).clear();
-		driver.findElement(By.xpath("//input[@id='lastname-nf']")).sendKeys(this.userSecondName);
-		driver.findElement(By.xpath("//input[@id='email-nf']")).clear();
-		this.userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
-		driver.findElement(By.xpath("//input[@id='email-nf']")).sendKeys(this.userEmailId);
-		driver.findElement(By.xpath("//input[@id='verifyemail']")).clear();
-		driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(this.userEmailId);
+		ip.isElementClickableByXpath(driver,"//input[@id='company-nf']", 60);
 		driver.findElement(By.xpath("//input[@id='company-nf']")).clear();
-		driver.findElement(By.xpath("//input[@id='company-nf']")).sendKeys("PB");
-		driver.findElement(By.xpath("//input[@id='address1']")).clear();
-		driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("13 Route 111");
-		ip.isElementPresentByXPATH(driver, "//div[@id='geoitem1']");
-		assertEquals(driver.findElement(By.xpath("//div[@id='geoitem1']")).getText(), "13 Route 111, Derry, NH 03038");
-		driver.findElement(By.xpath("//div[@id='geoitem1']")).click();
+		driver.findElement(By.xpath("//input[@id='company-nf']")).sendKeys("PRECISELY");
 		driver.findElement(By.xpath("//input[@id='contactnumber-nf']")).clear();
 		driver.findElement(By.xpath("//input[@id='contactnumber-nf']")).sendKeys("1234567890");
-		ip.isElementClickableByXpath(driver, "//input[@id='zip']", 60);
-		assertEquals(u.getFirstSelectedOptionFromSelect(driver, "//select[@id='stateselectbox']"), "NH - New Hampshire");
-		ip.isElementClickableByXpath(driver, "//input[@id='city']", 60);
-		assertEquals(driver.findElement(By.xpath("//input[@id='city']")).getAttribute("value"), "Derry");
-		assertEquals(driver.findElement(By.xpath("//input[@id='zip']")).getAttribute("value"), "03038");
+
+		if(!addProductFlow.startsWith("mmoAutomated")) {
+			ip.isElementClickableByXpath(driver, "//input[@id='firstname-nf']", 60);
+			driver.findElement(By.xpath("//input[@id='firstname-nf']")).clear();
+			driver.findElement(By.xpath("//input[@id='firstname-nf']")).sendKeys(this.userFirstName);
+			driver.findElement(By.xpath("//input[@id='lastname-nf']")).clear();
+			driver.findElement(By.xpath("//input[@id='lastname-nf']")).sendKeys(this.userSecondName);
+			this.userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
+			driver.findElement(By.xpath("//input[@id='email-nf']")).clear();
+			driver.findElement(By.xpath("//input[@id='email-nf']")).sendKeys(this.userEmailId);
+			driver.findElement(By.xpath("//input[@id='verifyemail']")).clear();
+			driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(this.userEmailId);
+		}else{
+			ip.isURLContains(driver, "addproduct");
+			ip.isTextPresentByXPATH(driver, "//div[@id='alertsuccess']/div[2]/span",
+					"Welcome back. To add MapMarker to your account, fill in your details below and click the \"Add Product\" button");
+			int plusIndex, attherateIndex;
+			plusIndex = addProductFlow.indexOf("+");
+			attherateIndex = addProductFlow.indexOf("@");
+			this.userFirstName = addProductFlow.substring(0, plusIndex);
+			this.userSecondName = addProductFlow.substring(plusIndex + 1, attherateIndex);
+			this.userEmailId = addProductFlow;
+			assertEquals(driver.findElement(By.xpath("//input[@id='firstname-nf']")).getAttribute("value"), this.userFirstName);
+			assertEquals(driver.findElement(By.xpath("//input[@id='lastname-nf']")).getAttribute("value"), this.userSecondName);
+			assertEquals(driver.findElement(By.xpath("//input[@id='email-nf']")).getAttribute("value"), this.userEmailId);
+			assertEquals(driver.findElement(By.xpath("//button[@id='createaccbtn-nf']/span[2]")).getText(), "Add Product");
+		}
+
 		System.out.println("**" + this.userFirstName + "**" + this.userSecondName + "**" + this.userEmailId);
-		driver.findElement(By.xpath("//button[@id='createaccbtn-nf']")).click();
+
+		verifyfooters();
+
+		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']", 60);
+		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']");
 		if(!plan.equalsIgnoreCase("free")) {
 			enterPaymentDetails(plan);				
 		}
-		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
-		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
-				+ "Please check your email to complete your registration process. You may safely close this window.");
+		if(!addProductFlow.startsWith("mmoAutomated")) {
+			ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
+			ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
+					+ "Please check your email to complete your registration process. You may safely close this window.");
+		}else{
+			ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
+			ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Your subscription has been added. Redirecting to Dashboard.");
+			ip.isURLContains(driver, "/dashboard");
+			ip.isTextPresentByXPATH(driver, "//a/div/div", this.userFirstName + " " + this.userSecondName);
+		}
+	}
+
+	private void verifyfooters() {
+		//Terms of Use
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
+		u.clickByJavaScript(driver, "//a[contains(text(),'Terms of Use')]");
+		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+		u.verifyWindowTitle(driver, "Terms of Use - Precisely", ip);
+
+		//Privacy
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Privacy')]", 60);
+		u.clickByJavaScript(driver, "//a[contains(text(),'Privacy')]");
+		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+		u.verifyWindowTitle(driver, "Privacy Policy - Precisely", ip);
 	}
 
 	/**
@@ -140,29 +195,57 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
 		driver.switchTo().defaultContent();
 
-		//Terms of Use
-//		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
-//		driver.findElement(By.xpath("//a[contains(text(),'Terms of Use')]")).click();
-//		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-//		u.verifyWindowTitle(driver, "Subscription Agreement", ip);
+		verifyfooters();
+
 		ip.isElementClickableByXpath(driver, "//button[@id='activateplanbutton']", 60);
-		//driver.findElement(By.xpath("//button[@id='activateplanbutton']")).click();
-		//u.clickByJavaScript(driver, "//button[@id='activateplanbutton']");
-		u.actionBuilderMoveToClick(driver, "//button[@id='activateplanbutton']");
+		u.clickByJavaScript(driver, "//button[@id='activateplanbutton']");
 		ip.isURLContains(driver, "thanks/geocoding");
+//		driver.findElement(By.xpath("//button[@id='activateplanbutton']")).click();
+//		u.actionBuilderMoveToClick(driver, "//button[@id='activateplanbutton']");
+//		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
+//		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
+//				+ "Please check your email to complete your registration process. You may safely close this window.");
+	}
+
+	/**
+	 *
+	 */
+	public void signUpGeoTaxUser() {
+		this.dateAndTime = u.currentDateTime();
+		this.userFirstName = "mmoAutomated";
+		this.userSecondName = "geoTax" + this.dateAndTime;
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Try GeoTAX for Free')]", 60);
+		driver.findElement(By.xpath("//a[contains(text(),'Try GeoTAX for Free')]")).click();
+		ip.isElementClickableByXpath(driver, "//button[@id='choosebtn8']/span", 60);
+		driver.findElement(By.xpath("//button[@id='choosebtn8']/span")).click();
+		ip.isElementClickableByXpath(driver, "//input[@id='firstname-nf']", 60);
+		driver.findElement(By.xpath("//input[@id='firstname-nf']")).clear();
+		driver.findElement(By.xpath("//input[@id='firstname-nf']")).sendKeys(this.userFirstName);
+		ip.isElementClickableByXpath(driver, "//input[@id='lastname-nf']", 60);
+		driver.findElement(By.xpath("//input[@id='lastname-nf']")).clear();
+		driver.findElement(By.xpath("//input[@id='lastname-nf']")).sendKeys(this.userSecondName);
+		this.userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
+		driver.findElement(By.xpath("//input[@id='email-nf']")).clear();
+		driver.findElement(By.xpath("//input[@id='email-nf']")).sendKeys(this.userEmailId);
+		driver.findElement(By.xpath("//input[@id='verifyemail']")).clear();
+		driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(this.userEmailId);
+		driver.findElement(By.xpath("//input[@id='company-nf']")).clear();
+		driver.findElement(By.xpath("//input[@id='company-nf']")).sendKeys("PRECISELY");
+		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']/span[2]", 60);
+		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']/span[2]");
 		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
-		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
-				+ "Please check your email to complete your registration process. You may safely close this window.");
+		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for GeoTAX. " +
+				"Please check your email to complete your registration process. You may safely close this window.");
+		System.out.println("**" + this.userFirstName + "**" + this.userSecondName + "**" + this.userEmailId);
 	}
 
 	/**
 	 * @return userDetails
 	 */
-	public String[] getUserDetails() {
-		signUpDetails[0] =  this.userEmailId;
-		signUpDetails[1] =  this.userFirstName;
-		signUpDetails[2] =  this.userSecondName;
+	public String[][] getUserDetails() {
+		signUpDetails[0][0] =  this.userEmailId;
+		signUpDetails[0][1] =  this.userFirstName;
+		signUpDetails[0][2] =  this.userSecondName;
 		return signUpDetails;
 	}
-
 }

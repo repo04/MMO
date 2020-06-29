@@ -59,6 +59,7 @@ public class Utility {
 	 */
 	public void clickByJavaScript(WebDriver driver, String menuXPATH) {
 		WebElement hiddenElement = driver.findElement(By.xpath(menuXPATH));
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", hiddenElement);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click()", hiddenElement);
 	}
 
@@ -70,6 +71,7 @@ public class Utility {
 	 */
 	public void clickByJavaScriptUsingCSS(WebDriver driver, String menuCSS) {
 		WebElement hiddenElement = driver.findElement(By.cssSelector(menuCSS));
+		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", hiddenElement);
 		((JavascriptExecutor) driver).executeScript("arguments[0].click()", hiddenElement);
 	}
 

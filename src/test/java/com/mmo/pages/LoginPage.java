@@ -57,9 +57,22 @@ public class LoginPage extends BaseClass {
     }
 
     /**
+     *
+     * @param userID
+     */
+    public void enterLoginDetailsOnly(String userID) {
+        ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
+        driver.findElement(By.xpath(xpv.getTokenValue("signInUserName"))).sendKeys(userID);
+        driver.findElement(By.xpath(xpv.getTokenValue("signInPassword"))).sendKeys("Precisely@123");
+        driver.findElement(By.xpath(xpv.getTokenValue("signInLoginButton"))).click();
+    }
+
+    /**
      * @return userName
      */
     public static String getUser() {
         return username;
     }
+
+
 }

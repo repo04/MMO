@@ -31,8 +31,10 @@ public class EmailUtils extends BaseClass {
 
     public enum EmailFolder {
         INBOX("Inbox"),
-        SPAM("SPAM"),
-        STARTUSINGMMO("startusingMMO");
+        STARTUSINGMMO("startUsingMMO"),
+        STARTUSINGGEOTAX("startUsingGeoTAX"),
+        SPAM("SPAM");
+
 
         private String text;
 
@@ -84,10 +86,6 @@ public class EmailUtils extends BaseClass {
         session = Session.getInstance(props);
         store = session.getStore("imaps");
         store.connect(server, username, password);
-
-
-//        folder = store.getFolder(emailFolder.getText());
-//        folder.open(Folder.READ_WRITE);
     }
 
 
@@ -279,7 +277,7 @@ public class EmailUtils extends BaseClass {
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
-        if(!html.contains("You're almost ready to start using MapMarker. Complete your registrationusing this email address: " + userID))
+        if(!html.contains("You're almost ready to start using " + emailSubject.substring(28) + ". Complete your registrationusing this email address: " + userID))
         {
             u.illegalStateException("Complete your registration using this email address is not found: "+ userID);
         }

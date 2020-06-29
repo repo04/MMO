@@ -17,8 +17,8 @@ public class EmailTests extends BaseClass{
     @BeforeClass
     public static void connectToEmail() {
         try {
-            emailUtils = new EmailUtils("autommopb@gmail.com", "Pitney@123",
-                        "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+            emailUtils = new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
+                        "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());
@@ -77,10 +77,10 @@ public class EmailTests extends BaseClass{
     public void testToken() {
         try {
             //TODO: Execute actions to send verification code to email
-            String emailSubject = "You're ready to start using MapMarker";
-            String userID = "autoMMOPb+5k260620180343@gmail.com";
+            String emailSubject = "You're ready to start using GeoTAX";
+            String userID = "mmoautomated+geotax29jun@gmail.com";
             //String userID = "autoMMOPb+FreeUS260620172154@gmail.com";
-            String Token = emailUtils.getToken(emailSubject, userID, EmailUtils.EmailFolder.STARTUSINGMMO);
+            String Token = emailUtils.getToken(emailSubject, userID, EmailUtils.EmailFolder.STARTUSINGGEOTAX);
             System.out.println("Token: " + Token);
             driver.get("https://login-qa.saas.precisely.services/claim-account?productId=geocoding&token=" + Token);
 

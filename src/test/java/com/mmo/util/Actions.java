@@ -49,11 +49,24 @@ public class Actions extends BaseClass{
 	}
 
 	/**
-	 * 
+	 *
+	 * @param plan
+	 * @param region
+	 * @return
 	 */
-	public String[] signUpUser(String plan, String region) {
+	public String[][] signUpUser(String plan, String region, String addProductFlow) {
 		SignUpPage su = new SignUpPage();
-		su.signUpUser(plan, region);
+		su.signUpUser(plan, region, addProductFlow);
+		return su.getUserDetails();
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public String[][] signUpGeoTaxUser() {
+		SignUpPage su = new SignUpPage();
+		su.signUpGeoTaxUser();
 		return su.getUserDetails();
 	}
 	
@@ -61,7 +74,6 @@ public class Actions extends BaseClass{
      * Navigate to Email Page
      */
     public void navigateToEmail() {
-    	//driver.get("https://mail.google.com/");
     	driver.get("https://mail.google.com/mail/?ui=html");
 		ip.isTitlePresent(driver, "Gmail");		 
     }
@@ -168,9 +180,9 @@ public class Actions extends BaseClass{
 //		ep.completeRegisteration(signUpUserID, signUpFirstName, signUpSecondName, claimTokenID);
 //	}
 
-	public void completeRegisteration(String signUpFreeUSUser, String signUpFreeUSUserFirstName, String signUpFreeUSUserSecondName, String claimTokenID) {
+	public void completeRegistration(String signUpFreeUSUser, String signUpFreeUSUserFirstName, String signUpFreeUSUserSecondName, String claimTokenID) {
 		EmailPage ep = new EmailPage();
-		ep.completeRegisteration(signUpFreeUSUser, signUpFreeUSUserFirstName, signUpFreeUSUserSecondName, claimTokenID);
+		ep.completeRegistration(signUpFreeUSUser, signUpFreeUSUserFirstName, signUpFreeUSUserSecondName, claimTokenID);
 	}
 	
 	/**
@@ -217,4 +229,23 @@ public class Actions extends BaseClass{
 		jp.viewJobDetails(outFileName);
 	}
 
+	public void navigateToHomePage() {
+		driver.get("https://mapmarker-qa.li.precisely.services");
+		ip.isTitlePresent(driver, "MapMarker");
+	}
+
+	public void navigateToGeoTaxPage() {
+		driver.get("https://geotax-qa.li.precisely.services");
+		ip.isTitlePresent(driver, "GeoTAX");
+	}
+
+	public void enterLoginDetailsOnly(String userID) {
+		LoginPage lp = new LoginPage();
+		lp.enterLoginDetailsOnly(userID);
+	}
+
+	public void navigateToHomeAndAddProductFlowInitiated() {
+		ip.isTitlePresent(driver, "MapMarker");
+		ip.isURLContains(driver, "addproductscroll");
+	}
 }

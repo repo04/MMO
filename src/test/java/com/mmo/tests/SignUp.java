@@ -18,51 +18,53 @@ import com.mmo.util.DataProviderUtility;
 
 public class SignUp extends BaseClass{
 	
-	static String signUpDetails[] = new String[3];
-	static String[][] signUpFreeUSUserIDArray = new String[1][1];
-	static String[][] signUpFreeUSUserFirstNameArray = new String[1][1];
-	static String[][] signUpFreeUSUserSecondNameArray = new String[1][1];
-	static String[][] signUpFreeNonUSUserIDArray = new String[1][1];
-	static String[][] signUpFreeNonUSUserFirstNameArray = new String[1][1];
-	static String[][] signUpFreeNonUSUserSecondNameArray = new String[1][1];
-	static String[][] signUpPaid5kUserIDArray = new String[1][1];
-	static String[][] signUpPaid5kUserFirstNameArray = new String[1][1];
-	static String[][] signUpPaid5kUserSecondNameArray = new String[1][1];
-	static String[][] signUpProfUserIDArray = new String[1][1];
-	static String[][] signUpProfUserFirstNameArray = new String[1][1];
-	static String[][] signUpProfUserSecondNameArray = new String[1][1];
+	static String[][] signUpFreeUSUserArray = new String[1][3];
+	static String[][] signUpFreeNonUSUserArray = new String[1][3];
+	static String[][] signUpPaid5kUserArray = new String[1][3];
+	static String[][] signUpProfUserArray = new String[1][3];
+	static String[][] signUpGeoTaxUserArray = new String[1][3];
+
 	public Actions a = new Actions();
 	private static EmailUtils emailUtils;
 	
 	@DataProvider(name = "FreeUSUserDetails") 	
-    public static Iterator<Object[]> FreeUSUserDetails(ITestContext context) throws Exception {
+    public static Object[][] FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-        return DataProviderUtility.cartesianProviderFrom(signUpFreeUSUserIDArray, signUpFreeUSUserFirstNameArray, signUpFreeUSUserSecondNameArray);
+		return (signUpFreeUSUserArray);
     }
 	
     @DataProvider(name = "FreeNonUSUserDetails") 	
-    public static Iterator<Object[]> FreeNonUSUserDetails(ITestContext context) throws Exception {
+    public static Object[][] FreeNonUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeNonUSUserDetails");
-        return DataProviderUtility.cartesianProviderFrom(signUpFreeNonUSUserIDArray, signUpFreeNonUSUserFirstNameArray, signUpFreeNonUSUserSecondNameArray);
+		return (signUpFreeNonUSUserArray);
     }
 	
     @DataProvider(name = "Paid5kUserDetails") 	
-    public static Iterator<Object[]> Paid5kUserDetails(ITestContext context) throws Exception {
+    public static Object[][] Paid5kUserDetails(ITestContext context) throws Exception {
         System.out.println("init Paid5kUserDetails");
-        return DataProviderUtility.cartesianProviderFrom(signUpPaid5kUserIDArray, signUpPaid5kUserFirstNameArray, signUpPaid5kUserSecondNameArray);
+		return (signUpPaid5kUserArray);
     }
 	
     @DataProvider(name = "ProfUserDetails") 	
-    public static Iterator<Object[]> ProfUserDetails(ITestContext context) throws Exception {
+    public static Object[][] ProfUserDetails(ITestContext context) throws Exception {
         System.out.println("init ProfUserDetails");
-        return DataProviderUtility.cartesianProviderFrom(signUpProfUserIDArray, signUpProfUserFirstNameArray, signUpProfUserSecondNameArray);
+		return (signUpProfUserArray);
     }
+
+	@DataProvider(name = "GeoTaxUserDetails")
+	public static Object[][] GeoTaxUserDetails(ITestContext context) throws Exception {
+		System.out.println("init GeoTaxUserDetails");
+		signUpGeoTaxUserArray[0][0] = "mmoAutomated+GeoTaxUsernull@gmail.com";
+		signUpGeoTaxUserArray[0][1] = "mmoAutomated";
+		signUpGeoTaxUserArray[0][2] = "GeoTaxUsernull";
+		return (signUpGeoTaxUserArray);
+	}
 	
-    @BeforeClass(groups = {"prerequisite"})
+    //@BeforeClass(groups = {"prerequisite"})
 	public static void connectToEmail() {
 		try {
-			emailUtils = new EmailUtils("autommopb@gmail.com", "Pitney@123",
-					"smtp.gmail.com", EmailUtils.EmailFolder.INBOX);
+			emailUtils = new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
+					"smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assert.fail(e.getMessage());
@@ -70,58 +72,64 @@ public class SignUp extends BaseClass{
 	}
 
 	//@Test
-	public void testSignUpFreeUSUserAndCompleteEmailRegisteration() throws Exception {
-		signUpDetails =  a.signUpUser("free", "US");
-		signUpFreeUSUserIDArray[0][0] = signUpDetails[0];
-		signUpFreeUSUserFirstNameArray[0][0] = signUpDetails[1];
-		signUpFreeUSUserSecondNameArray[0][0] = signUpDetails[2];
-		Reporter.log("signUpFreeUSUserID: " + signUpFreeUSUserIDArray[0][0], true);
-		Reporter.log("signUpFreeUSUserFirstName: " + signUpFreeUSUserFirstNameArray[0][0], true);
-		Reporter.log("signUpFreeUSUserSecondName: " + signUpFreeUSUserSecondNameArray[0][0], true);
+	public void testSignUpFreeUSUserAndCompleteEmailRegistration() throws Exception {
+		a.navigateToHomePage();
+		signUpFreeUSUserArray =  a.signUpUser("free", "US", "N");
+		Reporter.log("signUpFreeUSUserID: " + signUpFreeUSUserArray[0][0], true);
+		Reporter.log("signUpFreeUSUserFirstName: " + signUpFreeUSUserArray[0][1], true);
+		Reporter.log("signUpFreeUSUserSecondName: " + signUpFreeUSUserArray[0][2], true);
 		Thread.sleep(10000);
-		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpFreeUSUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
-		a.completeRegisteration(signUpFreeUSUserIDArray[0][0], signUpFreeUSUserFirstNameArray[0][0], signUpFreeUSUserSecondNameArray[0][0]  , claimTokenID);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpFreeUSUserArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegistration(signUpFreeUSUserArray[0][0], signUpFreeUSUserArray[0][1], signUpFreeUSUserArray[0][2]  , claimTokenID);
 	}
 	
 	//@Test
-	public void testSignUpFreeNonUSUser() throws Exception {
-		signUpFreeNonUSUserIDArray[0][0] = signUpDetails[0];
-		signUpFreeNonUSUserFirstNameArray[0][0] = signUpDetails[1];
-		signUpFreeNonUSUserSecondNameArray[0][0] = signUpDetails[2];
-		Reporter.log("signUpFreeNonUSUserID: " + signUpFreeNonUSUserIDArray[0][0], true);
-		Reporter.log("signUpFreeNonUSUserFirstName: " + signUpFreeNonUSUserFirstNameArray[0][0], true);
-		Reporter.log("signUpFreeNonUSUserSecondName: " + signUpFreeNonUSUserSecondNameArray[0][0], true);
+	public void testSignUpFreeNonUSUserAndCompleteEmailRegistration() throws Exception {
+		a.navigateToHomePage();
+		signUpFreeNonUSUserArray =  a.signUpUser("free", "NonUS", "N");
+		Reporter.log("signUpFreeNonUSUserID: " + signUpFreeNonUSUserArray[0][0], true);
+		Reporter.log("signUpFreeNonUSUserFirstName: " + signUpFreeNonUSUserArray[0][1], true);
+		Reporter.log("signUpFreeNonUSUserSecondName: " + signUpFreeNonUSUserArray[0][2], true);
 		Thread.sleep(10000);
-		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpFreeNonUSUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
-		a.completeRegisteration(signUpFreeNonUSUserIDArray[0][0], signUpFreeNonUSUserFirstNameArray[0][0], signUpFreeNonUSUserSecondNameArray[0][0]  , claimTokenID);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpFreeNonUSUserArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegistration(signUpFreeNonUSUserArray[0][0], signUpFreeNonUSUserArray[0][1], signUpFreeNonUSUserArray[0][2]  , claimTokenID);
 	}
 	
+	//@Test
+	public void testSignUpPaid5kUserAndCompleteEmailRegistration() throws Exception {
+		a.navigateToHomePage();
+		signUpPaid5kUserArray =  a.signUpUser("5k", "US", "N");
+		Reporter.log("signUpPaid5kUserID: " + signUpPaid5kUserArray[0][0], true);
+		Reporter.log("signUpPaid5kUserFirstName: " + signUpPaid5kUserArray[0][1], true);
+		Reporter.log("signUpPaid5kUserSecondName: " + signUpPaid5kUserArray[0][2], true);
+		Thread.sleep(10000);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpPaid5kUserArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegistration(signUpPaid5kUserArray[0][0], signUpPaid5kUserArray[0][1], signUpPaid5kUserArray[0][2]  , claimTokenID);
+	}
+	
+	//@Test
+	public void testSignUpPaidProfUserAndCompleteEmailRegistration() throws Exception {
+		a.navigateToHomePage();
+		signUpProfUserArray =  a.signUpUser("prof", "US", "N");
+		Reporter.log("signUpPaidProfUserID: " + signUpProfUserArray[0][0], true);
+		Reporter.log("signUpPaidProfUserFirstName: " + signUpProfUserArray[0][0], true);
+		Reporter.log("signUpPaidProfUserSecondName: " + signUpProfUserArray[0][0], true);
+		Thread.sleep(10000);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpProfUserArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegistration(signUpProfUserArray[0][0], signUpProfUserArray[0][1], signUpProfUserArray[0][2]  , claimTokenID);
+	}
+
 	@Test
-	public void testSignUpPaid5kUser() throws Exception {
-		signUpDetails =  a.signUpUser("5k", "US");
-		signUpPaid5kUserIDArray[0][0] = signUpDetails[0];
-		signUpPaid5kUserFirstNameArray[0][0] = signUpDetails[1];
-		signUpPaid5kUserSecondNameArray[0][0] = signUpDetails[2];
-		Reporter.log("signUpPaid5kUserID: " + signUpPaid5kUserIDArray[0][0], true);
-		Reporter.log("signUpPaid5kUserFirstName: " + signUpPaid5kUserFirstNameArray[0][0], true);
-		Reporter.log("signUpPaid5kUserSecondName: " + signUpPaid5kUserSecondNameArray[0][0], true);
+	public void testSignUpGeoTaxUserAndCompleteEmailRegistration() throws Exception {
+		a.navigateToGeoTaxPage();
+		signUpGeoTaxUserArray =  a.signUpGeoTaxUser();
+		Reporter.log("signUpGeoTaxUserID: " + signUpGeoTaxUserArray[0][0], true);
+		Reporter.log("signUpGeoTaxUserFirstName: " + signUpGeoTaxUserArray[0][1], true);
+		Reporter.log("signUpGeoTaxUserSecondName: " + signUpGeoTaxUserArray[0][2], true);
 		Thread.sleep(10000);
-		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpPaid5kUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
-		a.completeRegisteration(signUpPaid5kUserIDArray[0][0], signUpPaid5kUserFirstNameArray[0][0], signUpPaid5kUserSecondNameArray[0][0]  , claimTokenID);
-	}
-	
-	//@Test
-	public void testSignUpPaidProfUser() throws Exception {
-		signUpDetails =  a.signUpUser("prof", "US");
-		signUpProfUserIDArray[0][0] = signUpDetails[0];
-		signUpProfUserFirstNameArray[0][0] = signUpDetails[1];
-		signUpProfUserSecondNameArray[0][0] = signUpDetails[2];
-		Reporter.log("signUpPaidProfUserID: " + signUpProfUserIDArray[0][0], true);
-		Reporter.log("signUpPaidProfUserFirstName: " + signUpProfUserFirstNameArray[0][0], true);
-		Reporter.log("signUpPaidProfUserSecondName: " + signUpProfUserSecondNameArray[0][0], true);
-		Thread.sleep(10000);
-		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", signUpProfUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
-		a.completeRegisteration(signUpProfUserIDArray[0][0], signUpProfUserFirstNameArray[0][0], signUpProfUserSecondNameArray[0][0]  , claimTokenID);
+		emailUtils = new EmailUtils("mmoautomated@gmail.com", "Precisely@123","smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGGEOTAX);
+		String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", signUpGeoTaxUserArray[0][0], EmailUtils.EmailFolder.STARTUSINGGEOTAX);
+		a.completeRegistration(signUpGeoTaxUserArray[0][0], signUpGeoTaxUserArray[0][1], signUpGeoTaxUserArray[0][2]  , claimTokenID);
 	}
 
 	@AfterClass(groups = {"prerequisite"})

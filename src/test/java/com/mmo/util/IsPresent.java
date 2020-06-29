@@ -172,7 +172,6 @@ public class IsPresent {
      * 
      * @param driver
      * @param elementXpath
-     * @param text 
      */
     public void invisibilityOfElementByXpath(WebDriver driver, String elementXpath) {
         new WebDriverWait(driver, 60).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(elementXpath)));
@@ -183,7 +182,7 @@ public class IsPresent {
      * Driver checks if the current url contains isURL
      *
      * @param driver
-     * @param isTitle
+     * @param isURL
      */
     public void isURLContains(WebDriver driver, String isURL) {
         new WebDriverWait(driver, 60).until(ExpectedConditions.urlContains(isURL));
@@ -216,7 +215,7 @@ public class IsPresent {
     /**
      * 
      * @param driver
-     * @param elementXpath
+     * @param element
      */
     public void checkStalenessOfElement(WebDriver driver, WebElement element) {
     	new WebDriverWait(driver, 60).until(ExpectedConditions.stalenessOf(element));

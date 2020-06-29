@@ -16,9 +16,9 @@
             <class name="com.mmo.tests.Dashboard"/>
          	<class name="com.mmo.tests.Job"/>
             <class name="com.mmo.tests.SignUp"/>
-			<class name="com.mmo.tests.EmailTests"/>-->
-			<class name="com.mmo.tests.SignUp"/>
-
+            <class name="com.mmo.tests.EmailTests"/>
+			<class name="com.mmo.tests.SignUp"/>-->
+			<class name="com.mmo.tests.AddProductTests"/>
 		</classes>
     </test>
 </suite>
