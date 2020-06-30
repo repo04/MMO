@@ -27,12 +27,13 @@ public class BaseClass {
     public static File directory = new File(".");
     public static String defaultDownloadPath;
     public static DataProviderUtility dp = new DataProviderUtility();
-    public static String browser;
-    public String test;
-    public String env;
+    public static String browserValue;
+    public static String testValue;
+    public static String envValue;
     public Utility u = new Utility();
     public IsPresent ip = new IsPresent();
     public static SoftAssert softAssert = new SoftAssert();
+    public static EmailUtils emailUtils;
 	
     
     //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
@@ -45,27 +46,28 @@ public class BaseClass {
      * perform sophisticated groupings of test methods which is called from XML
      * file
      *
-     * @param url
-     * @param program
-     * @param environment
+     * @param env
      * @param browser
-     * @param os
      * @param test
+     *
      * @throws Exception
      */
     @BeforeTest(groups = {"prerequisite"})
     @Parameters({"env", "browser","test"})
     public void setUp(String env, String browser, String test) throws Exception {
 
-    	this.env = env;
-    	this.browser = browser;
-        this.test = test; 
+    	envValue = env;
+    	browserValue = browser;
+        testValue = test;
         
         xpv = new XpathValues("xPathAccountProperty");
-        System.out.println("env: " + this.env);
-        System.out.println("browser: " + this.browser);
-        System.out.println("test: " + this.test);
+        System.out.println("env: " + envValue);
+        System.out.println("browser: " + browserValue);
+        System.out.println("test: " + testValue);
         defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
+
+        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
+                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
         switch (browser) {
             case "chrome":
@@ -113,18 +115,19 @@ public class BaseClass {
                 Reporter.log("Browser: " + browser);                
         }
         
-        if(this.env.equalsIgnoreCase("qa"))
+        if(envValue.equalsIgnoreCase("qa"))
         {
         	System.out.print("****OPEN QA URL****" + "\n");
         	driver.get("https://" + xpv.getTokenValue("qaURL"));
-        } else if(this.env.equalsIgnoreCase("ppd"))
+        } else if(envValue.equalsIgnoreCase("ppd"))
         {
         	System.out.print("****OPEN PPD URL****");
         	driver.get("https://" + xpv.getTokenValue("ppdURL"));
         } else {
         	System.out.print("****OPEN PROD URL****");
         	driver.get("https://" + xpv.getTokenValue("prodURL"));
-        }        
+        }
+
     }
 
     /**

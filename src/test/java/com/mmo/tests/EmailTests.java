@@ -46,7 +46,7 @@ public class EmailTests extends BaseClass{
     public void testTextContained() {
         try{
             Message email = emailUtils.getMessagesBySubject("Loan Approval", true, 5)[0];
-            //Assert.assertTrue("Approval message is not in email", emailUtils.isTextInMessage(email, "You have been approved"));
+            Assert.assertTrue(emailUtils.isTextInMessage(email, "You have been approved"), "Approval message is not in email");
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail(e.getMessage());

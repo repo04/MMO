@@ -1,5 +1,7 @@
 package com.mmo.util;
 
+import org.testng.Assert;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -252,6 +254,15 @@ public class EmailUtils extends BaseClass {
         return null;
     }
 
+
+    public void isTextPresentInMessage(String emailSubject, String textInMessage[], EmailFolder emailFolder) throws Exception {
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        Message email = getMessagesBySubject(emailSubject, true, 1)[0];
+        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[0]), "Access to MapMarker message is not found");;
+        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[1]), "Detailed SignIn message is not found");;
+    }
+
     /**
      * Gets one line of text
      * In this example, the subject of the email is 'Authorization Code'
@@ -288,6 +299,7 @@ public class EmailUtils extends BaseClass {
         System.out.println("searchIndex: " + searchIndex);
         String token = html.substring(preIndex + 8, searchIndex);
         System.out.println("token: " + token);
+        folder.close(true);
         return token;
     }
 
@@ -305,6 +317,7 @@ public class EmailUtils extends BaseClass {
 
         //Some Strings within the email have whitespace and some have break coding. Need to be the same.
         content = content.replace("&nbsp;", " ");
+        System.out.println("CONTENT: " + content);
         return content.contains(text);
     }
 

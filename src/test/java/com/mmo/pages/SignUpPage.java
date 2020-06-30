@@ -5,6 +5,7 @@ import static org.testng.Assert.assertEquals;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
@@ -23,31 +24,8 @@ public class SignUpPage extends BaseClass{
 	public void signUpUser(String plan, String region, String addProductFlow) {
 
 		this.dateAndTime = u.currentDateTime();
-		switch (plan) {
-		case "free":
-			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
-			//driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=free')\"]")).click();
-			u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
-			ip.isURLContains(driver, "signup/geocoding?plan=free");
-			this.userFirstName = "mmoAutomated";
-			this.userSecondName = "FreeUS" + this.dateAndTime;
-			break;
-		case "5k":
-			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
-			//driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]")).click();
-			u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
-			ip.isURLContains(driver, "signup/geocoding?plan=gc_5k_monthly");
-			this.userFirstName = "mmoAutomated";
-			this.userSecondName = "5k" + this.dateAndTime;
-			break;
-		case "prof":
-			ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
-			//driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]")).click();
-			u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
-			ip.isURLContains(driver, "signup/geocoding?plan=gc_300k_quarterly");
-			this.userFirstName = "mmoAutomated";
-			this.userSecondName = "Prof" + this.dateAndTime;
-		}
+
+		navigateToPlan(plan);
 
 		if(!region.equalsIgnoreCase("US")) {
 			this.userFirstName = "mmoAutomated";
@@ -128,7 +106,7 @@ public class SignUpPage extends BaseClass{
 		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']", 60);
 		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']");
 		if(!plan.equalsIgnoreCase("free")) {
-			enterPaymentDetails(plan);				
+			enterPaymentDetails();
 		}
 		if(!addProductFlow.startsWith("mmoAutomated")) {
 			ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
@@ -142,25 +120,35 @@ public class SignUpPage extends BaseClass{
 		}
 	}
 
-	private void verifyfooters() {
-		//Terms of Use
-		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
-		u.clickByJavaScript(driver, "//a[contains(text(),'Terms of Use')]");
-		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Terms of Use - Precisely", ip);
+	private void navigateToPlan(String plan) {
 
-		//Privacy
-		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Privacy')]", 60);
-		u.clickByJavaScript(driver, "//a[contains(text(),'Privacy')]");
-		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Privacy Policy - Precisely", ip);
+		if(!driver.getCurrentUrl().contains("signup")){
+			switch (plan) {
+				case "free":
+					ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
+					u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
+					ip.isURLContains(driver, "signup/geocoding?plan=free");
+					this.userFirstName = "mmoAutomated";
+					this.userSecondName = "FreeUS" + this.dateAndTime;
+					break;
+				case "5k":
+					ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
+					u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
+					ip.isURLContains(driver, "signup/geocoding?plan=gc_5k_monthly");
+					this.userFirstName = "mmoAutomated";
+					this.userSecondName = "5k" + this.dateAndTime;
+					break;
+				case "prof":
+					ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
+					u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
+					ip.isURLContains(driver, "signup/geocoding?plan=gc_300k_quarterly");
+					this.userFirstName = "mmoAutomated";
+					this.userSecondName = "Prof" + this.dateAndTime;
+			}
+		}
 	}
 
-	/**
-	 * 
-	 * @param plan
-	 */
-	public void enterPaymentDetails(String plan){
+	public void enterPaymentDetails(){
 		ip.isURLContains(driver, "payment/geocoding");
 		ip.isTextPresentByXPATH(driver, "//div[@id='paymentinfoheading']", "Payment Info");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Payment')]");
@@ -231,12 +219,42 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(this.userEmailId);
 		driver.findElement(By.xpath("//input[@id='company-nf']")).clear();
 		driver.findElement(By.xpath("//input[@id='company-nf']")).sendKeys("PRECISELY");
+
+		verifyfooters();
+
 		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']/span[2]", 60);
 		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']/span[2]");
 		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
 		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for GeoTAX. " +
 				"Please check your email to complete your registration process. You may safely close this window.");
 		System.out.println("**" + this.userFirstName + "**" + this.userSecondName + "**" + this.userEmailId);
+	}
+
+	private void verifyfooters() {
+		//Terms of Use
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Terms of Use')]", 60);
+		u.clickByJavaScript(driver, "//a[contains(text(),'Terms of Use')]");
+		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+		u.verifyWindowTitle(driver, "Terms of Use - Precisely", ip);
+
+		//Privacy
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Privacy')]", 60);
+		u.clickByJavaScript(driver, "//a[contains(text(),'Privacy')]");
+		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+		u.verifyWindowTitle(driver, "Privacy Policy - Precisely", ip);
+	}
+
+	public void navigateToSignUpForAddProductFlow(String plan, String userID) {
+		navigateToPlan(plan);
+		ip.isElementClickableByXpath(driver, "//input[@id='email-nf']", 60);
+		driver.findElement(By.xpath("//input[@id='email-nf']")).clear();
+		driver.findElement(By.xpath("//input[@id='email-nf']")).sendKeys(userID);
+		driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(userID);
+		ip.isElementClickableByXpath(driver, "//div[@id='alertsuccess']/div[2]/span", 60);
+		ip.isTextPresentByXPATH(driver, "//div[@id='alertsuccess']/div[2]/span",
+				"Welcome back. Please verify your credentials to add MapMarker subscription to your account.");
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Click here to proceed.')]", 60);
+		driver.findElement(By.xpath("//a[contains(text(),'Click here to proceed.')]")).click();
 	}
 
 	/**
@@ -248,4 +266,6 @@ public class SignUpPage extends BaseClass{
 		signUpDetails[0][2] =  this.userSecondName;
 		return signUpDetails;
 	}
+
+
 }

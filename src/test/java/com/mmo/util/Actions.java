@@ -1,17 +1,9 @@
 package com.mmo.util;
 
-import java.util.Date;
-
+import com.mmo.pages.*;
 import org.openqa.selenium.By;
 
-import com.mmo.pages.CreateUserPage;
-import com.mmo.pages.DashboardPage;
-import com.mmo.pages.EmailPage;
-import com.mmo.pages.FooterPage;
-import com.mmo.pages.HomePage;
-import com.mmo.pages.JobPage;
-import com.mmo.pages.LoginPage;
-import com.mmo.pages.SignUpPage;
+import java.util.Date;
 
 public class Actions extends BaseClass{
 
@@ -58,6 +50,11 @@ public class Actions extends BaseClass{
 		SignUpPage su = new SignUpPage();
 		su.signUpUser(plan, region, addProductFlow);
 		return su.getUserDetails();
+	}
+
+	public void navigateToSignUpForAddProductFlow(String plan, String addProductFlow) {
+		SignUpPage su = new SignUpPage();
+		su.navigateToSignUpForAddProductFlow(plan, addProductFlow);
 	}
 
 	/**
@@ -211,17 +208,6 @@ public class Actions extends BaseClass{
 	public void logOut() {
 		u.clickByJavaScript(driver, xpv.getTokenValue("linkToLogOut"));
 		ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
-		
-//		if(env.equalsIgnoreCase("qa"))
-//        {
-//			driver.getCurrentUrl().contains(xpv.getTokenValue("qaURLContains"));      	
-//        } else if(env.equalsIgnoreCase("ppd"))
-//        {
-//        	driver.getCurrentUrl().contains(xpv.getTokenValue("ppdURLContains"));
-//        } else {
-//        	driver.getCurrentUrl().contains(xpv.getTokenValue("prodURLContains"));
-//        } 
-		
 	}
 
 	public void viewJobDetails(String outFileName) {
@@ -247,5 +233,10 @@ public class Actions extends BaseClass{
 	public void navigateToHomeAndAddProductFlowInitiated() {
 		ip.isTitlePresent(driver, "MapMarker");
 		ip.isURLContains(driver, "addproductscroll");
+	}
+
+	public void upgradePlan(String userID, String userFirstName, String userSecondName, String plan) {
+		BillingPage bp = new BillingPage();
+		bp.upgradePlan(userID, userFirstName, userSecondName, plan);
 	}
 }
