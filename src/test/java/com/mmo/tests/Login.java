@@ -9,8 +9,7 @@ import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 
 public class Login extends BaseClass {
-
-	Actions a = new Actions();
+	private Actions a = new Actions();
 
 	@BeforeClass(groups = {"prerequisite"})
 	public void testPreLogIn(ITestContext context) throws Exception {

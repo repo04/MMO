@@ -11,10 +11,10 @@ import org.testng.annotations.Test;
 
 
 public class AddProductTests extends BaseClass {
-    public Actions a = new Actions();
     private String[] textInMessage;
     static String[][] geoTaxUserDetailsArray = new String[1][3];
     static String[][] geoTaxUserIDArray = new String[1][1];
+    private Actions a = new Actions();
 
     private void testSignUpGeoTaxUserAndCompleteEmailRegistration() throws Exception {
         a.navigateToGeoTaxPage();
@@ -62,7 +62,7 @@ public class AddProductTests extends BaseClass {
         textInMessage[0] = "You now have access to MapMarker.";
         textInMessage[1] = "Your registra=tion is complete. To access MapMarker " +
                 "all you need to do is sign in with yo=ur email address: " + userID;
-        emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 
     @Test(dataProvider = "GeoTaxUserID")
@@ -74,6 +74,6 @@ public class AddProductTests extends BaseClass {
         textInMessage[0] = "You now have access to MapMarker.";
         textInMessage[1] = "Your registra=tion is complete. To access MapMarker " +
                 "all you need to do is sign in with yo=ur email address: " + userID;
-        emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 }

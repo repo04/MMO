@@ -8,11 +8,9 @@ import java.util.Date;
 public class Actions extends BaseClass{
 
 	Date now = new Date();
-	
+
 	/**
-	 * Login
 	 *
-	 * @param user
 	 */
 	public void verifyLoginPage() {
 		LoginPage lp = new LoginPage();
@@ -90,8 +88,9 @@ public class Actions extends BaseClass{
     public void navigateToDashboard() {
     	ip.isElementClickableByXpath(driver, "//a[contains(text(),'Dashboard')]", 60);
     	u.clickByJavaScript(driver, "//a[contains(text(),'Dashboard')]");
-    	ip.isTextPresentByXPATH(driver, "//h1", "MapMarker Dashboard");    	
-    }
+		ip.isTextPresentByXPATH(driver, "//h1", "MapMarker Dashboard");
+		u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
+	}
     
     /**
      * Navigate to Upload File Page
@@ -118,7 +117,8 @@ public class Actions extends BaseClass{
     public void navigateToBillingPlan() {
     	ip.isElementClickableByXpath(driver, "//li[@id='userContextMenuLi']/a/div/div", 60);
     	u.clickByJavaScript(driver, "//a[contains(text(),'Billing & Plans')]");
-    	ip.isTextPresentByXPATH(driver, "//h1", "Billing & Plans");
+		u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
+		ip.isTextPresentByXPATH(driver, "//h1", "Billing & Plans");
     	u.verifyCurrentUrlContains(driver, "billing");    	
     }
     
@@ -185,12 +185,12 @@ public class Actions extends BaseClass{
 	/**
 	 * 
 	 */
-	public void verifyDashboard() {
+	public void verifyDashboard(String userFirstName, String userSecondName) {
 		//FooterPage fp = new FooterPage();
 		//fp.verifyFooter();
-		
+
 		DashboardPage dp = new DashboardPage();
-		dp.verifyDashboard();
+		dp.verifyDashboard(userFirstName, userSecondName);
 	}
 	
 	/**
@@ -216,7 +216,22 @@ public class Actions extends BaseClass{
 	}
 
 	public void navigateToHomePage() {
-		driver.get("https://mapmarker-qa.li.precisely.services");
+
+		if(envValue.equalsIgnoreCase("qa"))
+		{
+			System.out.print("****OPEN QA URL****" + "\n");
+			driver.get("https://" + xpv.getTokenValue("qaURL"));
+			loginURL = "login-qa.saas.precisely.services";
+		} else if(envValue.equalsIgnoreCase("ppd"))
+		{
+			System.out.print("****OPEN PPD URL****");
+			driver.get("https://" + xpv.getTokenValue("ppdURL"));
+			loginURL = "login-qa";
+		} else {
+			System.out.print("****OPEN PROD URL****");
+			driver.get("https://" + xpv.getTokenValue("prodURL"));
+			loginURL = "login.saas.precisely.com";
+		}
 		ip.isTitlePresent(driver, "MapMarker");
 	}
 
@@ -235,8 +250,13 @@ public class Actions extends BaseClass{
 		ip.isURLContains(driver, "addproductscroll");
 	}
 
-	public void upgradePlan(String userID, String userFirstName, String userSecondName, String plan) {
+	public void changePlan(String userID, String userFirstName, String userSecondName, String plan) {
 		BillingPage bp = new BillingPage();
-		bp.upgradePlan(userID, userFirstName, userSecondName, plan);
+		bp.changePlan(userID, userFirstName, userSecondName, plan);
+	}
+
+	public void verifyBillingPage(String userSecondName) {
+		BillingPage bp = new BillingPage();
+		bp.verifyBillingPage(userSecondName);
 	}
 }

@@ -9,12 +9,12 @@ import com.mmo.util.BaseClass;
 
 public class Dashboard extends BaseClass{
 
-	Actions a = new Actions();
-    String downloadDefaultTemplates[] = new String[6];	
+	String downloadDefaultTemplates[] = new String[6];
+	private Actions a = new Actions();
 	
     @BeforeClass(groups = {"prerequisite"})
 	public void testVerifyDashboard() throws Exception {
-		a.verifyDashboard();		
+		//a.verifyDashboard();
 	}
 
 	@Test

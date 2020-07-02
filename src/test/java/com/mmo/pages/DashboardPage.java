@@ -12,27 +12,29 @@ import com.mmo.util.BaseClass;
 public class DashboardPage extends BaseClass{
 
 	/**
-	 * 
+	 *
+	 * @param userFirstName
+	 * @param userSecondName
 	 */
-	public void verifyDashboard() {
+	public void verifyDashboard(String userFirstName, String userSecondName) {
 		ip.isURLContains(driver, "/dashboard");
-		ip.isTextPresentByXPATH(driver, "//a/div/div", "autommopb automationsubuser");
-//		ip.isTextPresentByXPATH(driver, "//a/div/div", "chetan shamdasani");
+		ip.isTextPresentByXPATH(driver, "//a/div/div", userFirstName + " " + userSecondName);
 		ip.isTextPresentByXPATH(driver, "//h1", "MapMarker Dashboard");
 		ip.isElementPresentByCSS(driver, "div.progress.customProgress");
-//		ip.isTextPresentByXPATH(driver, "//h2", "You have not Geocoded any address yet. Upload file to start geocoding now.");
-//		ip.isTextPresentByXPATH(driver, "//div[4]/div/div", "Refer the file templates to get started: CSV, SHP, or TAB");
-//		ip.isTextPresentByXPATH(driver, "//div[4]/div/div[2]", "Got questions? Please check our detailed documentation and FAQs.");
-//		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Dashboard')]");
+		ip.isTextPresentByXPATH(driver, "//h2", "You have not Geocoded any address yet. Upload file to start geocoding now.");
+		ip.isTextPresentByXPATH(driver, "//div[4]/div/div", "Got questions? Please check our detailed documentation and FAQs.");
+		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Dashboard')]");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Users')]");
 		ip.isTextPresentByXPATH(driver, "//a[@id='btnCreateNewUser']", "Create New User");
 		ip.isTextPresentByXPATH(driver, "//button[@id='btnUploadFile']", "Upload File");
-//		driver.findElement(By.xpath("//a[contains(text(),'documentation')]")).click();
-//		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-//		u.verifyWindowTitle(driver, "Step 1: Upload File", ip);
-//		driver.findElement(By.xpath("//a[contains(text(),'FAQs')]")).click();
-//		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-//		u.verifyWindowTitle(driver, "Frequently Asked Questions", ip);
+
+		driver.findElement(By.xpath("//a[contains(text(),'documentation')]")).click();
+		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+		u.verifyWindowTitle(driver, "MapMarker - Step 1: Upload File", ip);
+
+		driver.findElement(By.xpath("//a[contains(text(),'FAQs')]")).click();
+		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+		u.verifyWindowTitle(driver, "MapMarker - Frequently Asked Questions", ip);
 	}
 
 	/**

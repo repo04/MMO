@@ -4,12 +4,11 @@
  */
 package com.mmo.util;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+
 
 public class IsPresent {
 
@@ -176,6 +175,15 @@ public class IsPresent {
     public void invisibilityOfElementByXpath(WebDriver driver, String elementXpath) {
         new WebDriverWait(driver, 60).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(elementXpath)));
     }
+
+    /**
+     *
+     * @param driver
+     * @param elementXpath
+     */
+    public void invisibilityOfElementByCSS(WebDriver driver, String elementXpath) {
+        new WebDriverWait(driver, 60).until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(elementXpath)));
+    }
     
     //**NEW**
     /**
@@ -213,11 +221,22 @@ public class IsPresent {
     }
     
     /**
-     * 
+     * Wait until an element is no longer attached to the DOM.
+     *
      * @param driver
      * @param element
      */
     public void checkStalenessOfElement(WebDriver driver, WebElement element) {
     	new WebDriverWait(driver, 60).until(ExpectedConditions.stalenessOf(element));
+    }
+
+    /**
+     *
+     * @param driver
+     * @param elementXpath
+     * @return
+     */
+    public WebElement findElementByXpath(WebDriver driver, String elementXpath) {
+        return new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.xpath(elementXpath)));
     }
 }

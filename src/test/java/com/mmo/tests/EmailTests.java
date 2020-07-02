@@ -12,7 +12,6 @@ import javax.mail.Message;
 public class EmailTests extends BaseClass{
 
     private static EmailUtils emailUtils;
-    Actions a = new Actions();
 
     @BeforeClass
     public static void connectToEmail() {

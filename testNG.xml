@@ -15,10 +15,11 @@
             <class name="com.mmo.tests.Login"/> 
             <class name="com.mmo.tests.Dashboard"/>
          	<class name="com.mmo.tests.Job"/>
-            <class name="com.mmo.tests.SignUp"/>
             <class name="com.mmo.tests.EmailTests"/>
-			<class name="com.mmo.tests.SignUp"/>-->
 			<class name="com.mmo.tests.AddProductTests"/>
+			<class name="com.mmo.tests.UpgradeTests"/>
+			<class name="com.mmo.tests.SignUp"/>-->
+			<class name="com.mmo.tests.userDetails"/>
 		</classes>
     </test>
 </suite>

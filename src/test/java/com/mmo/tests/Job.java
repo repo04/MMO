@@ -14,8 +14,8 @@ import com.mmo.util.DataProviderUtility;
 
 public class Job extends BaseClass {
 
-	Actions a = new Actions();
 	String[][] outFileNamesArray = new String[2][1];
+	private Actions a = new Actions();
 //	ArrayList<String> outFileNamesList = new ArrayList<String>();
 //	ArrayList<String> outFileFormatList = new ArrayList<String>();
 	int x = 0;

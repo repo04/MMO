@@ -2,10 +2,7 @@ package com.mmo.util;
 
 import org.testng.Assert;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,13 +25,14 @@ import javax.mail.search.SubjectTerm;
 public class EmailUtils extends BaseClass {
 
     private Folder folder;
-    Session session;
-    Store store;
+    static Session session;
+    static Store store;
 
     public enum EmailFolder {
         INBOX("Inbox"),
         STARTUSINGMMO("startUsingMMO"),
         STARTUSINGGEOTAX("startUsingGeoTAX"),
+        PLANCHANGE("planChange"),
         SPAM("SPAM");
 
 
@@ -90,7 +88,9 @@ public class EmailUtils extends BaseClass {
         store.connect(server, username, password);
     }
 
-
+    public static void storeClose() throws MessagingException {
+        store.close();
+    }
 
     //************* GET EMAIL PROPERTIES *******************
 
@@ -254,13 +254,38 @@ public class EmailUtils extends BaseClass {
         return null;
     }
 
-
-    public void isTextPresentInMessage(String emailSubject, String textInMessage[], EmailFolder emailFolder) throws Exception {
+    public void isTextPresentInMessage(String emailSubject, String userID, String textInMessage[], EmailFolder emailFolder) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
-        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[0]), "Access to MapMarker message is not found");;
-        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[1]), "Detailed SignIn message is not found");;
+        Assert.assertEquals(email.getAllRecipients()[0].toString(), userID,
+                "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());;
+        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[0]), "'" + textInMessage[0] + "' is not found");;
+        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[1]), "'" + textInMessage[1] + "' is not found");;
+        folder.close(true);
+    }
+
+    /**
+     * LEARNING
+     *
+     * @param emailSubject
+     * @param emailFolder
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void getEmail(String emailSubject, EmailFolder emailFolder) throws MessagingException, IOException {
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        System.out.println("**getMessagesLength**: " + folder.getMessages().length + "\n");
+        Message[] abc = folder.getMessages(8, 10);
+        for(Message m : abc){
+            System.out.println("**getMessageNumber**: " + m.getMessageNumber() + "\n");
+            System.out.println("**getAllRecipientsLength**: " + m.getAllRecipients().length + "\n");
+            System.out.println("**getAllRecipients**: " + m.getAllRecipients()[0].toString() + "\n");
+            System.out.println("**getFromLength**: " + m.getFrom().length + "\n");
+            System.out.println("**getFrom**: " + m.getFrom()[0].toString() + "\n");
+            System.out.println("**getSubject**: " + m.getSubject() + "\n");
+        }
     }
 
     /**
@@ -292,7 +317,19 @@ public class EmailUtils extends BaseClass {
         {
             u.illegalStateException("Complete your registration using this email address is not found: "+ userID);
         }
-        int	  preIndex = html.indexOf("token=3D");
+
+        int	preIndex = 0;
+        if(envValue.equalsIgnoreCase("qa"))
+        {
+            preIndex = html.indexOf("token=3D");
+        } else if(envValue.equalsIgnoreCase("ppd"))
+        {
+            System.out.print("****OPEN PPD URL****");
+            driver.get("https://" + xpv.getTokenValue("ppdURL"));
+        } else {
+            preIndex = html.indexOf("=oken=3D");
+        }
+
         int	  searchIndex = preIndex + html.substring(preIndex).indexOf("\" style");
 
         System.out.println("preIndex: " + preIndex);

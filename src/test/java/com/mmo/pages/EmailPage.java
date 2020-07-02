@@ -15,11 +15,11 @@ public class EmailPage extends BaseClass {
             claimTokenID = claimTokenID.replaceAll(check, "");
         }
         if(signUpFreeUSUserID.contains("geoTax")){
-            System.out.println("CLAIM ID: https://login-qa.saas.precisely.services/claim-account?productId=geotax&locale=en_US&token=" + claimTokenID + "\n");
-            driver.get("https://login-qa.saas.precisely.services/claim-account?productId=geotax&locale=en_US&token=" + claimTokenID);
+            System.out.println("CLAIM ID: https://" + loginURL + "/claim-account?productId=geotax&locale=en_US&token=" + claimTokenID + "\n");
+            driver.get("https://" + loginURL + "/claim-account?productId=geotax&locale=en_US&token=" + claimTokenID);
         }else{
-            System.out.println("CLAIM ID: https://login-qa.saas.precisely.services/claim-account?productId=GeoCoding&locale=en_US&token=" + claimTokenID + "\n");
-            driver.get("https://login-qa.saas.precisely.services/claim-account?productId=GeoCoding&locale=en_US&token=" + claimTokenID);
+            System.out.println("CLAIM ID: https://" + loginURL + "/claim-account?productId=GeoCoding&locale=en_US&token=" + claimTokenID + "\n");
+            driver.get("https://" + loginURL + "/claim-account?productId=GeoCoding&locale=en_US&token=" + claimTokenID);
         }
         ip.isElementClickableByXpath(driver,"//input[@id='newPassword']", 60);
         ip.isElementClickableByXpath(driver,"//input[@id='confirmPassword']", 60);
@@ -35,7 +35,7 @@ public class EmailPage extends BaseClass {
         driver.findElement(By.xpath("//input[@id='newPassword']")).sendKeys("Precisely@123");
         driver.findElement(By.xpath("//input[@id='confirmPassword']")).sendKeys("Precisely@123");
         driver.findElement(By.xpath("//button[@id='claimAccountButton']")).click();
-        driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
         ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
     }
 }

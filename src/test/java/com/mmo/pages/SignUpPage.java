@@ -125,21 +125,21 @@ public class SignUpPage extends BaseClass{
 		if(!driver.getCurrentUrl().contains("signup")){
 			switch (plan) {
 				case "free":
-					ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
+					ip.isElementClickableByXpath(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]", 60);
 					u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=free')\"]");
 					ip.isURLContains(driver, "signup/geocoding?plan=free");
 					this.userFirstName = "mmoAutomated";
 					this.userSecondName = "FreeUS" + this.dateAndTime;
 					break;
 				case "5k":
-					ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
+					ip.isElementClickableByXpath(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]", 60);
 					u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]");
 					ip.isURLContains(driver, "signup/geocoding?plan=gc_5k_monthly");
 					this.userFirstName = "mmoAutomated";
 					this.userSecondName = "5k" + this.dateAndTime;
 					break;
 				case "prof":
-					ip.isElementPresentByXPATH(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
+					ip.isElementClickableByXpath(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]", 60);
 					u.clickByJavaScript(driver, "//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]");
 					ip.isURLContains(driver, "signup/geocoding?plan=gc_300k_quarterly");
 					this.userFirstName = "mmoAutomated";
@@ -188,11 +188,6 @@ public class SignUpPage extends BaseClass{
 		ip.isElementClickableByXpath(driver, "//button[@id='activateplanbutton']", 60);
 		u.clickByJavaScript(driver, "//button[@id='activateplanbutton']");
 		ip.isURLContains(driver, "thanks/geocoding");
-//		driver.findElement(By.xpath("//button[@id='activateplanbutton']")).click();
-//		u.actionBuilderMoveToClick(driver, "//button[@id='activateplanbutton']");
-//		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
-//		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
-//				+ "Please check your email to complete your registration process. You may safely close this window.");
 	}
 
 	/**

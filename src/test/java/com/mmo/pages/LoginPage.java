@@ -47,13 +47,17 @@ public class LoginPage extends BaseClass {
         passWord.clear();
         
         userName.sendKeys(user);
-        passWord.sendKeys("Pitney@123");
+        passWord.sendKeys("Precisely@123");
         loginBtn.click();
+        u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
         ip.isTitlePresent(driver, "MapMarker");
-        System.out.println("USER DASHBOARD");
         ip.isElementClickableByXpath(driver, "//a/div/div", 60);
-//        ip.isTextPresentByXPATH(driver, "//a/div/div", "chetan shamdasani");
-        System.out.println("USER DETAILES VERIFIED");
+
+        int plusIndex, attherateIndex;
+        plusIndex = user.indexOf("+");
+        attherateIndex = user.indexOf("@");
+
+        ip.isTextPresentByXPATH(driver, "//a/div/div", user.substring(0, plusIndex) + " " + user.substring(plusIndex + 1, attherateIndex));
     }
 
     /**

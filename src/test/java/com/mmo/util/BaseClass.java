@@ -34,8 +34,8 @@ public class BaseClass {
     public IsPresent ip = new IsPresent();
     public static SoftAssert softAssert = new SoftAssert();
     public static EmailUtils emailUtils;
-	
-    
+    public static String loginURL;
+
     //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 	
 
@@ -52,13 +52,14 @@ public class BaseClass {
      *
      * @throws Exception
      */
-    @BeforeTest(groups = {"prerequisite"})
-    @Parameters({"env", "browser","test"})
+    @BeforeTest
+    @Parameters({"env", "browser", "test"})
     public void setUp(String env, String browser, String test) throws Exception {
 
     	envValue = env;
     	browserValue = browser;
         testValue = test;
+        Actions a = new Actions();
         
         xpv = new XpathValues("xPathAccountProperty");
         System.out.println("env: " + envValue);
@@ -66,8 +67,8 @@ public class BaseClass {
         System.out.println("test: " + testValue);
         defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
 
-        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
-                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+//        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
+//                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
         switch (browser) {
             case "chrome":
@@ -114,20 +115,8 @@ public class BaseClass {
                 driver.manage().window().maximize();
                 Reporter.log("Browser: " + browser);                
         }
-        
-        if(envValue.equalsIgnoreCase("qa"))
-        {
-        	System.out.print("****OPEN QA URL****" + "\n");
-        	driver.get("https://" + xpv.getTokenValue("qaURL"));
-        } else if(envValue.equalsIgnoreCase("ppd"))
-        {
-        	System.out.print("****OPEN PPD URL****");
-        	driver.get("https://" + xpv.getTokenValue("ppdURL"));
-        } else {
-        	System.out.print("****OPEN PROD URL****");
-        	driver.get("https://" + xpv.getTokenValue("prodURL"));
-        }
 
+        a.navigateToHomePage();
     }
 
     /**
@@ -136,8 +125,9 @@ public class BaseClass {
      *
      * @throws Exception
      */
-    @AfterTest(alwaysRun = true, groups = {"prerequisite"})
+    @AfterTest(alwaysRun = true)
     public void tearDown() throws Exception {
+//        EmailUtils.storeClose();
 //        driver.quit();
     }
 }

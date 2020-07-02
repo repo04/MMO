@@ -1,18 +1,17 @@
 package com.mmo.util;
 
-import static org.awaitility.Awaitility.await;
+import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import org.awaitility.core.ConditionTimeoutException;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,32 +22,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
-import org.awaitility.core.ConditionTimeoutException;
-import org.openqa.selenium.Alert;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
-
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
+import static org.awaitility.Awaitility.await;
 
 public class Utility {
 
-	public static String str;
 	private int totalRows;
 
 	/**
@@ -523,7 +505,7 @@ public class Utility {
 			}
 		};
 
-		Wait<WebDriver> wait = new WebDriverWait(driver, 15);
+		Wait<WebDriver> wait = new WebDriverWait(driver, 60);
 		try {
 			wait.until(expectation);
 		} catch (Throwable error) {
@@ -563,12 +545,41 @@ public class Utility {
 
 	public void isjQueryLoaded(WebDriver driver) {
 		System.out.println("Waiting for ready state complete");
-		(new WebDriverWait(driver, 30)).until(new ExpectedCondition<Boolean>() {
+		(new WebDriverWait(driver, 60)).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				JavascriptExecutor js = (JavascriptExecutor) d;
 				String readyState = js.executeScript("return document.readyState").toString();
 				System.out.println("Ready State: " + readyState);
 				return (Boolean) js.executeScript("return !!window.jQuery && window.jQuery.active == 0");
+			}
+		});
+	}
+
+	/**
+	 *
+	 * @param driver
+	 * @param xpath
+	 */
+	public void waitTillSpinnerDisable(WebDriver driver, String xpath){
+		IsPresent ip = new IsPresent();
+		WebElement e = ip.findElementByXpath(driver, xpath);
+		(new WebDriverWait(driver, 60)).until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver driver)
+			{
+				System.out.println(e.getCssValue("display"));
+				if(e.getCssValue("display").equalsIgnoreCase("none"))
+				{
+					return true;
+				}
+				return false;
+			}
+		});
+	}
+
+	public void abc(WebDriver driver) {
+		new WebDriverWait(driver, 60).until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver wdriver) {
+				return ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete");
 			}
 		});
 	}
@@ -605,5 +616,7 @@ public class Utility {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }
