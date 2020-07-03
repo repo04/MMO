@@ -239,4 +239,15 @@ public class IsPresent {
     public WebElement findElementByXpath(WebDriver driver, String elementXpath) {
         return new WebDriverWait(driver, 60).until(ExpectedConditions.presenceOfElementLocated(By.xpath(elementXpath)));
     }
+
+    /**
+     * An expectation for checking whether the given frame is available to switch to. If the frame
+     * is available it switches the given driver to the specified frame
+     *
+     * @param driver
+     * @param frameID
+     */
+    public void frameToBeAvailableAndSwitchToIt(WebDriver driver, String frameID) {
+        new WebDriverWait(driver, 60).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameID));
+    }
 }

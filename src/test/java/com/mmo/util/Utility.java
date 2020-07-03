@@ -566,7 +566,7 @@ public class Utility {
 		(new WebDriverWait(driver, 60)).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver driver)
 			{
-				System.out.println(e.getCssValue("display"));
+				//System.out.println(e.getCssValue("display"));
 				if(e.getCssValue("display").equalsIgnoreCase("none"))
 				{
 					return true;

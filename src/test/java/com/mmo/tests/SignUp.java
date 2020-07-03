@@ -48,9 +48,9 @@ public class SignUp extends BaseClass{
     @DataProvider(name = "ProfUserDetails") 	
     public static Object[][] ProfUserDetails(ITestContext context) throws Exception {
         System.out.println("init ProfUserDetails");
-		profUserArray[0][0] = "mmoAutomated+Prof020720140740@gmail.com";
-		profUserArray[0][1] = "mmoAutomated";
-		profUserArray[0][2] = "Prof020720140740";
+//		profUserArray[0][0] = "mmoAutomated+Prof020720140740@gmail.com";
+//		profUserArray[0][1] = "mmoAutomated";
+//		profUserArray[0][2] = "Prof020720140740";
 		return (profUserArray);
     }
 
@@ -90,7 +90,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(paid5kUserArray[0][0], paid5kUserArray[0][1], paid5kUserArray[0][2]  , claimTokenID);
 	}
 	
-	//@Test
+	@Test
 	public void testSignUpPaidProfUserAndCompleteEmailRegistration() throws Exception {
 		a.navigateToHomePage();
 		profUserArray =  a.signUpUser("prof", "US", "N");
@@ -100,6 +100,7 @@ public class SignUp extends BaseClass{
 		Thread.sleep(10000);
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", profUserArray[0][0], EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(profUserArray[0][0], profUserArray[0][1], profUserArray[0][2]  , claimTokenID);
+		a.navigateToHomePage();
 	}
 
 	@AfterClass(groups = {"prerequisite"})

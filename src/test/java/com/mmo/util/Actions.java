@@ -259,4 +259,18 @@ public class Actions extends BaseClass{
 		BillingPage bp = new BillingPage();
 		bp.verifyBillingPage(userSecondName);
 	}
+
+    public void updateCard() {
+		BillingPage bp = new BillingPage();
+		bp.updateCard();
+    }
+
+	public void navigateToProfilePage() {
+
+	}
+
+	public void verifyProfilePage(String userID, String userFirstName, String userSecondName) {
+		ProfilePage pp = new ProfilePage();
+		pp.verifyProfilePage(userID, userFirstName, userSecondName);
+	}
 }

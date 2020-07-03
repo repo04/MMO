@@ -3,6 +3,7 @@ package com.mmo.pages;
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 public class BillingPage extends BaseClass {
@@ -82,16 +83,12 @@ public class BillingPage extends BaseClass {
         if(userSecondName.substring(0,4).contentEquals("Prof") || userSecondName.substring(0,2).contentEquals("5k")){
             ip.isTextPresentByXPATH(driver, "//div[3]/h2", "Billing Info");
             ip.isTextPresentByXPATH(driver, "//label", "Name on the card");
-            System.out.println("INSIDE");
-            Assert.assertEquals(driver.findElement(By.xpath("//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]")).getAttribute("ng-reflect-model"),
-                    "CARD NAME", "Card Name does not match");
-            Assert.assertEquals(driver.findElement(By.xpath("//div[@class='inner-addon right-addon']/input[@class='form-control ng-untouched ng-pristine']")).getAttribute("ng-reflect-model"),
-                    "**** **** **** 1111", "Card Number does not match");
+            Assert.assertEquals(driver.findElement(By.xpath("//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]")).getAttribute("ng-reflect-model"),"CARD NAME", "Card Name does not match");
+            Assert.assertEquals(driver.findElement(By.xpath("//div[@class='inner-addon right-addon']/input[@class='form-control ng-untouched ng-pristine']")).getAttribute("ng-reflect-model"),"**** **** **** 1111", "Card Number does not match");
             Assert.assertEquals(driver.findElement(By.xpath("//div[@class='row']/div[2]/div[1]/input[1]")).getAttribute("ng-reflect-model"),
                     "1/2021", "Exp date does not match");
             Assert.assertEquals(driver.findElement(By.xpath("//body[@class='bg-white']//div[@class='container fullview']//div//div//div[3]//div[1]//div[1]//input[1]")).getAttribute("ng-reflect-model"),"DERRY STREETS", "Street does not match");
-            Assert.assertEquals(driver.findElement(By.xpath("//div[@class='col-md-3']//input[@class='form-control ng-untouched ng-pristine']")).getAttribute("ng-reflect-model"),
-                    "DERRY", "City does not match");
+            Assert.assertEquals(driver.findElement(By.xpath("//div[@class='col-md-3']//input[@class='form-control ng-untouched ng-pristine']")).getAttribute("ng-reflect-model"),"DERRY", "City does not match");
             Assert.assertEquals(driver.findElement(By.xpath("//div[@class='row']//div[3]//div[1]//input[1]")).getAttribute("ng-reflect-model"),
                     "03038", "PostCode does not match");
             Assert.assertEquals(driver.findElement(By.xpath("//select[@class='form-control']/option")).getText(),
@@ -169,7 +166,34 @@ public class BillingPage extends BaseClass {
 
         driver.findElement(By.xpath("(//button[@type='button'])[2]")).click();
         ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
+    }
 
-
+    public void updateCard() {
+        ip.isElementClickableByXpath(driver, "//button[contains(.,'Update Card')]", 60);
+        driver.findElement(By.xpath("//button[contains(.,'Update Card')]")).click();
+        ip.frameToBeAvailableAndSwitchToIt(driver, "paymetricsForm");
+        ip.isElementClickableByXpath(driver, "//input[@id='c-cardname']", 60);
+        driver.findElement(By.xpath("//input[@id='c-cardname']")).clear();
+        String newCardName = "CARD NAME " + u.currentDateTime();
+        driver.findElement(By.xpath("//input[@id='c-cardname']")).sendKeys(newCardName);
+        driver.findElement(By.xpath("//input[@id='c-cardnumber']")).clear();
+        driver.findElement(By.xpath("//input[@id='c-cardnumber']")).sendKeys("4111111111111111");
+        driver.findElement(By.xpath("//input[@id='c-cvv']")).clear();
+        driver.findElement(By.xpath("//input[@id='c-cvv']")).sendKeys("123");
+        new Select(driver.findElement(By.xpath("//select[@id='c-ct']"))).selectByVisibleText("VISA");
+        new Select(driver.findElement(By.xpath("//select[@id='c-exmth']"))).selectByVisibleText("Jan");
+        new Select(driver.findElement(By.xpath("//select[@id='c-exyr']"))).selectByVisibleText("2021");
+        driver.findElement(By.xpath("//input[@id='address1']")).clear();
+        driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("DERRY STREETS");
+        driver.findElement(By.xpath("//input[@id='city']")).clear();
+        driver.findElement(By.xpath("//input[@id='city']")).sendKeys("DERRY");
+        new Select(driver.findElement(By.xpath("//select[@id='us-state']"))).selectByVisibleText("NH");
+        driver.findElement(By.xpath("//input[@id='postalCode']")).clear();
+        driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
+        driver.switchTo().defaultContent();
+        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
+        ip.isElementPresentByXPATH(driver, "//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]")).getAttribute("ng-reflect-model"), newCardName, "Card Name does not match");
     }
 }

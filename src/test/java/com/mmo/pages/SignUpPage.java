@@ -152,18 +152,7 @@ public class SignUpPage extends BaseClass{
 		ip.isURLContains(driver, "payment/geocoding");
 		ip.isTextPresentByXPATH(driver, "//div[@id='paymentinfoheading']", "Payment Info");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Payment')]");
-
-		List<WebElement> iframes = driver.findElements(By.tagName("iframe"));
-		System.out.println("iframes count:" + iframes.size());
-		String iframeID = null;
-		for (WebElement frame : iframes) {
-			iframeID = frame.getAttribute("id");
-			System.out.println("Iframe ID: " + iframeID);
-			if(iframeID.contentEquals("paymetricsForm")) {
-				driver.switchTo().frame(iframeID);
-				break;
-			}
-		}
+		ip.frameToBeAvailableAndSwitchToIt(driver, "paymetricsForm");
 		ip.isElementClickableByXpath(driver, "//input[@id='c-cardname']", 60);
 		driver.findElement(By.xpath("//input[@id='c-cardname']")).clear();
 		driver.findElement(By.xpath("//input[@id='c-cardname']")).sendKeys("CARD NAME");

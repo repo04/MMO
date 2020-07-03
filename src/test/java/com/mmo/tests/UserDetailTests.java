@@ -6,7 +6,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class userDetails extends BaseClass {
+public class UserDetailTests extends BaseClass {
 
     Actions a = new Actions();
 
@@ -15,12 +15,19 @@ public class userDetails extends BaseClass {
         a.navigateToLogin();
     }
 
-    @Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUp.class)
+    //@Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUp.class)
     public void testUserVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
         a.navigateToBillingPlan();
         a.verifyBillingPage(userSecondName);
+    }
+
+    @Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUp.class)
+    public void testUserUpdateCard(String userID, String userFirstName, String userSecondName) throws Exception {
+        a.login(userID);
+        a.navigateToBillingPlan();
+        a.updateCard();
     }
 
     @AfterClass()
