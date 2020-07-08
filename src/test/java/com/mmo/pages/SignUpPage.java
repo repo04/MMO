@@ -250,6 +250,4 @@ public class SignUpPage extends BaseClass{
 		signUpDetails[0][2] =  this.userSecondName;
 		return signUpDetails;
 	}
-
-
 }

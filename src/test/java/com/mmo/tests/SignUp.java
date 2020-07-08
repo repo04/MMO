@@ -21,9 +21,9 @@ public class SignUp extends BaseClass{
 	@DataProvider(name = "FreeUSUserDetails")
     public static Object[][] FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-		freeUSUserArray[0][0] = "mmoAutomated+FreeUS020720140554@gmail.com";
+		freeUSUserArray[0][0] = "mmoAutomated+FreeUS080720103045@gmail.com";
 		freeUSUserArray[0][1] = "mmoAutomated";
-		freeUSUserArray[0][2] = "FreeUS020720140554";
+		freeUSUserArray[0][2] = "FreeUS080720103045";
 		return (freeUSUserArray);
     }
 	
@@ -39,18 +39,18 @@ public class SignUp extends BaseClass{
     @DataProvider(name = "Paid5kUserDetails") 	
     public static Object[][] Paid5kUserDetails(ITestContext context) throws Exception {
         System.out.println("init Paid5kUserDetails");
-		paid5kUserArray[0][0] = "mmoAutomated+5k020720154614@gmail.com";
-		paid5kUserArray[0][1] = "mmoAutomated";
-		paid5kUserArray[0][2] = "5k020720154614";
+//		paid5kUserArray[0][0] = "mmoAutomated+5k020720154614@gmail.com";
+//		paid5kUserArray[0][1] = "mmoAutomated";
+//		paid5kUserArray[0][2] = "5k020720154614";
 		return (paid5kUserArray);
     }
 	
     @DataProvider(name = "ProfUserDetails") 	
     public static Object[][] ProfUserDetails(ITestContext context) throws Exception {
         System.out.println("init ProfUserDetails");
-//		profUserArray[0][0] = "mmoAutomated+Prof020720140740@gmail.com";
-//		profUserArray[0][1] = "mmoAutomated";
-//		profUserArray[0][2] = "Prof020720140740";
+		profUserArray[0][0] = "mmoAutomated+Prof020720140740@gmail.com";
+		profUserArray[0][1] = "mmoAutomated";
+		profUserArray[0][2] = "Prof020720140740";
 		return (profUserArray);
     }
 
@@ -78,7 +78,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(freeNonUSUserArray[0][0], freeNonUSUserArray[0][1], freeNonUSUserArray[0][2]  , claimTokenID);
 	}
 	
-	//@Test
+	@Test
 	public void testSignUpPaid5kUserAndCompleteEmailRegistration() throws Exception {
 		a.navigateToHomePage();
 		paid5kUserArray =  a.signUpUser("5k", "US", "N");
@@ -90,7 +90,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(paid5kUserArray[0][0], paid5kUserArray[0][1], paid5kUserArray[0][2]  , claimTokenID);
 	}
 	
-	@Test
+	//@Test
 	public void testSignUpPaidProfUserAndCompleteEmailRegistration() throws Exception {
 		a.navigateToHomePage();
 		profUserArray =  a.signUpUser("prof", "US", "N");

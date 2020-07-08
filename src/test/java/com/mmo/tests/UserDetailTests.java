@@ -24,6 +24,14 @@ public class UserDetailTests extends BaseClass {
     }
 
     @Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUp.class)
+    public void testUserVerifyProfileDetails(String userID, String userFirstName, String userSecondName) throws Exception {
+        a.login(userID);
+        a.navigateToProfilePage();
+        a.verifyProfilePage(userID, userFirstName, userSecondName);
+    }
+
+
+    //@Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUp.class)
     public void testUserUpdateCard(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.navigateToBillingPlan();

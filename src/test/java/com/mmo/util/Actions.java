@@ -123,9 +123,10 @@ public class Actions extends BaseClass{
     }
     
     
-    public void createUser(String userRole) {	
+    public String[][] createUser(String userRole) {
     	CreateUserPage cup = new CreateUserPage();
     	cup.createUser(userRole);
+    	return cup.getSubUserDetails();
     }
     
     public void verifyCreatedUser() {	
@@ -168,15 +169,14 @@ public class Actions extends BaseClass{
     	JobPage jp = new JobPage();
 		jp.downloadJobOutputFileAndCompare(outputFileName, outFileFormat);
     }
-    
-    /**
-	 * 
-	 */
-//	public void completeRegisteration(String signUpUserID, String signUpFirstName, String signUpSecondName, String claimTokenID) {
-//		EmailPage ep = new EmailPage();
-//		ep.completeRegisteration(signUpUserID, signUpFirstName, signUpSecondName, claimTokenID);
-//	}
 
+	/**
+	 *
+	 * @param signUpFreeUSUser
+	 * @param signUpFreeUSUserFirstName
+	 * @param signUpFreeUSUserSecondName
+	 * @param claimTokenID
+	 */
 	public void completeRegistration(String signUpFreeUSUser, String signUpFreeUSUserFirstName, String signUpFreeUSUserSecondName, String claimTokenID) {
 		EmailPage ep = new EmailPage();
 		ep.completeRegistration(signUpFreeUSUser, signUpFreeUSUserFirstName, signUpFreeUSUserSecondName, claimTokenID);
@@ -266,7 +266,9 @@ public class Actions extends BaseClass{
     }
 
 	public void navigateToProfilePage() {
-
+		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Profile')]");
+		u.clickByJavaScript(driver, "//a[contains(text(),'Profile')]");
+		ip.isTextPresentByXPATH(driver, "//h1", "Profile");
 	}
 
 	public void verifyProfilePage(String userID, String userFirstName, String userSecondName) {

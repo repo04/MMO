@@ -33,6 +33,7 @@ public class EmailUtils extends BaseClass {
         STARTUSINGMMO("startUsingMMO"),
         STARTUSINGGEOTAX("startUsingGeoTAX"),
         PLANCHANGE("planChange"),
+        SUBUSERS("subUsers"),
         SPAM("SPAM");
 
 
@@ -335,6 +336,39 @@ public class EmailUtils extends BaseClass {
         System.out.println("preIndex: " + preIndex);
         System.out.println("searchIndex: " + searchIndex);
         String token = html.substring(preIndex + 8, searchIndex);
+        System.out.println("token: " + token);
+        folder.close(true);
+        return token;
+    }
+
+    public String getTokenForSubUsers(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        Message email = getMessagesBySubject(emailSubject, true, 1)[0];
+        String html = getMessageContent(email);
+        System.out.println("**html**: " + html);
+        if(!html.contains("Your access t=o MapMarker has been granted. All you need to do is register with your emai=l address: " + userID))
+        {
+            u.illegalStateException("Complete your registration for subUser's using this email address is not found: "+ userID);
+        }
+
+        int	preIndex = 0;
+        if(envValue.equalsIgnoreCase("qa"))
+        {
+            preIndex = html.indexOf("toke=n=3D");
+        } else if(envValue.equalsIgnoreCase("ppd"))
+        {
+            System.out.print("****OPEN PPD URL****");
+            driver.get("https://" + xpv.getTokenValue("ppdURL"));
+        } else {
+            preIndex = html.indexOf("=oken=3D");
+        }
+
+        int	  searchIndex = preIndex + html.substring(preIndex).indexOf("\" style");
+
+        System.out.println("preIndex: " + preIndex);
+        System.out.println("searchIndex: " + searchIndex);
+        String token = html.substring(preIndex + 9, searchIndex);
         System.out.println("token: " + token);
         folder.close(true);
         return token;

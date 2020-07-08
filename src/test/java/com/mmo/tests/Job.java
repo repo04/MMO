@@ -46,12 +46,11 @@ public class Job extends BaseClass {
 
 	@BeforeClass(groups = { "prerequisite" })
 	public void testLogIn(ITestContext context) throws Exception {
-//		a.navigateToLogin();
-		//a.login("autommopb+e2eqasa@gmail.com");
-//		a.login("autommopb+automation5ksubuser@gmail.com");
+		a.navigateToLogin();
+		a.login("mmoAutomated+5k080720104238@gmail.com");
 	}
 
-	@Test(dataProvider = "defaultJobs")
+	//@Test(dataProvider = "defaultJobs")
 	public void testUploadFileConfigureAndStartGeocoding(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 			String matchMode) throws Exception {
@@ -68,7 +67,7 @@ public class Job extends BaseClass {
 //		outFileFormatList.add(outputFormat);
 	}
 	
-	@Test(dataProvider = "defaultJobDetails")
+	//@Test(dataProvider = "defaultJobDetails")
 	public void testWaitForJobToGetCompleteDownloadAndCompare(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 			String matchMode, String outFileName) throws Exception {
@@ -87,14 +86,14 @@ public class Job extends BaseClass {
 //		for (int i = 0; i < outFileNamesList.size(); i++) {
 //			a.waitforJobToGetComplete(outFileNamesList.get(i));
 //			System.out.print("****Download File Start****:" + "\n");
-//			a.downloadOutputFileAndCompare(outFileNamesList.get(i), outFileFormatList.get(i));			
+//			a.downloadOutputFileAndCompare(outFileNamesList.get(i), outFileFormatList.get(i));
 //		}
 //		a.waitforJobToGetComplete(outFileName);
 //		System.out.print("****Download File Start****:" + "\n");
 //		a.downloadOutputFileAndCompare(outFileName, outputFormat);
 	}
 
-	//@Test(dataProvider = "checkValidations")
+	@Test(dataProvider = "checkValidations")
 	public void testUploadIncorrectFilesAndCheckValidations(String inputFileName, String geocodingType, String expectedMessage) throws Exception {
 		a.navigateToDashboard();
 		a.navigateToUploadFile();

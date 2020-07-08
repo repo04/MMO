@@ -14,23 +14,27 @@ public class CreateUserPage extends BaseClass {
     private static String userEmailId;
 	private String userFirstName;
 	private String userSecondName;
-	
+	private static String[][] subUserDetails = new String[1][3];
+
 
     public void createUser(String userRole) {
-    	this.dateAndTime = u.currentDateTime();
-    	ip.isElementClickableByXpath(driver, "//button[@id='createUserBtn']", 60);
-    	this.userFirstName = "autoMMOPb";
-		
-    	switch (userRole) {
+    	ip.isElementClickableByXpath(driver, "//a[@id='btnCreateNewUser']", 60);
+		driver.findElement(By.xpath("//a[@id='btnCreateNewUser']")).click();
+		ip.isElementClickableByXpath(driver, "//select[@id='accessLevel']", 60);
+		this.userFirstName = "mmoAutomated";
+		this.dateAndTime = u.currentDateTime();
+
+		switch (userRole) {
     		case "Admin":
-    			this.userSecondName = "admin" + this.dateAndTime;
+    			this.userSecondName = "Admin" + this.dateAndTime;
     			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
+    			break;
     		default:
-    			this.userSecondName = "user" + this.dateAndTime;
+    			this.userSecondName = "User" + this.dateAndTime;
     			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");    			
     	}
     	userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
-    	driver.findElement(By.xpath("//input[@id='firstName']")).clear();
+		driver.findElement(By.xpath("//input[@id='firstName']")).clear();
 		driver.findElement(By.xpath("//input[@id='firstName']")).sendKeys(this.userFirstName);
 		driver.findElement(By.xpath("//input[@id='lastName']")).clear();
 		driver.findElement(By.xpath("//input[@id='lastName']")).sendKeys(this.userSecondName);
@@ -38,15 +42,10 @@ public class CreateUserPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@id='emailId']")).sendKeys(userEmailId);
 		driver.findElement(By.xpath("//button[@id='createUserBtn']")).click();
 		ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div", "User has been successfully created.");
+		System.out.println("SUB USER CREATED: " + userEmailId);
 	}
     
     public void verifyUserCreated() {
-    	try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
     	ip.isElementClickableByXpath(driver, "//a[contains(text(),'Users')]", 60);
     	driver.findElement(By.xpath("//a[contains(text(),'Users')]")).click();
     	ip.isElementPresentByXPATH(driver, "//div[@class='ui-table-wrapper']/table/tbody");
@@ -69,9 +68,12 @@ public class CreateUserPage extends BaseClass {
     }
     
     /**
-     * @return userName
-     */
-    public static String getUser() {
-        return userEmailId;
-    }	
+	 * @return subUserDetails
+	 */
+	public String[][] getSubUserDetails() {
+		subUserDetails[0][0] =  this.userEmailId;
+		subUserDetails[0][1] =  this.userFirstName;
+		subUserDetails[0][2] =  this.userSecondName;
+		return subUserDetails;
+	}
 }
