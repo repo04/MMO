@@ -39,9 +39,9 @@ public class SignUp extends BaseClass{
     @DataProvider(name = "Paid5kUserDetails") 	
     public static Object[][] Paid5kUserDetails(ITestContext context) throws Exception {
         System.out.println("init Paid5kUserDetails");
-//		paid5kUserArray[0][0] = "mmoAutomated+5k020720154614@gmail.com";
-//		paid5kUserArray[0][1] = "mmoAutomated";
-//		paid5kUserArray[0][2] = "5k020720154614";
+		paid5kUserArray[0][0] = "mmoAutomated+5k080720105521@gmail.com";
+		paid5kUserArray[0][1] = "mmoAutomated";
+		paid5kUserArray[0][2] = "5k080720105521";
 		return (paid5kUserArray);
     }
 	

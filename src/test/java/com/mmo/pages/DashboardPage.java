@@ -24,8 +24,24 @@ public class DashboardPage extends BaseClass{
 		ip.isTextPresentByXPATH(driver, "//h2", "You have not Geocoded any address yet. Upload file to start geocoding now.");
 		ip.isTextPresentByXPATH(driver, "//div[4]/div/div", "Got questions? Please check our detailed documentation and FAQs.");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Dashboard')]");
-		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Users')]");
-		ip.isTextPresentByXPATH(driver, "//a[@id='btnCreateNewUser']", "Create New User");
+		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Profile')]");
+		switch (userSecondName.substring(0,4)){
+			case "Admi":
+				ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Users')]");
+				ip.isElementPresentByXPATH(driver, "//a[@id='btnCreateNewUser']");
+				ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Billing & Plans')]");
+				break;
+			case "User":
+				ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Users')]");
+				ip.invisibilityOfElementByXpath(driver, "//a[@id='btnCreateNewUser']");
+				ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Billing & Plans')]");
+				break;
+			default:
+				ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Users')]");
+				ip.isElementPresentByXPATH(driver, "//a[@id='btnCreateNewUser']");
+				ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Billing & Plans')]");
+		}
+
 		ip.isTextPresentByXPATH(driver, "//button[@id='btnUploadFile']", "Upload File");
 
 		driver.findElement(By.xpath("//a[contains(text(),'documentation')]")).click();

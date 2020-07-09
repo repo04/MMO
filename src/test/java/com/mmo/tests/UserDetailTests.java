@@ -23,7 +23,7 @@ public class UserDetailTests extends BaseClass {
         a.verifyBillingPage(userSecondName);
     }
 
-    @Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUp.class)
+    //@Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUp.class)
     public void testUserVerifyProfileDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.navigateToProfilePage();
@@ -38,8 +38,15 @@ public class UserDetailTests extends BaseClass {
         a.updateCard();
     }
 
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class)
+    public void testVerifyUserDetailInUsersList(String userID, String userFirstName, String userSecondName) throws Exception {
+        a.login(userID);
+        a.navigateToUsers();
+        a.verifyUserDetailInUsersList(userID, userFirstName, userSecondName, "SubscriptionAdmin");
+    }
+
     @AfterClass()
     public void testUserLogout() throws Exception {
-        a.logOut();
+        //a.logOut();
     }
 }

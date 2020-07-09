@@ -176,7 +176,7 @@ public class JobPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@type='text']")).sendKeys(outputFileName);
 		
 		if(geocodingType.equalsIgnoreCase("forward") && outputFormat.equalsIgnoreCase("CSV")) {
-			if(! driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).isEnabled()) {
+			if(!driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).isEnabled()) {
 				System.out.print("****DROPDOWN DISABLED****: " + "\n");
 				System.out.print("****VALUE****: " + 
 						driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).getAttribute("value"));

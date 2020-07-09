@@ -105,12 +105,11 @@ public class Actions extends BaseClass{
      * Navigate to Create User Page
      */
     public void navigateToCreateUser() {
-    	ip.isElementClickableByXpath(driver, "xpath=//a[@id='btnCreateNewUser']", 60);
-    	driver.findElement(By.xpath("xpath=//a[@id='btnCreateNewUser']")).click();
+    	ip.isElementClickableByXpath(driver, "//a[@id='btnCreateNewUser']", 60);
+    	driver.findElement(By.xpath("//a[@id='btnCreateNewUser']")).click();
 		ip.isTextPresentByXPATH(driver, "//h1", "Create New User"); 
     }
-    
-    
+
     /**
      * Navigate to Billing & Plans Page
      */
@@ -121,20 +120,45 @@ public class Actions extends BaseClass{
 		ip.isTextPresentByXPATH(driver, "//h1", "Billing & Plans");
     	u.verifyCurrentUrlContains(driver, "billing");    	
     }
-    
-    
+
+	/**
+	 *
+	 */
+	public void navigateToUsers() {
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Users')]", 60);
+		driver.findElement(By.xpath("//a[contains(text(),'Users')]")).click();
+		ip.isTextPresentByXPATH(driver, "//h1", "Users");
+		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Create New User')]", 60);
+	}
+
+	/**
+	 *
+	 * @param userRole
+	 * @return
+	 */
     public String[][] createUser(String userRole) {
-    	CreateUserPage cup = new CreateUserPage();
-    	cup.createUser(userRole);
-    	return cup.getSubUserDetails();
+    	UsersPage up = new UsersPage();
+		up.createUser(userRole);
+    	return up.getSubUserDetails();
     }
-    
-    public void verifyCreatedUser() {	
-    	CreateUserPage cup = new CreateUserPage();
-    	cup.verifyUserCreated();
+
+	public void deleteUser(String userID) {
+		UsersPage up = new UsersPage();
+		up.deleteUser(userID);
+	}
+
+	/**
+	 *
+	 * @param userID
+	 * @param userFirstName
+	 * @param userSecondName
+	 * @param role
+	 */
+	public void verifyUserDetailInUsersList(String userID, String userFirstName, String userSecondName, String role) {
+    	UsersPage up = new UsersPage();
+		up.verifyUserDetailInUsersList(userID, userFirstName, userSecondName, role);
     }
-    
-    
+
     public String uploadFileConfigureAndStartJob(String inputFileName, String geocodingType, String autoDrag, String dragColumns, String dropFieldsToGeocode, String outputFields,
 			String outputFormat, String coordSystem, String country, String matchMode) {
     	JobPage jp = new JobPage();

@@ -10,16 +10,18 @@
         <parameter name="browser" value="chrome"/>
     	<parameter name="test" value="test"/>
     	<classes>
-            <!--  <class name="com.mmo.tests.Email"/>
+            <!--
+            <class name="com.mmo.tests.Email"/>
             <class name="com.mmo.tests.Home"/> 
             <class name="com.mmo.tests.Login"/> 
             <class name="com.mmo.tests.Dashboard"/>
          	<class name="com.mmo.tests.EmailTests"/>
-			<class name="com.mmo.tests.UserDetailTests"/>
 			<class name="com.mmo.tests.SignUp"/>
 			<class name="com.mmo.tests.UpgradeTests"/>
 			<class name="com.mmo.tests.AddProductTests"/>
-			<class name="com.mmo.tests.Job"/>-->
+			<class name="com.mmo.tests.Job"/>
+			<class name="com.mmo.tests.UserDetailTests"/>
+			-->
 			<class name="com.mmo.tests.CreateSubAccountTests"/>
 		</classes>
     </test>
