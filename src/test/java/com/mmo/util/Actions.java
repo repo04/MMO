@@ -136,9 +136,9 @@ public class Actions extends BaseClass{
 	 * @param userRole
 	 * @return
 	 */
-    public String[][] createUser(String userRole) {
+    public String createUser(String userType, String userRole) {
     	UsersPage up = new UsersPage();
-		up.createUser(userRole);
+		up.createUser(userType, userRole);
     	return up.getSubUserDetails();
     }
 

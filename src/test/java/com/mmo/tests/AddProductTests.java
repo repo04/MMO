@@ -52,12 +52,13 @@ public class AddProductTests extends BaseClass {
         ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
     }
 
-    @Test(dataProvider = "GeoTaxUserID")
+    @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughLoginScreenCheckAccessEmail(String userID) throws Exception {
         a.navigateToLogin();
         a.enterLoginDetailsOnly(userID);
         a.navigateToHomeAndAddProductFlowInitiated();
         a.signUpUser("free", "US", userID);
+        Thread.sleep(15);
         textInMessage = new String[2];
         textInMessage[0] = "You now have access to MapMarker.";
         textInMessage[1] = "Your registra=tion is complete. To access MapMarker " +
@@ -65,11 +66,12 @@ public class AddProductTests extends BaseClass {
         emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 
-    @Test(dataProvider = "GeoTaxUserID")
+    @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughSignUpScreenCheckAccessEmail(String userID) throws Exception {
         a.navigateToSignUpForAddProductFlow("free", userID);
         a.enterLoginDetailsOnly(userID);
         a.signUpUser("free", "US", userID);
+        Thread.sleep(15);
         textInMessage = new String[2];
         textInMessage[0] = "You now have access to MapMarker.";
         textInMessage[1] = "Your registra=tion is complete. To access MapMarker " +

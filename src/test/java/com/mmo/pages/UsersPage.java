@@ -16,19 +16,30 @@ public class UsersPage extends BaseClass {
     private static String userEmailId;
 	private String userFirstName;
 	private String userSecondName;
-	private static String[][] subUserDetails = new String[1][3];
+	private static String subUserDetails;
 
-    public void createUser(String userRole) {
+    public void createUser(String userType, String userRole) {
     	this.userFirstName = "mmoAutomated";
 		this.dateAndTime = u.currentDateTime();
 
+		if(userType.contains("FreeUS"))
+		{
+			this.userSecondName = "FreeUS";
+		}else if(userType.contains("FreeNonUS")){
+			this.userSecondName = "FreeNonUS";
+		}else if(userType.contains("5k")){
+			this.userSecondName = "5k";
+		}else{
+			this.userSecondName = "Prof";
+		}
+
 		switch (userRole) {
     		case "Admin":
-    			this.userSecondName = "Admin" + this.dateAndTime;
+    			this.userSecondName = this.userSecondName + "_Admin" + this.dateAndTime;
     			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
     			break;
     		default:
-    			this.userSecondName = "User" + this.dateAndTime;
+    			this.userSecondName = this.userSecondName + "_User" + this.dateAndTime;
     			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");    			
     	}
     	userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
@@ -51,9 +62,9 @@ public class UsersPage extends BaseClass {
     	int x = 1;
     	for (; x < TotalRowsList.size()+1;) {
     		try {
-				ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[1]", userFirstName + " " + userSecondName, 10);
-    			ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 10);
-	    		ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[4]", role, 10);
+				ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[1]", userFirstName + " " + userSecondName, 5);
+    			ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 5);
+	    		ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[4]", role, 5);
 	    		System.out.println("found at x : "+ x);
 	    		break;
 	    	}
@@ -70,7 +81,6 @@ public class UsersPage extends BaseClass {
 			ip.isElementClickableByXpath(driver, "//tr["+ x + "]/td[5]/a/i", 60);
 		}
     }
-
 
 	public void deleteUser(String userID) {
 		ip.isElementPresentByXPATH(driver, "//tbody[@class='ui-table-tbody']");
@@ -114,10 +124,8 @@ public class UsersPage extends BaseClass {
     /**
 	 * @return subUserDetails
 	 */
-	public String[][] getSubUserDetails() {
-		subUserDetails[0][0] =  this.userEmailId;
-		subUserDetails[0][1] =  this.userFirstName;
-		subUserDetails[0][2] =  this.userSecondName;
+	public String getSubUserDetails() {
+		subUserDetails =  this.userEmailId;
 		return subUserDetails;
 	}
 }

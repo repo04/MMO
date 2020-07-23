@@ -16,8 +16,8 @@ public class Job extends BaseClass {
 
 	String[][] outFileNamesArray = new String[2][1];
 	private Actions a = new Actions();
-//	ArrayList<String> outFileNamesList = new ArrayList<String>();
-//	ArrayList<String> outFileFormatList = new ArrayList<String>();
+	ArrayList<String> outFileNamesList = new ArrayList<String>();
+	ArrayList<String> outFileFormatList = new ArrayList<String>();
 	int x = 0;
 	
 	@DataProvider(name = "defaultJobs")
@@ -50,28 +50,28 @@ public class Job extends BaseClass {
 		a.login("mmoAutomated+5k080720104238@gmail.com");
 	}
 
-	//@Test(dataProvider = "defaultJobs")
+	@Test(dataProvider = "defaultJobs")
 	public void testUploadFileConfigureAndStartGeocoding(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 			String matchMode) throws Exception {
-//		a.navigateToDashboard();
-//		a.navigateToUploadFile();
-//		outFileNamesArray[x][0] = a.uploadFileConfigureAndStartJob(inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-//				outputFields, outputFormat, coordSystem, country, matchMode);
+		a.navigateToDashboard();
+		a.navigateToUploadFile();
+		outFileNamesArray[x][0] = a.uploadFileConfigureAndStartJob(inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
+				outputFields, outputFormat, coordSystem, country, matchMode);
 		outFileNamesArray[x][0] = u.currentDateTime();
 		System.out.println("Time: " + outFileNamesArray[x][0] + "\n");
 		Thread.sleep(1000);
 		x++;
 //		return new Object[][]{{inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
 //			outputFields, outputFormat, coordSystem, country, matchMode, outFileNamesArray[0][0]}};
-//		outFileFormatList.add(outputFormat);
+		outFileFormatList.add(outputFormat);
 	}
 	
-	//@Test(dataProvider = "defaultJobDetails")
+	@Test(dataProvider = "defaultJobDetails")
 	public void testWaitForJobToGetCompleteDownloadAndCompare(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 			String matchMode, String outFileName) throws Exception {
-		//a.navigateToDashboard();
+		a.navigateToDashboard();
 		System.out.println("File size: " + inputFileName + "\n");
 		System.out.println("File size: " + geocodingType + "\n");
 		System.out.println("File size: " + autoDrag + "\n");
@@ -83,14 +83,14 @@ public class Job extends BaseClass {
 		System.out.println("File size: " + country + "\n");
 		System.out.println("File size: " + matchMode + "\n");
 		System.out.println("File size: " + outFileName + "\n");
-//		for (int i = 0; i < outFileNamesList.size(); i++) {
-//			a.waitforJobToGetComplete(outFileNamesList.get(i));
-//			System.out.print("****Download File Start****:" + "\n");
-//			a.downloadOutputFileAndCompare(outFileNamesList.get(i), outFileFormatList.get(i));
-//		}
-//		a.waitforJobToGetComplete(outFileName);
-//		System.out.print("****Download File Start****:" + "\n");
-//		a.downloadOutputFileAndCompare(outFileName, outputFormat);
+		for (int i = 0; i < outFileNamesList.size(); i++) {
+			a.waitforJobToGetComplete(outFileNamesList.get(i));
+			System.out.print("****Download File Start****:" + "\n");
+			a.downloadOutputFileAndCompare(outFileNamesList.get(i), outFileFormatList.get(i));
+		}
+		a.waitforJobToGetComplete(outFileName);
+		System.out.print("****Download File Start****:" + "\n");
+		a.downloadOutputFileAndCompare(outFileName, outputFormat);
 	}
 
 	@Test(dataProvider = "checkValidations")

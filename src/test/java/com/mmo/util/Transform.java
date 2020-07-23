@@ -27,7 +27,26 @@ public class Transform implements IAnnotationTransformer {
             DependentMethods[0] = "com.mmo.tests.Job.testWaitForJobToGetCompleteDownloadAndCompare";
             annotation.setDependsOnMethods(DependentMethods);
         }
-		
-	}
 
+//        if ("testUserUpdateAndVerifyCardDetails".equals(testMethod.getName())) {
+//            System.out.println("Inside testUserUpdateAndVerifyCardDetails");
+//            DependentMethods = new String[1];
+//            DependentMethods[0] = "com.mmo.tests.UserDetailTests.testUserVerifyDetails";
+//            annotation.setDependsOnMethods(DependentMethods);
+//        }
+
+        if ("testAdminCreateAdmin".equals(testMethod.getName())) {
+            System.out.println("Inside testAdminCreateAdmin");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testSubscriptionAdminCreateAdmin";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testAdminCreateUser".equals(testMethod.getName())) {
+            System.out.println("Inside testAdminCreateUser");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testSubscriptionAdminCreateAdmin";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+	}
 }

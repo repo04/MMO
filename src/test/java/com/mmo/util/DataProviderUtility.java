@@ -1,4 +1,5 @@
 package com.mmo.util;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -61,7 +62,7 @@ public class DataProviderUtility {
 
         for (Object[] array : arrays) {
             for (int i = 0; i < array.length; i++) {
-            	mergedArray[index++] = array[i];
+                mergedArray[index++] = array[i];
             }
         }
 
@@ -69,16 +70,15 @@ public class DataProviderUtility {
     }
 
     public static Object[][] cartesianProviderFrom1(Object[][] dataProviderData1, Object[][] dataProviderData2) {
-        List<Object[]> data = Lists.newArrayList();
         Object[][] c = new Object[dataProviderData1.length][11];
 
         System.out.println("c len: " + c.length);
 
         for (int i = 0; i < dataProviderData1.length; i++) {
             for (int j = 0; j < 11; j++) {
-                if(j < 10) {
+                if (j < 10) {
                     c[i][j] = dataProviderData1[i][j];
-                }else {
+                } else {
                     c[i][j] = dataProviderData2[i][0];
                 }
             }
@@ -91,5 +91,41 @@ public class DataProviderUtility {
             System.out.println(Arrays.toString(row));
 
         return c;
+    }
+
+    public static Object[][] multiIterationData(Object[][]... dataProviderData) {
+        Object[][] tabArray;
+        tabArray = new String[dataProviderData.length][3];
+
+        int ci = 0;
+        for (Object[][] object : dataProviderData) {
+            for (int j = 0; j < 3; j++) {
+                tabArray[ci][j] = object[0][j];
+            }
+            ci++;
+        }
+        return tabArray;
+    }
+
+    // Appending multidimensional array vertically
+    public static Object[][] multiIterationData2(Object[][]... dataProviderData) {
+        int x = 0;
+        for (Object[] object : dataProviderData) {
+            x = x + object.length;
+        }
+        Object[][] tabArray;
+
+        tabArray = new String[x][3];
+
+        int ci = 0;
+        for (Object[][] object : dataProviderData) {
+            for (int i = 0; i < 4; i++, ci++) {
+                int cj = 0;
+                for (int j = 0; j < 3; j++, cj++) {
+                    tabArray[ci][cj] = object[i][j];
+                }
+            }
+        }
+        return tabArray;
     }
 }

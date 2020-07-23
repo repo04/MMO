@@ -52,7 +52,7 @@ public class BaseClass {
      *
      * @throws Exception
      */
-    @BeforeTest
+    @BeforeTest(groups = {"prerequisite"})
     @Parameters({"env", "browser", "test"})
     public void setUp(String env, String browser, String test) throws Exception {
 
@@ -67,8 +67,8 @@ public class BaseClass {
         System.out.println("test: " + testValue);
         defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
 
-//        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
-//                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
+                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
         switch (browser) {
             case "chrome":
@@ -112,7 +112,7 @@ public class BaseClass {
             	FirefoxOptions option = new FirefoxOptions();
             	option.setProfile(profile);
             	driver = new FirefoxDriver(option);
-                driver.manage().window().maximize();
+            	driver.manage().window().maximize();
                 Reporter.log("Browser: " + browser);                
         }
 
@@ -125,9 +125,9 @@ public class BaseClass {
      *
      * @throws Exception
      */
-    @AfterTest(alwaysRun = true)
+    @AfterTest(alwaysRun = true, groups = {"prerequisite"})
     public void tearDown() throws Exception {
-//        EmailUtils.storeClose();
+        EmailUtils.storeClose();
 //        driver.quit();
     }
 }

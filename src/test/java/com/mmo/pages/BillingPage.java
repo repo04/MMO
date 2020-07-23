@@ -14,8 +14,8 @@ public class BillingPage extends BaseClass {
     public void changePlan(String userID, String userFirstName, String userSecondName, String plan) {
         ip.isTextPresentByXPATH(driver, "//h1", "Billing & Plans");
         ip.isTextPresentByXPATH(driver, "//h2", "Plan Subscription");
-        ip.isElementClickableByXpath(driver, "//div[3]/button", 60);
-        driver.findElement(By.xpath("//div[3]/button")).click();
+        ip.isElementClickableByXpath(driver, "//button[contains(text(),'Upgrade Plan')]", 60);
+        driver.findElement(By.xpath("//button[contains(text(),'Upgrade Plan')]")).click();
         ip.isTextPresentByXPATH(driver, "//ngb-modal-window/div/div/div/h1", "MapMarker pricing plans");
 
         switch(plan){
@@ -59,8 +59,8 @@ public class BillingPage extends BaseClass {
                 a.navigateToBillingPlan();
                 ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Free Trial");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "2,500 geocodes");
-                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "0");
-                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "0");
+//                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "0");
+//                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "0");
                 ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
                 break;
             case "5k":
@@ -90,6 +90,7 @@ public class BillingPage extends BaseClass {
         ip.isTextPresentByXPATH(driver, "//th[5]", "Paid Amount");
 
         if(userSecondName.substring(0,4).contentEquals("Prof") || userSecondName.substring(0,2).contentEquals("5k")){
+            ip.isElementPresentByXPATH(driver, "//button[contains(text(),'Upgrade Plan')]");
             ip.isTextPresentByXPATH(driver, "//div[3]/h2", "Billing Info");
             ip.isTextPresentByXPATH(driver, "//label", "Name on the card");
             Assert.assertEquals(driver.findElement(By.xpath("//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]")).getAttribute("ng-reflect-model"),"CARD NAME", "Card Name does not match");
@@ -104,32 +105,39 @@ public class BillingPage extends BaseClass {
                     "NH", "State does not match");
         }
 
+        if(userSecondName.contains("FreeNonUS")){
+            ip.invisibilityOfElementByXpath(driver, "//button[contains(text(),'Upgrade Plan')]");
+        }
+
         switch(userSecondName.substring(0,4)){
             case "Free":
+                ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
+                ip.invisibilityOfElementByXpathWithText(driver, "//div[3]/h2", "Billing Info");
                 ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Free Trial");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "2,500 geocodes");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "0");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[5]", "0");
-                ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
 
                 driver.findElement(By.xpath("//a[contains(text(),'View')]")).click();
 
                 ip.isTextPresentByXPATH(driver, "//h2[@id='modal-basic-title']", "Invoice");
-                ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr/td/h1",
-                        "Your Pitney Bowes Software Statement");
-                ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr[2]/td/table/tbody/tr/td",
-                        "$ 0.00");
-                ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr[2]/td/table[2]/tbody/tr/td",
-                        "GC Free Trial (Recurring Plan Charge)");
-                ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr[2]/td/table[2]/tbody/tr/td[2]",
-                        "0.00");
+                if(!userSecondName.contains("NonUS")){
+                    ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr/td/h1",
+                            "Your Pitney Bowes Software Statement");
+                    ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr[2]/td/table/tbody/tr/td",
+                            "$ 0.00");
+                    ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr[2]/td/table[2]/tbody/tr/td",
+                            "GC Free Trial (Recurring Plan Charge)");
+                    ip.isTextPresentByXPATH(driver, "//div[@id='content']/table[2]/tbody/tr[2]/td/table[2]/tbody/tr/td[2]",
+                            "0.00");
+                }
                 break;
             case "Prof":
+                ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
                 ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Professional");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "300,000 geocodes");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "2700");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[5]", "2700");
-                ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
 
                 driver.findElement(By.xpath("//a[contains(text(),'View')]")).click();
 
@@ -148,13 +156,13 @@ public class BillingPage extends BaseClass {
                         "$ 0.00");
                 break;
             default :
+                ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
                 ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Pay as you go 5k");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "5,000 geocodes");
                 ip.isTextPresentByXPATH(driver, "//div[3]/h2", "Billing Info");
                 ip.isTextPresentByXPATH(driver, "//label", "Name on the card");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "50");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[5]", "50");
-                ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
 
                 driver.findElement(By.xpath("//a[contains(text(),'View')]")).click();
 
@@ -200,9 +208,19 @@ public class BillingPage extends BaseClass {
         driver.findElement(By.xpath("//input[@id='postalCode']")).clear();
         driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
         driver.switchTo().defaultContent();
-        driver.findElement(By.xpath("//button[@type='submit']")).click();
+        //driver.findElement(By.xpath("//button[@type='submit']")).click();
+        u.clickByJavaScript(driver, "//button[@type='submit']");
         u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
         ip.isElementPresentByXPATH(driver, "//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]");
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]")).getAttribute("ng-reflect-model"), newCardName, "Card Name does not match");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='inner-addon right-addon']/input[@class='form-control ng-untouched ng-pristine']")).getAttribute("ng-reflect-model"),"**** **** **** 1111", "Card Number does not match");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='row']/div[2]/div[1]/input[1]")).getAttribute("ng-reflect-model"),
+                "1/2021", "Exp date does not match");
+        Assert.assertEquals(driver.findElement(By.xpath("//body[@class='bg-white']//div[@class='container fullview']//div//div//div[3]//div[1]//div[1]//input[1]")).getAttribute("ng-reflect-model"),"DERRY STREETS", "Street does not match");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='col-md-3']//input[@class='form-control ng-untouched ng-pristine']")).getAttribute("ng-reflect-model"),"DERRY", "City does not match");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='row']//div[3]//div[1]//input[1]")).getAttribute("ng-reflect-model"),
+                "03038", "PostCode does not match");
+        Assert.assertEquals(driver.findElement(By.xpath("//select[@class='form-control']/option")).getText(),
+                "NH", "State does not match");
     }
 }
