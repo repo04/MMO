@@ -18,16 +18,17 @@
 		<classes>
             <!--
             <class name="com.mmo.tests.SignUp"/>
+			<class name="com.mmo.tests.SubscriptionAdminVerifyDetailTests"/>
+			<class name="com.mmo.tests.CreateSubAccountTests"/>
+			<class name="com.mmo.tests.SubUsersVerifyDetailTests"/>
 			<class name="com.mmo.tests.AddProductTests"/>
 			<class name="com.mmo.tests.Dashboard"/>
          	<class name="com.mmo.tests.EmailTests"/>
 			<class name="com.mmo.tests.Job"/>
-			<class name="com.mmo.tests.SubscriptionUsersVerifyDetailTests"/>
-			<class name="com.mmo.tests.CreateSubAccountTests"/>
-			<class name="com.mmo.tests.SubUsersVerifyDetailTests"/>
 			<class name="com.mmo.tests.UpgradeTests"/>
 			-->
-			<class name="com.mmo.tests.SubUsersVerifyDetailTests"/>
+			<class name="com.mmo.tests.SignUp"/>
+			<class name="com.mmo.tests.SubscriptionAdminVerifyDetailTests"/>
 		</classes>
     </test>
 </suite>

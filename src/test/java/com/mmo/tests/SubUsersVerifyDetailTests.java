@@ -16,7 +16,7 @@ public class SubUsersVerifyDetailTests extends BaseClass {
     }
 
     @Test(dataProvider = "AllAdminDetails", dataProviderClass = CreateSubAccountTests.class, groups = {"regressionSuite"})
-    public void testAdminUserVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
+    public void testAdminVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
         a.navigateToProfilePage();

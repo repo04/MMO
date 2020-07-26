@@ -12,21 +12,19 @@ import org.testng.annotations.Test;
 
 public class AddProductTests extends BaseClass {
     private String[] textInMessage;
-    static String[][] geoTaxUserDetailsArray = new String[1][3];
+    static String geoTaxUserDetails;
     static String[][] geoTaxUserIDArray = new String[1][1];
     private Actions a = new Actions();
 
     private void testSignUpGeoTaxUserAndCompleteEmailRegistration() throws Exception {
         a.navigateToGeoTaxPage();
-        geoTaxUserDetailsArray =  a.signUpGeoTaxUser();
-        geoTaxUserIDArray[0][0] = geoTaxUserDetailsArray[0][0];
-        System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserIDArray[0][0]);
-        Reporter.log("geoTaxUserID: " + geoTaxUserDetailsArray[0][0], true);
-        Reporter.log("geoTaxUserFirstName: " + geoTaxUserDetailsArray[0][1], true);
-        Reporter.log("geoTaxUserSecondName: " + geoTaxUserDetailsArray[0][2], true);
+        geoTaxUserDetails =  a.signUpGeoTaxUser();
+        geoTaxUserIDArray[0][0] = geoTaxUserDetails;
+        System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserDetails);
+        Reporter.log("geoTaxUserID: " + geoTaxUserDetails, true);
         Thread.sleep(10000);
-        String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", geoTaxUserDetailsArray[0][0], EmailUtils.EmailFolder.STARTUSINGGEOTAX);
-        a.completeRegistration(geoTaxUserDetailsArray[0][0], geoTaxUserDetailsArray[0][1], geoTaxUserDetailsArray[0][2]  , claimTokenID);
+        String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", geoTaxUserDetails, EmailUtils.EmailFolder.STARTUSINGGEOTAX);
+        a.completeRegistration(geoTaxUserDetails, u.getFirstName(geoTaxUserDetails), u.getSecondName(geoTaxUserDetails), claimTokenID);
 
         if(envValue.equalsIgnoreCase("qa"))
         {
@@ -46,8 +44,9 @@ public class AddProductTests extends BaseClass {
         return geoTaxUserIDArray;
     }
 
-    @AfterMethod
+    @AfterMethod(groups = {"prerequisite"})
     public void logOut() {
+        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("linkToLogOut"));
         u.clickByJavaScript(driver, xpv.getTokenValue("linkToLogOut"));
         ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
     }
@@ -56,7 +55,7 @@ public class AddProductTests extends BaseClass {
     public void testAddProductFlowThroughLoginScreenCheckAccessEmail(String userID) throws Exception {
         a.navigateToLogin();
         a.enterLoginDetailsOnly(userID);
-        a.navigateToHomeAndAddProductFlowInitiated();
+        a.navigateToHomeAndVerifyAddProductFlowInitiated();
         a.signUpUser("free", "US", userID);
         Thread.sleep(15);
         textInMessage = new String[2];

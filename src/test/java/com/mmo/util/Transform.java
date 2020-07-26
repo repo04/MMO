@@ -28,12 +28,42 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-//        if ("testUserUpdateAndVerifyCardDetails".equals(testMethod.getName())) {
-//            System.out.println("Inside testUserUpdateAndVerifyCardDetails");
-//            DependentMethods = new String[1];
-//            DependentMethods[0] = "com.mmo.tests.UserDetailTests.testUserVerifyDetails";
-//            annotation.setDependsOnMethods(DependentMethods);
-//        }
+        if ("testSubscriptionAdminVerifyDetails".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminVerifyDetails");
+            DependentMethods = new String[2];
+            DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
+//            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
+//            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testSubscriptionAdminUpdateAndVerifyCardDetails".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminUpdateAndVerifyCardDetails");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.SubscriptionAdminVerifyDetailTests.testSubscriptionAdminVerifyDetails";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testSubscriptionAdminCreateAdmin".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminCreateAdmin");
+            DependentMethods = new String[4];
+            DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
+            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
+            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testSubscriptionAdminCreateUser".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminCreateUser");
+            DependentMethods = new String[4];
+            DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
+            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
+            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
 
         if ("testAdminCreateAdmin".equals(testMethod.getName())) {
             System.out.println("Inside testAdminCreateAdmin");
@@ -46,6 +76,20 @@ public class Transform implements IAnnotationTransformer {
             System.out.println("Inside testAdminCreateUser");
             DependentMethods = new String[1];
             DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testSubscriptionAdminCreateAdmin";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testAdminVerifyDetails".equals(testMethod.getName())) {
+            System.out.println("Inside testAdminVerifyDetails");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testAdminCreateAdmin";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testUserVerifyDetails".equals(testMethod.getName())) {
+            System.out.println("Inside testUserVerifyDetails");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testAdminCreateUser";
             annotation.setDependsOnMethods(DependentMethods);
         }
 	}

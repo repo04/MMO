@@ -93,9 +93,8 @@ public class DataProviderUtility {
         return c;
     }
 
-    public static Object[][] multiIterationData(Object[][]... dataProviderData) {
-        Object[][] tabArray;
-        tabArray = new String[dataProviderData.length][3];
+    public static Object[][] append1DArrayVertically(Object[][]... dataProviderData) {
+        Object[][] tabArray = new String[dataProviderData.length][3];
 
         int ci = 0;
         for (Object[][] object : dataProviderData) {
@@ -107,11 +106,13 @@ public class DataProviderUtility {
         return tabArray;
     }
 
-    // Appending multidimensional array vertically
-    public static Object[][] multiIterationData2(Object[][]... dataProviderData) {
+    // Append 2D Array Vertically
+    public static Object[][] append2DArrayVertically(Object[][]... dataProviderData) {
         int x = 0;
+        int y = 0;
         for (Object[] object : dataProviderData) {
             x = x + object.length;
+            y =  object.length;
         }
         Object[][] tabArray;
 
@@ -119,13 +120,21 @@ public class DataProviderUtility {
 
         int ci = 0;
         for (Object[][] object : dataProviderData) {
-            for (int i = 0; i < 4; i++, ci++) {
+            for (int i = 0; i < y; i++, ci++) {
                 int cj = 0;
                 for (int j = 0; j < 3; j++, cj++) {
                     tabArray[ci][cj] = object[i][j];
+                    //System.out.println("["+ci+"]["+cj+"]: " + tabArray[ci][cj].toString() +"\n");
                 }
             }
         }
         return tabArray;
     }
+
+    /*for (int i = 0; i < allSA.length; i++) { //this equals to the row in our matrix.
+        for (int j = 0; j < allSA[i].length; j++) { //this equals to the column in each row.
+            System.out.print(allSA[i][j] + " ");
+        }
+        System.out.println(); //change line on console as row comes to end in the matrix.
+    }*/
 }

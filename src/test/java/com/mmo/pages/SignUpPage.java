@@ -15,9 +15,9 @@ import com.mmo.util.BaseClass;
 public class SignUpPage extends BaseClass{
 
 	private static String[][] signUpDetails = new String[1][3];
-	private String userEmailId;
-	private String userFirstName;
-	private String userSecondName;
+	private static String userEmailId;
+	private static String userFirstName;
+	private static String userSecondName;
 	private String dateAndTime;
 	public Actions a = new Actions();
 
@@ -30,9 +30,12 @@ public class SignUpPage extends BaseClass{
 		if(!region.equalsIgnoreCase("US")) {
 			this.userFirstName = "mmoAutomated";
 			this.userSecondName = "FreeNonUS" + this.dateAndTime;
+			ip.isElementClickableByXpath(driver, "//input[@id='zip']", 60);
+			driver.findElement(By.xpath("//input[@id='zip']")).sendKeys("1234");
 			ip.isElementClickableByXpath(driver, "//select[@id='regionChangeDropdown']", 60);
 			new Select(driver.findElement(By.xpath("//select[@id='regionChangeDropdown']"))).selectByVisibleText("Asia Pacific");
 			ip.isElementClickableByXpath(driver, "//select[@id='localeChangeDropdown']", 60);
+			ip.isElementPresentByXPATH(driver, "//select[@id='localeChangeDropdown']//option[contains(text(),'Australia')]");
 			new Select(driver.findElement(By.xpath("//select[@id='localeChangeDropdown']"))).selectByVisibleText("Australia");
 			ip.isElementClickableByXpath(driver, "//input[@id='address1']", 60);
 			driver.findElement(By.xpath("//input[@id='address1']")).clear();
@@ -48,6 +51,8 @@ public class SignUpPage extends BaseClass{
 			assertEquals(u.getFirstSelectedOptionFromSelect(driver, "//select[@id='stateselectbox']"), "NSW - New South Wales");
 		}
 		else {
+			ip.isElementClickableByXpath(driver, "//input[@id='zip']", 60);
+			driver.findElement(By.xpath("//input[@id='zip']")).sendKeys("1234");
 			ip.isElementClickableByXpath(driver, "//select[@id='regionChangeDropdown']", 60);
 			new Select(driver.findElement(By.xpath("//select[@id='regionChangeDropdown']"))).selectByVisibleText("North, Central and South America");
 			ip.isElementClickableByXpath(driver, "//select[@id='localeChangeDropdown']", 60);
@@ -244,10 +249,7 @@ public class SignUpPage extends BaseClass{
 	/**
 	 * @return userDetails
 	 */
-	public String[][] getUserDetails() {
-		signUpDetails[0][0] =  this.userEmailId;
-		signUpDetails[0][1] =  this.userFirstName;
-		signUpDetails[0][2] =  this.userSecondName;
-		return signUpDetails;
+	public String getUserDetails() {
+		return this.userEmailId;
 	}
 }

@@ -44,7 +44,7 @@ public class Actions extends BaseClass{
 	 * @param region
 	 * @return
 	 */
-	public String[][] signUpUser(String plan, String region, String addProductFlow) {
+	public String signUpUser(String plan, String region, String addProductFlow) {
 		SignUpPage su = new SignUpPage();
 		su.signUpUser(plan, region, addProductFlow);
 		return su.getUserDetails();
@@ -59,7 +59,7 @@ public class Actions extends BaseClass{
 	 *
 	 * @return
 	 */
-	public String[][] signUpGeoTaxUser() {
+	public String signUpGeoTaxUser() {
 		SignUpPage su = new SignUpPage();
 		su.signUpGeoTaxUser();
 		return su.getUserDetails();
@@ -269,7 +269,7 @@ public class Actions extends BaseClass{
 		lp.enterLoginDetailsOnly(userID);
 	}
 
-	public void navigateToHomeAndAddProductFlowInitiated() {
+	public void navigateToHomeAndVerifyAddProductFlowInitiated() {
 		ip.isTitlePresent(driver, "MapMarker");
 		ip.isURLContains(driver, "addproductscroll");
 	}

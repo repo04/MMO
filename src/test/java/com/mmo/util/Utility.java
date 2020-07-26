@@ -614,9 +614,14 @@ public class Utility {
 
 	public void checkFieldsDraggedAutomatically() {
 		// TODO Auto-generated method stub
-		
 	}
 
+	public String getFirstName(String userID) {
+		return userID.substring(0, userID.indexOf("+"));
+	}
 
+	public String getSecondName(String userID) {
+		return userID.substring(userID.indexOf("+") + 1, userID.indexOf("@"));
+	}
 
 }

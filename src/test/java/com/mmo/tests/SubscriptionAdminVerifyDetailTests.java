@@ -2,25 +2,21 @@ package com.mmo.tests;
 
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
-import com.mmo.util.DataProviderUtility;
-import org.testng.ITestContext;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-public class SubscriptionUsersVerifyDetailTests extends BaseClass {
+public class SubscriptionAdminVerifyDetailTests extends BaseClass {
 
     Actions a = new Actions();
 
     @BeforeClass(groups = {"prerequisite"})
-    public void testVerifyUserDetailsNavigate() throws Exception {
+    public void testSubscriptionUsersVerifyDetailsNavigate() throws Exception {
         a.navigateToHomePage();
         a.navigateToLogin();
     }
 
-    @Test(dataProvider = "AllUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
-    public void testSubscriptionUserVerifyDetailTest(String userID, String userFirstName, String userSecondName) throws Exception {
+    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    public void testSubscriptionAdminVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
         a.navigateToProfilePage();
@@ -32,9 +28,8 @@ public class SubscriptionUsersVerifyDetailTests extends BaseClass {
         a.logOut();
     }
 
-
-    @Test(dataProvider = "PaidUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
-    public void testUserUpdateAndVerifyCardDetails(String userID, String userFirstName, String userSecondName) throws Exception {
+    @Test(dataProvider = "AllPaidSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    public void testSubscriptionAdminUpdateAndVerifyCardDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.navigateToBillingPlan();
         a.updateCard();
