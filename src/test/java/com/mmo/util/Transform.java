@@ -30,11 +30,11 @@ public class Transform implements IAnnotationTransformer {
 
         if ("testSubscriptionAdminVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyDetails");
-            DependentMethods = new String[2];
+            DependentMethods = new String[4];
             DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
             DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
-//            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
-//            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
+            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
+            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 

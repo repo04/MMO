@@ -10,7 +10,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 
-public class AddProductTests extends BaseClass {
+public class AddProductFlowTests extends BaseClass {
     private String[] textInMessage;
     static String geoTaxUserDetails;
     static String[][] geoTaxUserIDArray = new String[1][1];

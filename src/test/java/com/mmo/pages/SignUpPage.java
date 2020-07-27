@@ -31,9 +31,9 @@ public class SignUpPage extends BaseClass{
 			this.userFirstName = "mmoAutomated";
 			this.userSecondName = "FreeNonUS" + this.dateAndTime;
 			ip.isElementClickableByXpath(driver, "//input[@id='zip']", 60);
-			driver.findElement(By.xpath("//input[@id='zip']")).sendKeys("1234");
 			ip.isElementClickableByXpath(driver, "//select[@id='regionChangeDropdown']", 60);
 			new Select(driver.findElement(By.xpath("//select[@id='regionChangeDropdown']"))).selectByVisibleText("Asia Pacific");
+			driver.findElement(By.xpath("//input[@id='zip']")).sendKeys("1234");
 			ip.isElementClickableByXpath(driver, "//select[@id='localeChangeDropdown']", 60);
 			ip.isElementPresentByXPATH(driver, "//select[@id='localeChangeDropdown']//option[contains(text(),'Australia')]");
 			new Select(driver.findElement(By.xpath("//select[@id='localeChangeDropdown']"))).selectByVisibleText("Australia");

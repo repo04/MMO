@@ -30,12 +30,19 @@ public class Actions extends BaseClass{
 	/**
 	 * 
 	 */
-	public void home() {
-		FooterPage fp = new FooterPage();
-		fp.verifyFooter();
-		
+	public void verifyHomePage() {
 		HomePage hp = new HomePage();
 		hp.verifyHomePage();
+	}
+
+	public void verifyFooters() {
+		FooterPage fp = new FooterPage();
+		fp.verifyFooters();
+	}
+
+	public void verifyLoginPageFooters() {
+		FooterPage fp = new FooterPage();
+		fp.verifyLoginPageFooters();
 	}
 
 	/**
@@ -250,7 +257,7 @@ public class Actions extends BaseClass{
 		{
 			System.out.print("****OPEN PPD URL****");
 			driver.get("https://" + xpv.getTokenValue("ppdURL"));
-			loginURL = "login-qa";
+			loginURL = "login-ppd.saas.precisely.com";
 		} else {
 			System.out.print("****OPEN PROD URL****");
 			driver.get("https://" + xpv.getTokenValue("prodURL"));

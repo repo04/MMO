@@ -15,18 +15,22 @@ public class LoginPage extends BaseClass {
      * 
      */
     public void verifyLoginPage() {
-    	ip.isTitlePresent(driver, "Precisely");
-    	ip.isElementClickableByXpath(driver, "//html/body/app-root/div/app-login/div/a", 60);
-		driver.findElement(By.xpath("//html/body/app-root/div/app-login/div/a")).click();
-		ip.isTitlePresent(driver, "Precisely - Trust your data. Build your possibilities.");
-		driver.navigate().back();
-		ip.isTitlePresent(driver, "Precisely");
+    	ip.isTitlePresent(driver, "MapMarker");
+//        ip.isElementClickableByXpath(driver, "//a[@class='signin-logo d-block mt-2 mb-4']", 60);
+//		  driver.findElement(By.xpath("//a[@class='signin-logo d-block mt-2 mb-4']")).click();
+//        u.verifyWindowTitle(driver, "Precisely - Trust your data. Build your possibilities.", ip);
+//        driver.navigate().back();
+//        ip.isTitlePresent(driver, "MapMarker");
     	ip.isTextPresentByXPATH(driver, "//h1", "MapMarker");
-		ip.isElementPresentByXPATH(driver, "//div[2]/label");
-		assertEquals(driver.findElement(By.xpath("//label/span")).getText(), "Remember me");
-		assertEquals(driver.findElement(By.xpath("//p/a")).getText(), "Forgot your password?");
-		assertEquals(driver.findElement(By.xpath("//div/div/label")).getText(), "Not a registered user?");
-		assertEquals(driver.findElement(By.xpath("//div/div/div/a")).getText(), "Sign up now");
+    	ip.isElementPresentByXPATH(driver, "//div[2]/label");
+        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInUserName"));
+        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInPassword"));
+        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInLoginButton"));
+        ip.isTextPresentByXPATH(driver, "//label/span", "Remember me", 10);
+        ip.isTextPresentByXPATH(driver, "//p/a", "Forgot your password?", 10);
+        ip.isTextPresentByXPATH(driver, "//div/div/label", "Not a registered user?", 10);
+        ip.isTextPresentByXPATH(driver, "//div/div/div/a", "Sign up now", 10);
+        ip.isElementPresentByXPATH(driver, "//select[@id='localeChangeDropdown']");
     }
     
     /**
