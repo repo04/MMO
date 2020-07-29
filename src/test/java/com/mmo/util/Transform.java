@@ -92,5 +92,12 @@ public class Transform implements IAnnotationTransformer {
             DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testAdminCreateUser";
             annotation.setDependsOnMethods(DependentMethods);
         }
-	}
+
+        if ("testDegrade5kToFreePlanAndCheckEmail".equals(testMethod.getName())) {
+            System.out.println("Inside testDegrade5kToFreePlanAndCheckEmail");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.UpgradeTests.testUpgradeFreeTo5kPlan";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+    }
 }

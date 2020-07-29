@@ -10,7 +10,7 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
     Actions a = new Actions();
     private String downloadDefaultTemplates[] = new String[6];
 
-    @Test(groups = {"prerequisite"})
+    @BeforeClass(groups = {"prerequisite"})
     public void testSubscriptionAdminNavigateAndVerifyLoginPage() throws Exception {
         a.navigateToHomePage();
         a.navigateToLogin();
@@ -18,7 +18,7 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
         a.verifyLoginPageFooters();
     }
 
-    //@Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
@@ -43,7 +43,7 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
         a.logOut();
     }
 
-    //@Test(dataProvider = "AllPaidSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "AllPaidSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminUpdateAndVerifyCardDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.navigateToBillingPlan();

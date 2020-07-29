@@ -61,25 +61,25 @@ public class BillingPage extends BaseClass {
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "2,500 geocodes");
 //                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "0");
 //                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "0");
-                ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
+//                ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
                 break;
             case "5k":
                 Assert.assertEquals(text,"0 successful geocodes / 5,000 geocodes", "Geocodes not matched");
                 a.navigateToBillingPlan();
                 ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Pay as you go 5k");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "5,000 geocodes");
-                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "50");
-                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "50");
-                ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
+//                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "50");
+//                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "50");
+//                ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
                 break;
             case "Prof":
                 Assert.assertEquals(text,"0 successful geocodes / 300,000 geocodes", "Geocodes not matched");
                 a.navigateToBillingPlan();
                 ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Professional");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "300,000 geocodes");
-                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "2700");
-                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "2700");
-                ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
+//                ip.isTextPresentByXPATH(driver, "//tr[2]/td[4]", "2700");
+//                ip.isTextPresentByXPATH(driver, "//tr[2]/td[5]", "2700");
+//                ip.isElementClickableByXpath(driver, "(//a[contains(text(),'View')])[2]", 60);
         }
     }
 
@@ -113,7 +113,10 @@ public class BillingPage extends BaseClass {
             case "Free":
                 ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
                 ip.invisibilityOfElementByXpathWithText(driver, "//div[3]/h2", "Billing Info");
-                ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Free Trial");
+                ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div[1]", "Free Trial");
+                //ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div[2]", "0 successful geocodes" + "\n" + "out of" +"\n" + "2,500 geocodes");
+                ip.isTextPresentByXPATH(driver, "//h4", "0");
+                ip.isTextPresentByXPATH(driver, "//div/div/div/div[2]/div", "out of");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "2,500 geocodes");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "0");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[5]", "0");
@@ -134,8 +137,12 @@ public class BillingPage extends BaseClass {
                 break;
             case "Prof":
                 ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
-                ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Professional");
+                ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div[1]", "Professional");
+ //               ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div[2]", "0 successful geocodes" + "\n" + "out of" +"\n" + "300,000 geocodes");
+                ip.isTextPresentByXPATH(driver, "//h4", "0");
+                ip.isTextPresentByXPATH(driver, "//div/div/div/div[2]/div", "out of");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "300,000 geocodes");
+
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "2700");
                 ip.isTextPresentByXPATH(driver, "//tr[1]/td[5]", "2700");
 
@@ -157,7 +164,10 @@ public class BillingPage extends BaseClass {
                 break;
             default :
                 ip.isElementClickableByXpath(driver, "//a[contains(text(),'View')]", 60);
-                ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div/div/h2", "Pay as you go 5k");
+                ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div[1]", "Pay as you go 5k");
+                //ip.isTextPresentByXPATH(driver, "//div[2]/div/div/div[2]", "0 successful geocodes" + "\n" + "out of" +"\n" + "5,000 geocodes");
+                ip.isTextPresentByXPATH(driver, "//h4", "0");
+                ip.isTextPresentByXPATH(driver, "//div/div/div/div[2]/div", "out of");
                 ip.isTextPresentByXPATH(driver, "//h4[2]", "5,000 geocodes");
                 ip.isTextPresentByXPATH(driver, "//div[3]/h2", "Billing Info");
                 ip.isTextPresentByXPATH(driver, "//label", "Name on the card");
@@ -208,7 +218,6 @@ public class BillingPage extends BaseClass {
         driver.findElement(By.xpath("//input[@id='postalCode']")).clear();
         driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
         driver.switchTo().defaultContent();
-        //driver.findElement(By.xpath("//button[@type='submit']")).click();
         u.clickByJavaScript(driver, "//button[@type='submit']");
         u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
         ip.isElementPresentByXPATH(driver, "//div[@class='container fullview']/div/div/div/div[1]/div[1]/div[1]/input[1]");

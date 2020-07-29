@@ -23,6 +23,8 @@ public class SubUsersVerifyDetailTests extends BaseClass {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
 
+        ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Billing & Plans')]");
+
         downloadDefaultTemplates[0] = "FRWD CSV";
         downloadDefaultTemplates[1] = "FRWD SHP";
         downloadDefaultTemplates[2] = "FRWD TAB";
@@ -46,6 +48,9 @@ public class SubUsersVerifyDetailTests extends BaseClass {
 
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
+
+        ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Users')]");
+        ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Billing & Plans')]");
 
         downloadDefaultTemplates[0] = "FRWD CSV";
         downloadDefaultTemplates[1] = "FRWD SHP";

@@ -17,6 +17,7 @@ public class AddProductFlowTests extends BaseClass {
     private Actions a = new Actions();
 
     private void testSignUpGeoTaxUserAndCompleteEmailRegistration() throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         a.navigateToGeoTaxPage();
         geoTaxUserDetails =  a.signUpGeoTaxUser();
         geoTaxUserIDArray[0][0] = geoTaxUserDetails;
@@ -53,6 +54,7 @@ public class AddProductFlowTests extends BaseClass {
 
     @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughLoginScreenCheckAccessEmail(String userID) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
         a.navigateToLogin();
         a.enterLoginDetailsOnly(userID);
         a.navigateToHomeAndVerifyAddProductFlowInitiated();
@@ -67,6 +69,7 @@ public class AddProductFlowTests extends BaseClass {
 
     @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughSignUpScreenCheckAccessEmail(String userID) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
         a.navigateToSignUpForAddProductFlow("free", userID);
         a.enterLoginDetailsOnly(userID);
         a.signUpUser("free", "US", userID);

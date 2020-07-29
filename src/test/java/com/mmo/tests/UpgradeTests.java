@@ -12,13 +12,15 @@ public class UpgradeTests extends BaseClass {
     String[] textInMessage = new String[2];
 
 
-    @BeforeClass
-    public void testNavigateToLogInForChangePlan() throws Exception {
+    @BeforeClass(groups = {"prerequisite"})
+    public void testUpgradeTestsNavigate() throws Exception {
+        a.navigateToHomePage();
         a.navigateToLogin();
     }
 
-    //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class)
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testUpgradeFreeTo5kPlan(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "5k");
@@ -31,8 +33,9 @@ public class UpgradeTests extends BaseClass {
                 userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 
-    @Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUp.class)
+    //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testUpgradeFreeToProfPlan(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Prof");
@@ -45,8 +48,9 @@ public class UpgradeTests extends BaseClass {
                 userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 
-    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class)
+    //@Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testUpgrade5kToProfPlan(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Prof");
@@ -59,8 +63,9 @@ public class UpgradeTests extends BaseClass {
                 userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 
-    //  @Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUp.class)
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testDegrade5kToFreePlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Free");

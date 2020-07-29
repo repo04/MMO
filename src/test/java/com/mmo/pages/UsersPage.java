@@ -33,14 +33,13 @@ public class UsersPage extends BaseClass {
 			this.userSecondName = "Prof";
 		}
 
-		switch (userRole) {
-    		case "Admin":
-    			this.userSecondName = this.userSecondName + "_Admin" + this.dateAndTime;
-    			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
-    			break;
-    		default:
-    			this.userSecondName = this.userSecondName + "_User" + this.dateAndTime;
-    			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");    			
+		if(userRole.contains("Admin")) {
+			this.userSecondName = this.userSecondName + "_Admin" + this.dateAndTime;
+			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
+		}
+		else{
+			this.userSecondName = this.userSecondName + "_User" + this.dateAndTime;
+			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");
     	}
     	userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
 		driver.findElement(By.xpath("//input[@id='firstName']")).clear();
@@ -51,7 +50,6 @@ public class UsersPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@id='emailId']")).sendKeys(userEmailId);
 		driver.findElement(By.xpath("//button[@id='createUserBtn']")).click();
 		ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div", "User has been successfully created.");
-		System.out.println("SUB USER CREATED: " + userEmailId);
 	}
     
     public void verifyUserDetailInUsersList(String userID, String userFirstName, String userSecondName, String role) {

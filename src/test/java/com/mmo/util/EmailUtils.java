@@ -308,6 +308,26 @@ public class EmailUtils extends BaseClass {
         return null;
     }
 
+    public void markAllEmailsAsUnread(EmailFolder emailFolder) throws Exception {
+        //folder = store.getDefaultFolder().getFolder("[Gmail]/All Mail");
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        int countAllEmails = getNumberOfMessages();
+        System.out.println("countAllEmails: " + countAllEmails);
+        int countUnreadEmails = getNumberOfUnreadMessages();
+        System.out.println("countUnreadEmails: " + countUnreadEmails);
+        Message[] m = folder.getMessages();
+
+        if(countUnreadEmails > 0){
+            System.out.println("FolderName: " + emailFolder.getText());
+            for (int i = 0; i < countAllEmails; i++) {
+                m[i].setFlag(Flags.Flag.SEEN, true);
+                System.out.println("i: " + i);
+            }
+        }
+        folder.close(true);
+    }
+
     public String getToken(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
@@ -344,6 +364,7 @@ public class EmailUtils extends BaseClass {
     public String getTokenForSubUsers(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
+        folder.getUnreadMessageCount();
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);

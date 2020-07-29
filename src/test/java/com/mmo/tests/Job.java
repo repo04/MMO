@@ -50,7 +50,7 @@ public class Job extends BaseClass {
 		a.login("mmoAutomated+5k080720104238@gmail.com");
 	}
 
-	@Test(dataProvider = "defaultJobs")
+	//@Test(dataProvider = "defaultJobs")
 	public void testUploadFileConfigureAndStartGeocoding(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 			String matchMode) throws Exception {
@@ -67,7 +67,7 @@ public class Job extends BaseClass {
 		outFileFormatList.add(outputFormat);
 	}
 	
-	@Test(dataProvider = "defaultJobDetails")
+	//@Test(dataProvider = "defaultJobDetails")
 	public void testWaitForJobToGetCompleteDownloadAndCompare(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 			String matchMode, String outFileName) throws Exception {
@@ -93,7 +93,7 @@ public class Job extends BaseClass {
 		a.downloadOutputFileAndCompare(outFileName, outputFormat);
 	}
 
-	@Test(dataProvider = "checkValidations")
+	@Test(dataProvider = "checkValidations", groups = { "regressionSuite" })
 	public void testUploadIncorrectFilesAndCheckValidations(String inputFileName, String geocodingType, String expectedMessage) throws Exception {
 		a.navigateToDashboard();
 		a.navigateToUploadFile();

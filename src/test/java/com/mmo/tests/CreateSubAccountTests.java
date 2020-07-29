@@ -111,9 +111,10 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateAdmin(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        subscriptionAdminCreateAdminArray[sa][0] = a.createUser(userSecondName, "Admin");
+        subscriptionAdminCreateAdminArray[sa][0] = a.createUser(userSecondName, "SA_Admin");
         subscriptionAdminCreateAdminArray[sa][1] = subscriptionAdminCreateAdminArray[sa][0].substring(0, subscriptionAdminCreateAdminArray[sa][0].indexOf("+"));
         subscriptionAdminCreateAdminArray[sa][2] = subscriptionAdminCreateAdminArray[sa][0].substring(subscriptionAdminCreateAdminArray[sa][0].indexOf("+") + 1,
                 subscriptionAdminCreateAdminArray[sa][0].indexOf("@"));
@@ -130,9 +131,10 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateUser(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        subscriptionAdminCreateUserArray[su][0] = a.createUser(userSecondName, "User");
+        subscriptionAdminCreateUserArray[su][0] = a.createUser(userSecondName, "SA_User");
         subscriptionAdminCreateUserArray[su][1] = subscriptionAdminCreateUserArray[su][0].substring(0, subscriptionAdminCreateUserArray[su][0].indexOf("+"));
         subscriptionAdminCreateUserArray[su][2] = subscriptionAdminCreateUserArray[su][0].substring(subscriptionAdminCreateUserArray[su][0].indexOf("+") + 1,
                 subscriptionAdminCreateUserArray[su][0].indexOf("@"));
@@ -149,9 +151,10 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "SubscriptionAdminCreateAdminDetails", groups = {"regressionSuite"})
     public void testAdminCreateAdmin(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "Admin");
+        adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "Ad_Admin");
         adminCreateAdminArray[aa][1] = adminCreateAdminArray[aa][0].substring(0, adminCreateAdminArray[aa][0].indexOf("+"));
         adminCreateAdminArray[aa][2] = adminCreateAdminArray[aa][0].substring(adminCreateAdminArray[aa][0].indexOf("+") + 1,
                 adminCreateAdminArray[aa][0].indexOf("@"));
@@ -168,9 +171,10 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "SubscriptionAdminCreateAdminDetails", groups = {"regressionSuite"})
     public void testAdminCreateUser(String userID, String userFirstName, String userSecondName) throws Exception {
+        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        adminCreateUserArray[au][0] = a.createUser(userSecondName, "User");
+        adminCreateUserArray[au][0] = a.createUser(userSecondName, "Ad_User");
         adminCreateUserArray[au][1] = adminCreateUserArray[au][0].substring(0, adminCreateUserArray[au][0].indexOf("+"));
         adminCreateUserArray[au][2] = adminCreateUserArray[au][0].substring(adminCreateUserArray[au][0].indexOf("+") + 1,
                 adminCreateUserArray[au][0].indexOf("@"));

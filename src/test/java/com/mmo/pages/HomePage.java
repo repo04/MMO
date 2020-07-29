@@ -32,7 +32,7 @@ public class HomePage extends BaseClass{
 		assertEquals(driver.findElement(By.xpath("//div[2]/div[5]")).getText(), "5k minimum plus overages");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/span")).getText(), "$");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/span[2]")).getText(), "2700");
-		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/div")).getText(), "per quater");
+		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/div")).getText(), "per quarter");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[5]")).getText(), "Annual Commitment" + "\n" + "10% discount!" +"\n" + "300k minimum plus overages");
 		assertEquals(driver.findElement(By.xpath("//div[4]/div[4]/span")).getText(), "Monthly" + "\n" + "or" + "\n" +"Annually");
 		assertEquals(driver.findElement(By.xpath("//div[4]/div[5]")).getText(), "20%+ discount based on volume!");
@@ -50,7 +50,7 @@ public class HomePage extends BaseClass{
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
 		u.verifyWindowTitle(driver, "MapMarker - Introduction", ip);
 
-		//Help from Enterprise plan
+		//Contact us from Last plan
 		ip.isElementClickableByXpath(driver, "//a[contains(@href, 'https://support.precisely.com/contactus')]", 30);
 		driver.findElement(By.xpath("//a[contains(@href, 'https://support.precisely.com/contactus')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);

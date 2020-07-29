@@ -11,9 +11,7 @@ public class FooterPage extends BaseClass{
 	public void verifyFooters() {
 
 		// Footers
-		System.out.println("VRFY FOOTER");
 		ip.isElementClickableByXpath(driver, "//a[contains(@href, 'https://www.precisely.com')]", 60);
-		System.out.println("CLICK FOOTER ON DASHBOARD");
 		driver.findElement(By.xpath("//a[contains(@href, 'https://www.precisely.com')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
 		u.verifyWindowTitle(driver, "Precisely - Trust your data. Build your possibilities.", ip);
@@ -40,7 +38,7 @@ public class FooterPage extends BaseClass{
 		ip.isTextPresentByXPATH(driver, "//div/span", "©2015,2020 Precisely. All rights reserved.");
 
 		// Legal
-		ip.isTextPresentByXPATH(driver, "//div[2]/div/a", "Legal");
+		ip.isTextPresentByXPATH(driver, "//div[2]/div/a[1]", "Legal");
 
 		// Privacy
 		ip.isTextPresentByXPATH(driver, "//div[2]/div/a[2]", "Privacy");
