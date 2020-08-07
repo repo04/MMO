@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 public class CreateSubAccountTests extends BaseClass {
 
     private Actions a = new Actions();
-    static String[][] subscriptionAdminCreateAdminArray = new String[4][3];
+    static String[][] subscriptionAdminCreateAdminArray = new String[2][3];
     static String[][] subscriptionAdminCreateUserArray = new String[4][3];
     static String[][] adminCreateAdminArray = new String[4][3];
     static String[][] adminCreateUserArray = new String[4][3];
@@ -22,12 +22,12 @@ public class CreateSubAccountTests extends BaseClass {
     @DataProvider(name = "SubscriptionAdminCreateAdminDetails")
     public static Object[][] SubscriptionAdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateAdminDetails");
-//        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+FreeNonUS_Admin230720175705@gmail.com";
-//        subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
-//        subscriptionAdminCreateAdminArray[0][2] = "FreeNonUS_Admin230720175705";
-//        subscriptionAdminCreateAdminArray[1][0] = "mmoAutomated+FreeUS_Admin230720175810@gmail.com";
-//        subscriptionAdminCreateAdminArray[1][1] = "mmoAutomated";
-//        subscriptionAdminCreateAdminArray[1][2] = "FreeUS_Admin230720175810";
+        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+290720162455Admin1@gmail.com";
+        subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
+        subscriptionAdminCreateAdminArray[0][2] = "290720162455Admin1";
+        subscriptionAdminCreateAdminArray[1][0] = "mmoAutomated+290720162455Admin2@gmail.com";
+        subscriptionAdminCreateAdminArray[1][1] = "mmoAutomated";
+        subscriptionAdminCreateAdminArray[1][2] = "290720162455Admin2";
 //        subscriptionAdminCreateAdminArray[2][0] = "mmoAutomated+5k_Admin230720175911@gmail.com";
 //        subscriptionAdminCreateAdminArray[2][1] = "mmoAutomated";
 //        subscriptionAdminCreateAdminArray[2][2] = "5k_Admin230720175911";
@@ -154,7 +154,7 @@ public class CreateSubAccountTests extends BaseClass {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "Ad_Admin");
+        adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "SAAd_Admin");
         adminCreateAdminArray[aa][1] = adminCreateAdminArray[aa][0].substring(0, adminCreateAdminArray[aa][0].indexOf("+"));
         adminCreateAdminArray[aa][2] = adminCreateAdminArray[aa][0].substring(adminCreateAdminArray[aa][0].indexOf("+") + 1,
                 adminCreateAdminArray[aa][0].indexOf("@"));
@@ -174,7 +174,7 @@ public class CreateSubAccountTests extends BaseClass {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        adminCreateUserArray[au][0] = a.createUser(userSecondName, "Ad_User");
+        adminCreateUserArray[au][0] = a.createUser(userSecondName, "SAAd_User");
         adminCreateUserArray[au][1] = adminCreateUserArray[au][0].substring(0, adminCreateUserArray[au][0].indexOf("+"));
         adminCreateUserArray[au][2] = adminCreateUserArray[au][0].substring(adminCreateUserArray[au][0].indexOf("+") + 1,
                 adminCreateUserArray[au][0].indexOf("@"));

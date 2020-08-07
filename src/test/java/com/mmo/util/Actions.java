@@ -246,6 +246,11 @@ public class Actions extends BaseClass{
 		jp.viewJobDetails(outFileName);
 	}
 
+	public void verifyJobsShownToUser(String outFileName) {
+		JobPage jp = new JobPage();
+		jp.verifyJobsShownToUser(outFileName);
+	}
+
 	public void navigateToHomePage() {
 
 		if(envValue.equalsIgnoreCase("qa"))

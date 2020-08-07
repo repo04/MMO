@@ -33,12 +33,18 @@ public class UsersPage extends BaseClass {
 			this.userSecondName = "Prof";
 		}
 
-		if(userRole.contains("Admin")) {
-			this.userSecondName = this.userSecondName + "_Admin" + this.dateAndTime;
+		if(userRole.contains("SA_Admin")) {
+			this.userSecondName = this.userSecondName + "SA_Admin" + this.dateAndTime;
+			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
+		}else if(userRole.contains("SA_User")){
+			this.userSecondName = this.userSecondName + "SA_User" + this.dateAndTime;
+			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");
+		}else if(userRole.contains("SAAd_Admin")){
+			this.userSecondName = this.userSecondName + "SAAd_Admin" + this.dateAndTime;
 			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
 		}
 		else{
-			this.userSecondName = this.userSecondName + "_User" + this.dateAndTime;
+			this.userSecondName = this.userSecondName + "SAAd_User" + this.dateAndTime;
 			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");
     	}
     	userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";

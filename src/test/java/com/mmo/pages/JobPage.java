@@ -71,7 +71,14 @@ public class JobPage extends BaseClass {
 		ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
 		ip.isTextPresentByXPATH(driver, "//h1", "Step 2: Input Options");
 
-		
+		if(driver.getCurrentUrl().contains("?isFirstJob=true")){
+			System.out.println("***inside first job***");
+			ip.isTextPresentByXPATH(driver, "//div[@id='inputFieldViewAnchor']/div/div/div/h5",
+					"We filled in some of the fields below, if you need to replace them drag and drop your columns" +
+							" from uploaded records snapshot.");
+			driver.findElement(By.xpath("//div[@id='inputFieldViewAnchor']/div/div/div/button")).click();
+		}
+
 		if (!(dragColumns == "" || dragColumns == null || dragColumns.equalsIgnoreCase("NA"))) {
 			String[] dragCols = dragColumns.split(",");
 			String[] dropFields = dropFieldsToGeocode.split(",");
@@ -148,18 +155,28 @@ public class JobPage extends BaseClass {
 			}
 		}
 
-		if (outputFields.equalsIgnoreCase("all")) {
+		if (outputFields.equalsIgnoreCase("All")) {
 			driver.findElement(By.xpath("//button[@id='moveAllToRight']")).click();
 			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
-			System.out.print("****rightElements****: " + rightElements.size() + "\n");
 			if(geocodingType.equalsIgnoreCase("forward")) {
 				Assert.assertTrue("All output columns not equal to 34", rightElements.size() == 34);
 			}else {
 				Assert.assertTrue("All output columns not equal to 36", rightElements.size() == 36);
 			}
-		} else {
+		} else if(outputFields.equalsIgnoreCase("Default")) {
 			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
 			Assert.assertTrue("Default output columns not equal to 5", rightElements.size() == 5);
+		} else{
+			if(geocodingType.equalsIgnoreCase("forward")) {
+				driver.findElement(By.xpath("//div[@id='formattedStreetAddress']")).click();
+				driver.findElement(By.xpath("//div[@id='formattedLocationAddress']")).click();
+			}else{
+				driver.findElement(By.xpath("//div[@id='X']")).click();
+				driver.findElement(By.xpath("//div[@id='Y']")).click();
+			}
+			driver.findElement(By.xpath("//button[@id='moveToRight']")).click();
+			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
+			Assert.assertTrue("Some output columns not equal to 7", rightElements.size() == 7);
 		}
 
 		new Select(driver.findElement(By.xpath("//select[@id='selectExportFormat']"))).selectByVisibleText(outputFormat.toUpperCase());
@@ -177,10 +194,14 @@ public class JobPage extends BaseClass {
 		
 		if(geocodingType.equalsIgnoreCase("forward") && outputFormat.equalsIgnoreCase("CSV")) {
 			if(!driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).isEnabled()) {
-				System.out.print("****DROPDOWN DISABLED****: " + "\n");
+				System.out.print("****COORDINATE DROPDOWN DISABLED****: " + "\n");
 				System.out.print("****VALUE****: " + 
-						driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).getAttribute("value"));
+						driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).getAttribute("value") + "\n");
 			}	
+		}else if(geocodingType.equalsIgnoreCase("forward") &&
+				(outputFormat.equalsIgnoreCase("TAB")|| outputFormat.equalsIgnoreCase("SHP"))){
+			System.out.print("****COORDINATE DROPDOWN ENABLED****: " + "\n");
+			new Select(driver.findElement(By.xpath("//div[3]/select"))).selectByVisibleText(coordSystem);
 		}
 
 		driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
@@ -226,9 +247,16 @@ public class JobPage extends BaseClass {
 		} else{
 			ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "Reverse Geocoding");
 		}
-		
-		if (!driver.findElement(By.xpath("//tr[1]/td[8]")).getText().equalsIgnoreCase("Geocoding")) {
-			u.illegalStateException("Job status is not geocoding");
+
+		String name = driver.findElement(By.xpath("//div[@class='header-username']")).getText();
+		if(!name.contains("User")) {
+			if (!driver.findElement(By.xpath("//tr[1]/td[8]")).getText().equalsIgnoreCase("Geocoding")) {
+					u.illegalStateException("Job status is not geocoding");
+			}
+		}else {
+			if (!driver.findElement(By.xpath("//tr[1]/td[7]")).getText().equalsIgnoreCase("Geocoding")) {
+				u.illegalStateException("Job status is not geocoding");
+			}
 		}
 	}
 
@@ -411,6 +439,46 @@ public class JobPage extends BaseClass {
 		System.out.print("****rightElements****: " + countTH.size() + "\n");
 		for(WebElement th : countTH) {
 			System.out.print("TH: " + th.getText() + "\n");
+		}
+	}
+
+	public void verifyJobsShownToUser(String outFileName) {
+		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
+		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
+		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outFileName);
+		String name = driver.findElement(By.xpath("//div[@class='header-username']")).getText();
+		if(name.contains("User")){
+			System.out.println("***IN USER***");
+			switch(outFileName.substring(0, outFileName.lastIndexOf("_"))){
+				case "MultipleEmptyLinesAtEnd_RG_XY":
+				case "MapMarker_ReverseGeocoding_Template_TAB":
+					ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
+					ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+					break;
+				default:
+					System.out.println("***IN USER DEFAULT***");
+					ip.invisibilityOfElementByXpath(driver, "//tr[1]/td/div");
+			}
+
+		}else if(name.contains("Admin")){
+			System.out.println("***IN ADMIN***");
+			switch(outFileName.substring(0, outFileName.lastIndexOf("_"))){
+				case "MultipleEmptyLinesAtEnd_RG_XY":
+				case "MapMarker_ReverseGeocoding_Template_TAB":
+				case "UnevenInvertedCommas_RG":
+				case "MapMarker_Geocoding_Template_SHP":
+					System.out.println("***IN ADMIN FILE***: " + outFileName.substring(0, outFileName.lastIndexOf("_")));
+					ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
+					ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+					break;
+				default:
+					System.out.println("***IN ADMIN DEFAULT***");
+					System.out.println("***IN ADMIN FILE***: " + outFileName.substring(0, outFileName.lastIndexOf("_")));
+					ip.invisibilityOfElementByXpath(driver, "//tr[1]/td/div");
+			}
+		}else{
+			ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 		}
 	}
 

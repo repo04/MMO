@@ -21,8 +21,8 @@ public class DataProviderUtility {
         return cartesianProviderFrom(ImmutableList.copyOf(dataProviderData));
     }
 
-    public static Object[][] cartesianProviderFrom2(Object[][] dataProviderData1, Object[][] dataProviderData2) {
-        return cartesianProviderFrom1(dataProviderData1, dataProviderData2);
+    public static Object[][] appendOutFileNameToEachRow(Object[][] dataProviderData1, Object[][] dataProviderData2) {
+        return appendOutFileName(dataProviderData1, dataProviderData2);
     }
 
     /**
@@ -31,7 +31,7 @@ public class DataProviderUtility {
      * @param dataProviderData A list of @DataProvider results
      * @return The cartesian product of available combinations.
      */
-    public static Iterator<Object[]> cartesianProviderFrom(List<Object[][]> dataProviderData) {
+    private static Iterator<Object[]> cartesianProviderFrom(List<Object[][]> dataProviderData) {
 
         ImmutableList.Builder<Set<Object[]>> cartesianSets = ImmutableList.builder();
         for (Object[][] objects : dataProviderData) {
@@ -69,7 +69,7 @@ public class DataProviderUtility {
         return mergedArray;
     }
 
-    public static Object[][] cartesianProviderFrom1(Object[][] dataProviderData1, Object[][] dataProviderData2) {
+    private static Object[][] appendOutFileName(Object[][] dataProviderData1, Object[][] dataProviderData2) {
         Object[][] c = new Object[dataProviderData1.length][11];
 
         System.out.println("c len: " + c.length);
@@ -84,16 +84,16 @@ public class DataProviderUtility {
             }
         }
 
-        for (Object[] row : c)
-
-            // converting each row as string
-            // and then printing in a separate line
-            System.out.println(Arrays.toString(row));
+//        for (Object[] row : c)
+//
+//            // converting each row as string
+//            // and then printing in a separate line
+//            System.out.println(Arrays.toString(row));
 
         return c;
     }
 
-    public static Object[][] append1DArrayVertically(Object[][]... dataProviderData) {
+    private static Object[][] append1DArrayVertically(Object[][]... dataProviderData) {
         Object[][] tabArray = new String[dataProviderData.length][3];
 
         int ci = 0;
@@ -123,6 +123,31 @@ public class DataProviderUtility {
             for (int i = 0; i < y; i++, ci++) {
                 int cj = 0;
                 for (int j = 0; j < 3; j++, cj++) {
+                    tabArray[ci][cj] = object[i][j];
+                    //System.out.println("["+ci+"]["+cj+"]: " + tabArray[ci][cj].toString() +"\n");
+                }
+            }
+        }
+        return tabArray;
+    }
+
+    // Append 2D Array Vertically
+    public static Object[][] append2DJobDetailsArrayVertically(Object[][]... dataProviderData) {
+        int x = 0;
+        int y = 0;
+        for (Object[] object : dataProviderData) {
+            x = x + object.length;
+        }
+        Object[][] tabArray;
+
+        tabArray = new String[x][11];
+
+        int ci = 0;
+        for (Object[][] object : dataProviderData) {
+            y =  object.length;
+            for (int i = 0; i < y; i++, ci++) {
+                int cj = 0;
+                for (int j = 0; j < 11; j++, cj++) {
                     tabArray[ci][cj] = object[i][j];
                     //System.out.println("["+ci+"]["+cj+"]: " + tabArray[ci][cj].toString() +"\n");
                 }

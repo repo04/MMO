@@ -13,11 +13,18 @@ public class Transform implements IAnnotationTransformer {
 	@Override
 	public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
 		// TODO Auto-generated method stub
+
+        if ("testAdmin1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())
+            || "testAdmin2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.Job.testSAUploadFileConfigureAndStartGeocoding";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
 		
 		if ("testWaitForJobToGetCompleteDownloadAndCompare".equals(testMethod.getName())) {
             System.out.println("Inside testWaitForJobToGetCompleteDownloadAndCompare");
             DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.Job.testUploadFileConfigureAndStartGeocoding";
+            DependentMethods[0] = "com.mmo.tests.Job.testSAUploadFileConfigureAndStartGeocoding";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
