@@ -67,8 +67,8 @@ public class BaseClass {
         System.out.println("test: " + testValue);
         defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
 
-//        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
-//                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
+                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
         switch (browser) {
             case "chrome":
@@ -127,7 +127,7 @@ public class BaseClass {
      */
     @AfterTest(alwaysRun = true, groups = {"prerequisite"})
     public void tearDown() throws Exception {
-//        EmailUtils.storeClose();
+        EmailUtils.storeClose();
 //        driver.quit();
     }
 }

@@ -16,15 +16,29 @@ public class JobCompletionTests extends BaseClass {
     public static Object[][] AllJobDetails(ITestContext context) throws Exception {
         System.out.println("init AllJobDetails");
         return DataProviderUtility.append2DJobDetailsArrayVertically(
-                Job.SAOutFileNames(context), JobBySubUsers.Admin1OutFileNames(context), JobBySubUsers.Admin2OutFileNames(context),
-                JobBySubUsers.User1OutFileNames(context), JobBySubUsers.User2OutFileNames(context));
+                JobExecutionTests.SAOutFileNames(context), JobExecutionTests.Admin1OutFileNames(context), JobExecutionTests.Admin2OutFileNames(context),
+                JobExecutionTests.User1OutFileNames(context), JobExecutionTests.User2OutFileNames(context));
     }
 
-    @DataProvider(name = "Admin1AndJobDetails")
-    public static Iterator<Object[]> Admin1AndJobDetails(ITestContext context) throws Exception {
-        System.out.println("init Admin1AndJobDetails");
+    @DataProvider(name = "FreeUSSAAndJobDetails")
+    public static Iterator<Object[]> FreeUSSAAndJobDetails(ITestContext context) throws Exception {
+        System.out.println("init FreeUSSAAndJobDetails");
         return DataProviderUtility.cartesianProviderFrom(
-                CreateSubAccountTests.SubscriptionAdminCreateAdminDetails(context), AllJobDetails(context));
+                SignUp.FreeUSUserDetails(context), AllJobDetails(context));
+    }
+
+    @DataProvider(name = "AllAdminsAndJobDetails")
+    public static Iterator<Object[]> AllAdminsAndJobDetails(ITestContext context) throws Exception {
+        System.out.println("init AllAdminsAndJobDetails");
+        return DataProviderUtility.cartesianProviderFrom(
+                CreateSubAccountTests.AllAdminDetails(context), AllJobDetails(context));
+    }
+
+    @DataProvider(name = "AllUsersAndJobDetails")
+    public static Iterator<Object[]> AllUsersAndJobDetails(ITestContext context) throws Exception {
+        System.out.println("init AllUsersAndJobDetails");
+        return DataProviderUtility.cartesianProviderFrom(
+                CreateSubAccountTests.AllUserDetails(context), AllJobDetails(context));
     }
 
     @BeforeClass(groups = { "prerequisite" })
@@ -59,21 +73,58 @@ public class JobCompletionTests extends BaseClass {
 		a.downloadOutputFileAndCompare(outFileName, outputFormat);*/
     }
 
-    @Test(dataProvider = "Admin1AndJobDetails", groups = {"regressionSuite"})
-    public void testAdmin1CheckWhichAllJobsAreShown(String userID, String userFirstName, String userSecondName,
+    //@Test(dataProvider = "AllAdminsAndJobDetails", groups = {"regressionSuite"})
+    public void testAdminsVerifyJobsVisibleCompletionDetailsAndEmail(String userID, String userFirstName, String userSecondName,
             String inputFileName, String geocodingType, String autoDrag, String dragColumns,
             String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
             String matchMode, String outFileName) throws Exception {
         if(x == 1){
             a.login(userID);
-            System.out.print("****Logged in with user:" + userID + "\n");
         }
-        System.out.print("****x value:" + x + "\n");
-        a.verifyJobsShownToUser(outFileName);
+        a.verifyJobsShownToUser(userSecondName, outFileName);
+        if(outFileName.contains(userSecondName)){
+            a.waitforJobToGetComplete(userSecondName, outFileName);
+        }
         x++;
         if(x == 7){
             a.logOut();
-            System.out.print("****logged out with user:" + userID + "\n");
+            x = 1;
+        }
+    }
+
+    @Test(dataProvider = "AllUsersAndJobDetails", groups = {"regressionSuite"})
+    public void testUsersVerifyJobsVisibleCompletionDetailsAndEmail(String userID, String userFirstName, String userSecondName,
+                                                   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
+                                                   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
+                                                   String matchMode, String outFileName) throws Exception {
+        if(x == 1){
+            a.login(userID);
+        }
+        a.verifyJobsShownToUser(userSecondName, outFileName);
+        if(outFileName.contains(userSecondName)){
+            a.waitforJobToGetComplete(userSecondName, outFileName);
+            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
+                    coordSystem, country, matchMode, outFileName);
+        }
+        x++;
+        if(x == 7){
+            a.logOut();
+            x = 1;
+        }
+    }
+
+    //@Test(dataProvider = "FreeUSSAAndJobDetails", groups = {"regressionSuite"})
+    public void testSubscriptionAdminVerifyJobCompletionDetailsAndEmail(String userID, String userFirstName, String userSecondName,
+                                                        String inputFileName, String geocodingType, String autoDrag, String dragColumns,
+                                                        String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
+                                                        String matchMode, String outFileName) throws Exception {
+        if(x == 1){
+            a.login(userID);
+        }
+        a.verifyJobsShownToUser(userSecondName, outFileName);
+        x++;
+        if(x == 7){
+            a.logOut();
             x = 1;
         }
     }

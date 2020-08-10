@@ -14,27 +14,6 @@ public class Transform implements IAnnotationTransformer {
 	public void transform(ITestAnnotation annotation, Class testClass, Constructor testConstructor, Method testMethod) {
 		// TODO Auto-generated method stub
 
-        if ("testAdmin1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())
-            || "testAdmin2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
-            DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.Job.testSAUploadFileConfigureAndStartGeocoding";
-            annotation.setDependsOnMethods(DependentMethods);
-        }
-		
-		if ("testWaitForJobToGetCompleteDownloadAndCompare".equals(testMethod.getName())) {
-            System.out.println("Inside testWaitForJobToGetCompleteDownloadAndCompare");
-            DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.Job.testSAUploadFileConfigureAndStartGeocoding";
-            annotation.setDependsOnMethods(DependentMethods);
-        }
-
-        if ("testJobDetails".equals(testMethod.getName())) {
-            System.out.println("Inside testJobDetails");
-            DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.Job.testWaitForJobToGetCompleteDownloadAndCompare";
-            annotation.setDependsOnMethods(DependentMethods);
-        }
-
         if ("testSubscriptionAdminVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyDetails");
             DependentMethods = new String[4];
@@ -54,21 +33,15 @@ public class Transform implements IAnnotationTransformer {
 
         if ("testSubscriptionAdminCreateAdmin".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminCreateAdmin");
-            DependentMethods = new String[4];
+            DependentMethods = new String[1];
             DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
-            DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
-            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
-            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
         if ("testSubscriptionAdminCreateUser".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminCreateUser");
-            DependentMethods = new String[4];
+            DependentMethods = new String[1];
             DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
-            DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
-            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
-            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
@@ -104,6 +77,27 @@ public class Transform implements IAnnotationTransformer {
             System.out.println("Inside testDegrade5kToFreePlanAndCheckEmail");
             DependentMethods = new String[1];
             DependentMethods[0] = "com.mmo.tests.UpgradeTests.testUpgradeFreeTo5kPlan";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testAdmin1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())
+                || "testAdmin2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.JobExecutionTests.testSAUploadFileConfigureAndStartGeocoding";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testWaitForJobToGetCompleteDownloadAndCompare".equals(testMethod.getName())) {
+            System.out.println("Inside testWaitForJobToGetCompleteDownloadAndCompare");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.JobExecutionTests.testSAUploadFileConfigureAndStartGeocoding";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testJobDetails".equals(testMethod.getName())) {
+            System.out.println("Inside testJobDetails");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.JobExecutionTests.testWaitForJobToGetCompleteDownloadAndCompare";
             annotation.setDependsOnMethods(DependentMethods);
         }
     }

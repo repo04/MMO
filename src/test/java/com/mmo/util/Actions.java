@@ -166,10 +166,10 @@ public class Actions extends BaseClass{
 		up.verifyUserDetailInUsersList(userID, userFirstName, userSecondName, role);
     }
 
-    public String uploadFileConfigureAndStartJob(String inputFileName, String geocodingType, String autoDrag, String dragColumns, String dropFieldsToGeocode, String outputFields,
+    public String uploadFileConfigureAndStartJob(String secondName, String inputFileName, String geocodingType, String autoDrag, String dragColumns, String dropFieldsToGeocode, String outputFields,
 			String outputFormat, String coordSystem, String country, String matchMode) {
     	JobPage jp = new JobPage();
-		jp.uploadFileConfigureAndStartJob(inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode, outputFields,
+		jp.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode, outputFields,
 				outputFormat, coordSystem, country, matchMode);
 		return jp.getOutputFileName();
     }
@@ -186,9 +186,9 @@ public class Actions extends BaseClass{
 		jp.uploadIncorrectFilesAndCheckValidations(inputFileName, geocodingType, expectedMessage);
 	}
     
-    public void waitforJobToGetComplete(String outputFileName) {
+    public void waitforJobToGetComplete(String userSecondName, String outputFileName) {
     	JobPage jp = new JobPage();
-		jp.waitforJobToGetComplete(outputFileName);
+		jp.waitforJobToGetComplete(userSecondName, outputFileName);
     }
     
     public void getJobDetails(String outputFilename) {
@@ -241,14 +241,17 @@ public class Actions extends BaseClass{
 		ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
 	}
 
-	public void viewJobDetails(String outFileName) {
+	public void verifyJobDetails(String userSecondName, String inputFileName, String geocodingType,
+								 String outputFields, String outputFormat, String coordSystem, String country,
+								 String matchMode, String outFileName) {
 		JobPage jp = new JobPage();
-		jp.viewJobDetails(outFileName);
+		jp.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
+				coordSystem, country, matchMode, outFileName);
 	}
 
-	public void verifyJobsShownToUser(String outFileName) {
+	public void verifyJobsShownToUser(String userSecondName, String outFileName) {
 		JobPage jp = new JobPage();
-		jp.verifyJobsShownToUser(outFileName);
+		jp.verifyJobsShownToUser(userSecondName, outFileName);
 	}
 
 	public void navigateToHomePage() {

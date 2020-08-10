@@ -13,81 +13,45 @@ import org.testng.annotations.Test;
 public class CreateSubAccountTests extends BaseClass {
 
     private Actions a = new Actions();
-    static String[][] subscriptionAdminCreateAdminArray = new String[2][3];
-    static String[][] subscriptionAdminCreateUserArray = new String[4][3];
-    static String[][] adminCreateAdminArray = new String[4][3];
-    static String[][] adminCreateUserArray = new String[4][3];
+    static String[][] subscriptionAdminCreateAdminArray = new String[1][3];
+    static String[][] subscriptionAdminCreateUserArray = new String[1][3];
+    static String[][] adminCreateAdminArray = new String[1][3];
+    static String[][] adminCreateUserArray = new String[1][3];
     int sa, su, aa, au = 0;
 
     @DataProvider(name = "SubscriptionAdminCreateAdminDetails")
     public static Object[][] SubscriptionAdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateAdminDetails");
-        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+290720162455Admin1@gmail.com";
+        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSA_Admin100820135427@gmail.com";
         subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
-        subscriptionAdminCreateAdminArray[0][2] = "290720162455Admin1";
-        subscriptionAdminCreateAdminArray[1][0] = "mmoAutomated+290720162455Admin2@gmail.com";
-        subscriptionAdminCreateAdminArray[1][1] = "mmoAutomated";
-        subscriptionAdminCreateAdminArray[1][2] = "290720162455Admin2";
-//        subscriptionAdminCreateAdminArray[2][0] = "mmoAutomated+5k_Admin230720175911@gmail.com";
-//        subscriptionAdminCreateAdminArray[2][1] = "mmoAutomated";
-//        subscriptionAdminCreateAdminArray[2][2] = "5k_Admin230720175911";
-//        subscriptionAdminCreateAdminArray[3][0] = "mmoAutomated+Prof_Admin230720180012@gmail.com";
-//        subscriptionAdminCreateAdminArray[3][1] = "mmoAutomated";
-//        subscriptionAdminCreateAdminArray[3][2] = "Prof_Admin230720180012";
+        subscriptionAdminCreateAdminArray[0][2] = "FreeUSSA_Admin100820135427";
         return (subscriptionAdminCreateAdminArray);
     }
 
     @DataProvider(name = "SubscriptionAdminCreateUserDetails")
     public static Object[][] SubscriptionAdminCreateUserDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateUserDetails");
-//        subscriptionAdminCreateUserArray[0][0] = "mmoAutomated+FreeNonUS_User230720180113@gmail.com";
-//        subscriptionAdminCreateUserArray[0][1] = "mmoAutomated";
-//        subscriptionAdminCreateUserArray[0][2] = "FreeNonUS_User230720180113";
-//        subscriptionAdminCreateUserArray[1][0] = "mmoAutomated+FreeUS_User230720180212@gmail.com";
-//        subscriptionAdminCreateUserArray[1][1] = "mmoAutomated";
-//        subscriptionAdminCreateUserArray[1][2] = "FreeUS_User230720180212";
-//        subscriptionAdminCreateUserArray[2][0] = "mmoAutomated+5k_User230720180313@gmail.com";
-//        subscriptionAdminCreateUserArray[2][1] = "mmoAutomated";
-//        subscriptionAdminCreateUserArray[2][2] = "5k_User230720180313";
-//        subscriptionAdminCreateUserArray[3][0] = "mmoAutomated+Prof_User230720180412@gmail.com";
-//        subscriptionAdminCreateUserArray[3][1] = "mmoAutomated";
-//        subscriptionAdminCreateUserArray[3][2] = "Prof_User230720180412";
+        subscriptionAdminCreateUserArray[0][0] = "mmoAutomated+FreeUSSA_User100820135526@gmail.com";
+        subscriptionAdminCreateUserArray[0][1] = "mmoAutomated";
+        subscriptionAdminCreateUserArray[0][2] = "FreeUSSA_User100820135526";
         return (subscriptionAdminCreateUserArray);
     }
 
     @DataProvider(name = "AdminCreateAdminDetails")
     public static Object[][] AdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateAdminDetails");
-//        adminCreateAdminArray[0][0] = "mmoAutomated+FreeNonUS_Admin230720180513@gmail.com";
-//        adminCreateAdminArray[0][1] = "mmoAutomated";
-//        adminCreateAdminArray[0][2] = "FreeNonUS_Admin230720180513";
-//        adminCreateAdminArray[1][0] = "mmoAutomated+FreeUS_Admin230720180624@gmail.com";
-//        adminCreateAdminArray[1][1] = "mmoAutomated";
-//        adminCreateAdminArray[1][2] = "FreeUS_Admin230720180624";
-//        adminCreateAdminArray[2][0] = "mmoAutomated+5k_Admin230720180733@gmail.com";
-//        adminCreateAdminArray[2][1] = "mmoAutomated";
-//        adminCreateAdminArray[2][2] = "5k_Admin230720180733";
-//        adminCreateAdminArray[3][0] = "mmoAutomated+Prof_Admin230720180842@gmail.com";
-//        adminCreateAdminArray[3][1] = "mmoAutomated";
-//        adminCreateAdminArray[3][2] = "Prof_Admin230720180842";
+        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSAAd_Admin100820135621@gmail.com";
+        adminCreateAdminArray[0][1] = "mmoAutomated";
+        adminCreateAdminArray[0][2] = "FreeUSSAAd_Admin100820135621";
         return (adminCreateAdminArray);
     }
 
     @DataProvider(name = "AdminCreateUserDetails")
     public static Object[][] AdminCreateUserDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateUserDetails");
-//        adminCreateUserArray[0][0] = "mmoAutomated+FreeNonUS_User230720180953@gmail.com";
-//        adminCreateUserArray[0][1] = "mmoAutomated";
-//        adminCreateUserArray[0][2] = "FreeNonUS_User230720180953";
-//        adminCreateUserArray[1][0] = "mmoAutomated+FreeUS_User230720181055@gmail.com";
-//        adminCreateUserArray[1][1] = "mmoAutomated";
-//        adminCreateUserArray[1][2] = "FreeUS_User230720181055";
-//        adminCreateUserArray[2][0] = "mmoAutomated+5k_User230720181155@gmail.com";
-//        adminCreateUserArray[2][1] = "mmoAutomated";
-//        adminCreateUserArray[2][2] = "5k_User230720181155";
-//        adminCreateUserArray[3][0] = "mmoAutomated+Prof_User230720181256@gmail.com";
-//        adminCreateUserArray[3][1] = "mmoAutomated";
-//        adminCreateUserArray[3][2] = "Prof_User230720181256";
+        adminCreateUserArray[0][0] = "mmoAutomated+FreeUSSAAd_User100820135718@gmail.com";
+        adminCreateUserArray[0][1] = "mmoAutomated";
+        adminCreateUserArray[0][2] = "FreeUSSAAd_User100820135718";
         return (adminCreateUserArray);
     }
 
@@ -100,7 +64,8 @@ public class CreateSubAccountTests extends BaseClass {
     @DataProvider(name = "AllUserDetails")
     public static Object[][] AllUserDetails(ITestContext context) throws Exception {
         System.out.println("init AllUserDetails");
-        return DataProviderUtility.append2DArrayVertically(SubscriptionAdminCreateUserDetails(context), AdminCreateUserDetails(context));
+        //return DataProviderUtility.append2DArrayVertically(SubscriptionAdminCreateUserDetails(context), AdminCreateUserDetails(context));
+        return DataProviderUtility.append2DArrayVertically(AdminCreateUserDetails(context));
     }
 
     @BeforeClass(groups = {"prerequisite"})
@@ -109,7 +74,7 @@ public class CreateSubAccountTests extends BaseClass {
         a.navigateToLogin();
     }
 
-    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateAdmin(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
@@ -129,7 +94,7 @@ public class CreateSubAccountTests extends BaseClass {
         sa++;
     }
 
-    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateUser(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);

@@ -498,6 +498,17 @@ public class Utility {
 		return simpleDateFormat.format(new Date());
 	}
 
+	/**
+	 *
+	 * @return
+	 */
+	public String getMilliSeconds() {
+		String pattern = "SSS";
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+		return simpleDateFormat.format(new Date());
+	}
+
 	public void waitForPageToBeReloaded(WebDriver driver) {
 		ExpectedCondition<Boolean> expectation = new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver driver) {

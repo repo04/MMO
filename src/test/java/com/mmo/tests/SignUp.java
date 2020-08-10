@@ -25,9 +25,9 @@ public class SignUp extends BaseClass{
 	@DataProvider(name = "FreeUSUserDetails")
     public static Object[][] FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-		freeUSUserArray[0][0] = "mmoAutomated+FreeUS290720152158@gmail.com";
+		freeUSUserArray[0][0] = "mmoAutomated+FreeUS100820135236@gmail.com";
 		freeUSUserArray[0][1] = "mmoAutomated";
-		freeUSUserArray[0][2] = "FreeUS290720152158";
+		freeUSUserArray[0][2] = "FreeUS100820135236";
 		return freeUSUserArray;
     }
 	
@@ -83,7 +83,7 @@ public class SignUp extends BaseClass{
 		a.verifyFooters();
 	}
 
-	@Test(groups = {"regressionSuite", "sanitySuite"})
+	@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeUSUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -99,7 +99,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(freeUSUser, u.getFirstName(freeUSUser), u.getSecondName(freeUSUser), claimTokenID);
 	}
 
-	@Test(groups = {"regressionSuite"})
+	//@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeNonUSUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -115,7 +115,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(freeNonUSUser, u.getFirstName(freeNonUSUser), u.getSecondName(freeNonUSUser), claimTokenID);
 	}
 
-	@Test(groups = {"regressionSuite"})
+	//@Test(groups = {"regressionSuite"})
 	public void testSignUpPaid5kUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -131,7 +131,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(paid5kUser, u.getFirstName(paid5kUser), u.getSecondName(paid5kUser), claimTokenID);
 	}
 
-	@Test(groups = {"regressionSuite"})
+	//@Test(groups = {"regressionSuite"})
 	public void testSignUpPaidProfUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
