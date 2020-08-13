@@ -31,6 +31,7 @@
 			<class name="com.mmo.tests.Job"/>
 			<class name="com.mmo.tests.JobBySubUsers"/>
 			<class name="com.mmo.tests.JobCompletionTests"/>-->
+			<class name="com.mmo.tests.JobsBySATests"/>
 			<class name="com.mmo.tests.JobExecutionTests"/>
 			<class name="com.mmo.tests.JobCompletionTests"/>
 		</classes>

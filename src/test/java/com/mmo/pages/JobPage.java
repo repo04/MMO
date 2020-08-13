@@ -399,7 +399,7 @@ public class JobPage extends BaseClass {
 				"arguments[0].style.visibility = 'visible'; arguments[0].style.height = '1px'; arguments[0].style.width = '1px'; arguments[0].style.opacity = 1",
 				elm);
 		elm.sendKeys(file);
-		if(inputFileName.contains("Casing")) {
+		if(inputFileName.contains("Casing") || inputFileName.contains("CountryCol")) {
 			ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
 				switch(inputFileName.substring(0, inputFileName.lastIndexOf("."))) {
 				case "ForwardFileWithColRepeat_InSameCasing":
@@ -411,9 +411,12 @@ public class JobPage extends BaseClass {
 				case "ReverseFileWithColRepeat_InSameCasing":
 					ip.isTextPresentByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "Longitude");
 					break;
-				default:	
-					System.out.print("****in DEFAULT****" + "\n");
+				case "ReverseFileWithColRepeat_InDiffCasing":
 					ip.isTextPresentByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "longiTUDE");
+					break;
+				default:
+					System.out.print("****in DEFAULT****" + "\n");
+					ip.isTextPresentByXPATH(driver, "//div[@id='countryColumn']/div/a", "Country");
 			  }
 			driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
 			ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
@@ -442,8 +445,9 @@ public class JobPage extends BaseClass {
 			ip.isElementClickableByXpath(driver, "//tr[1]/td[8]/a[1]/i", 60);
 			driver.findElement(By.xpath("//tr[1]/td[8]/a[1]/i")).click();
 		}
-		driver.findElement(By.xpath("//h1")).getText().equalsIgnoreCase(outputFileName + "." + outputFormat);
 		ip.isElementClickableByXpath(driver, "//a[@id='downloadFile']", 60);
+		ip.isElementClickableByXpath(driver, "//h1", 15);
+		driver.findElement(By.xpath("//h1")).getText().equalsIgnoreCase(outputFileName + "." + outputFormat);
 		ip.isTextPresentByCSS(driver, "div.alert.alert-success", "To view geocoded results, click on Download link.");
 		ip.invisibilityOfElementByCSS(driver, "div.alert.alert-success");
 
@@ -473,7 +477,7 @@ public class JobPage extends BaseClass {
 				Assert.assertTrue("Expected some count:8, actual: " + countTH.size(), countTH.size() == 8);
 				break;
 			default:
-				if(geocodingType == "forward"){
+				if(geocodingType.equalsIgnoreCase("forward")){
 					Assert.assertTrue("Expected default count:44, actual: " + countTH.size(), countTH.size() == 44);
 				}else{
 					Assert.assertTrue("Expected default count:37, actual: " + countTH.size(), countTH.size() == 37);

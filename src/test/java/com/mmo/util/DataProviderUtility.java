@@ -135,19 +135,25 @@ public class DataProviderUtility {
     public static Object[][] append2DJobDetailsArrayVertically(Object[][]... dataProviderData) {
         int x = 0;
         int y = 0;
+        int z = 0;
         for (Object[] object : dataProviderData) {
             x = x + object.length;
         }
+
+        for (Object[][] object : dataProviderData) {
+            z = object[0].length;
+        }
+
         Object[][] tabArray;
 
-        tabArray = new String[x][11];
+        tabArray = new String[x][z];
 
         int ci = 0;
         for (Object[][] object : dataProviderData) {
             y =  object.length;
             for (int i = 0; i < y; i++, ci++) {
                 int cj = 0;
-                for (int j = 0; j < 11; j++, cj++) {
+                for (int j = 0; j < object[i].length; j++, cj++) {
                     tabArray[ci][cj] = object[i][j];
                     //System.out.println("["+ci+"]["+cj+"]: " + tabArray[ci][cj].toString() +"\n");
                 }

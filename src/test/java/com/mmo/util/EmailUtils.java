@@ -34,6 +34,7 @@ public class EmailUtils extends BaseClass {
         STARTUSINGGEOTAX("startUsingGeoTAX"),
         PLANCHANGE("planChange"),
         SUBUSERS("subUsers"),
+        JOBSUCCESS("jobSuccess"),
         SPAM("SPAM");
 
 
@@ -189,6 +190,33 @@ public class EmailUtils extends BaseClass {
     }
 
     /**
+     * Searches for messages with a specific subject
+     * @param subject Subject to search messages for
+     * @param unreadOnly Indicate whether to only return matched messages that are unread
+     * @param maxToSearch maximum number of messages to search, starting from the latest. For example, enter 100 to search through the last 100 messages.
+     */
+    public Message[] getMessagesBySubjectInFolder(String subject, boolean unreadOnly, int maxToSearch, EmailFolder emailFolder) throws Exception{
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        Map<String, Integer> indices = getStartAndEndIndices(maxToSearch);
+
+        Message messages[] = folder.search(
+                new SubjectTerm(subject),
+                folder.getMessages(indices.get("startIndex"), indices.get("endIndex")));
+
+        if(unreadOnly){
+            List<Message> unreadMessages = new ArrayList<Message>();
+            for (Message message : messages) {
+                if(isMessageUnread(message)) {
+                    unreadMessages.add(message);
+                }
+            }
+            messages = unreadMessages.toArray(new Message[]{});
+        }
+        return messages;
+    }
+
+    /**
      * Returns HTML of the email's content
      */
     public String getMessageContent(Message message) throws Exception {
@@ -260,9 +288,11 @@ public class EmailUtils extends BaseClass {
         folder.open(Folder.READ_WRITE);
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         Assert.assertEquals(email.getAllRecipients()[0].toString(), userID,
-                "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());;
-        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[0]), "'" + textInMessage[0] + "' is not found");;
-        Assert.assertTrue(emailUtils.isTextInMessage(email, textInMessage[1]), "'" + textInMessage[1] + "' is not found");;
+                "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
+        for (String text : textInMessage){
+            System.out.println("**TXT: **" + text + "\n");
+            Assert.assertTrue(emailUtils.isTextInMessage(email, text), "'" + text + "' is not found");;
+        }
         folder.close(true);
     }
 

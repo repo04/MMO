@@ -64,8 +64,7 @@ public class CreateSubAccountTests extends BaseClass {
     @DataProvider(name = "AllUserDetails")
     public static Object[][] AllUserDetails(ITestContext context) throws Exception {
         System.out.println("init AllUserDetails");
-        //return DataProviderUtility.append2DArrayVertically(SubscriptionAdminCreateUserDetails(context), AdminCreateUserDetails(context));
-        return DataProviderUtility.append2DArrayVertically(AdminCreateUserDetails(context));
+        return DataProviderUtility.append2DArrayVertically(SubscriptionAdminCreateUserDetails(context), AdminCreateUserDetails(context));
     }
 
     @BeforeClass(groups = {"prerequisite"})
@@ -119,7 +118,7 @@ public class CreateSubAccountTests extends BaseClass {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "SAAd_Admin");
+        adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "Ad_Admin");
         adminCreateAdminArray[aa][1] = adminCreateAdminArray[aa][0].substring(0, adminCreateAdminArray[aa][0].indexOf("+"));
         adminCreateAdminArray[aa][2] = adminCreateAdminArray[aa][0].substring(adminCreateAdminArray[aa][0].indexOf("+") + 1,
                 adminCreateAdminArray[aa][0].indexOf("@"));
@@ -139,7 +138,7 @@ public class CreateSubAccountTests extends BaseClass {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
-        adminCreateUserArray[au][0] = a.createUser(userSecondName, "SAAd_User");
+        adminCreateUserArray[au][0] = a.createUser(userSecondName, "Ad_User");
         adminCreateUserArray[au][1] = adminCreateUserArray[au][0].substring(0, adminCreateUserArray[au][0].indexOf("+"));
         adminCreateUserArray[au][2] = adminCreateUserArray[au][0].substring(adminCreateUserArray[au][0].indexOf("+") + 1,
                 adminCreateUserArray[au][0].indexOf("@"));
