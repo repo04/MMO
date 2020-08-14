@@ -167,10 +167,10 @@ public class Actions extends BaseClass{
     }
 
     public String uploadFileConfigureAndStartJob(String secondName, String inputFileName, String geocodingType, String autoDrag, String dragColumns, String dropFieldsToGeocode, String outputFields,
-			String outputFormat, String coordSystem, String country, String matchMode) {
+			String outputFormat, String coordSystem, String country, String matchMode, String totalRecords) {
     	JobPage jp = new JobPage();
 		jp.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode, outputFields,
-				outputFormat, coordSystem, country, matchMode);
+				outputFormat, coordSystem, country, matchMode, totalRecords);
 		return jp.getOutputFileName();
     }
     
@@ -243,10 +243,10 @@ public class Actions extends BaseClass{
 
 	public void verifyJobDetails(String userSecondName, String inputFileName, String geocodingType,
 								 String outputFields, String outputFormat, String coordSystem, String country,
-								 String matchMode, String outFileName) {
+								 String matchMode, String totalRecords, String outFileName) {
 		JobPage jp = new JobPage();
 		jp.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
-				coordSystem, country, matchMode, outFileName);
+				coordSystem, country, matchMode, totalRecords, outFileName);
 	}
 
 	public void verifyJobsShownToUser(String userSecondName, String outFileName) {

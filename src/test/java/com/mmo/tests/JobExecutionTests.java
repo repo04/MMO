@@ -66,97 +66,113 @@ public class JobExecutionTests extends BaseClass {
 		return DataProviderUtility.cartesianProviderFrom(CreateSubAccountTests.AdminCreateUserDetails(context), User2Jobs(context));
 	}
 
+	@DataProvider(name = "Admin1OutFileNames")
+	public static Object[][] Admin1OutFileNames(ITestContext context) throws Exception {
+		System.out.println("init Admin1OutFileNames");
+		return admin1OutFileNamesArray;
+	}
+
+	@DataProvider(name = "Admin2OutFileNames")
+	public static Object[][] Admin2OutFileNames(ITestContext context) throws Exception {
+		System.out.println("init Admin2OutFileNames");
+		return admin2OutFileNamesArray;
+	}
+
+	@DataProvider(name = "User1OutFileNames")
+	public static Object[][] User1OutFileNames(ITestContext context) throws Exception {
+		System.out.println("init User1OutFileNames");
+		return user1OutFileNamesArray;
+	}
+
+	@DataProvider(name = "User2OutFileNames")
+	public static Object[][] User2OutFileNames(ITestContext context) throws Exception {
+		System.out.println("init User2OutFileNames");
+		return user2OutFileNamesArray;
+	}
+
 	@DataProvider(name = "Admin1JobWithOutFileNames")
 	public static Object[][] Admin1JobWithOutFileNames(ITestContext context) throws Exception {
 		System.out.println("init Admin1JobWithOutFileNames");
-		return DataProviderUtility.appendOutFileNameToEachRow(Admin1Jobs(context), admin1OutFileNamesArray);
+		return DataProviderUtility.appendOutFileNameToEachRow(Admin1Jobs(context), Admin1OutFileNames(context));
 	}
 
 	@DataProvider(name = "Admin2JobWithOutFileNames")
 	public static Object[][] Admin2JobWithOutFileNames(ITestContext context) throws Exception {
 		System.out.println("init Admin2JobWithOutFileNames");
-		return DataProviderUtility.appendOutFileNameToEachRow(Admin2Jobs(context), admin2OutFileNamesArray);
+		return DataProviderUtility.appendOutFileNameToEachRow(Admin2Jobs(context), Admin2OutFileNames(context));
 	}
 
 	@DataProvider(name = "User1JobWithOutFileNames")
 	public static Object[][] User1JobWithOutFileNames(ITestContext context) throws Exception {
 		System.out.println("init User1JobWithOutFileNames");
-		return DataProviderUtility.appendOutFileNameToEachRow(User1Jobs(context), user1OutFileNamesArray);
+		return DataProviderUtility.appendOutFileNameToEachRow(User1Jobs(context), User1OutFileNames(context));
 	}
 
 	@DataProvider(name = "User2JobWithOutFileNames")
 	public static Object[][] User2JobWithOutFileNames(ITestContext context) throws Exception {
 		System.out.println("init User2JobWithOutFileNames");
-		return DataProviderUtility.appendOutFileNameToEachRow(User2Jobs(context), user2OutFileNamesArray);
-	}
-
-	@DataProvider(name = "OutFileNames")
-	public static Object[][] OutFileNames(ITestContext context) throws Exception {
-		System.out.println("init OutFileNames");
-		return DataProviderUtility.append2DJobDetailsArrayVertically(
-				JobsBySATests.SAOutFileNames(context), admin1OutFileNamesArray, admin2OutFileNamesArray,
-				user1OutFileNamesArray, user2OutFileNamesArray);
+		return DataProviderUtility.appendOutFileNameToEachRow(User2Jobs(context), User2OutFileNames(context));
 	}
 
 	@BeforeClass(groups = {"prerequisite"})
 	public void testJobExecutionLogIn(ITestContext context) throws Exception {
-		a.navigateToHomePage();
-		a.navigateToLogin();
+//		a.navigateToHomePage();
+//		a.navigateToLogin();
 	}
 
 	@Test(dataProvider = "Admin1IdAndInputJobDetails", groups = {"regressionSuite"})
 	public void testAdmin1UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															   String matchMode) throws Exception {
-        a.login(userID);
-        a.navigateToUploadFile();
-        admin1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode);
-        System.out.println("outFileName: " + admin1OutFileNamesArray[0][0] + "\n");
-        a.logOut();
-//		admin1OutFileNamesArray[0][0] = "UnevenInvrtdComa_RG_FreeUSSA_Admin100820135427212";
+															   String matchMode, String totalRecords) throws Exception {
+//        a.login(userID);
+//        a.navigateToUploadFile();
+//        admin1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
+//                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+//        System.out.println("outFileName: " + admin1OutFileNamesArray[0][0] + "\n");
+//        a.logOut();
+		admin1OutFileNamesArray[0][0] = "UnevenInvrtdComa_RG_FreeUSSA_Admin100820135427198";
 	}
 
 	@Test(dataProvider = "User1IdAndInputJobDetails", groups = {"regressionSuite"})
 	public void testUser1UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															  String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															  String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															  String matchMode) throws Exception {
-        a.login(userID);
-        a.navigateToUploadFile();
-        user1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode);
-        System.out.println("outFileName: " + user1OutFileNamesArray[0][0] + "\n");
-        a.logOut();
-//		user1OutFileNamesArray[0][0] = "EmptyLinesAtEnd_RG_XY_FreeUSSA_User100820135526106";
+															  String matchMode, String totalRecords) throws Exception {
+//        a.login(userID);
+//        a.navigateToUploadFile();
+//        user1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
+//                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+//        System.out.println("outFileName: " + user1OutFileNamesArray[0][0] + "\n");
+//        a.logOut();
+		user1OutFileNamesArray[0][0] = "EmptyLinesAtEnd_RG_XY_FreeUSSA_User100820135526749";
 	}
 
 	@Test(dataProvider = "Admin2IdAndInputJobDetails", groups = {"regressionSuite"})
 	public void testAdmin2UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															   String matchMode) throws Exception {
-        a.login(userID);
-        a.navigateToUploadFile();
-        admin2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode);
-        System.out.println("outFileName: " + admin2OutFileNamesArray[0][0] + "\n");
-        a.logOut();
-//		admin2OutFileNamesArray[0][0] = "Geocoding_Temp_SHP_FreeUSSAAd_Admin100820135621837";
+															   String matchMode, String totalRecords) throws Exception {
+//        a.login(userID);
+//        a.navigateToUploadFile();
+//        admin2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
+//                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+//        System.out.println("outFileName: " + admin2OutFileNamesArray[0][0] + "\n");
+//        a.logOut();
+		admin2OutFileNamesArray[0][0] = "Geocoding_Temp_SHP_FreeUSSAAd_Admin100820135621462";
 	}
 
 	@Test(dataProvider = "User2IdAndInputJobDetails", groups = {"regressionSuite"})
 	public void testUser2UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															   String matchMode) throws Exception {
-		a.login(userID);
-		a.navigateToUploadFile();
-		user2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-				outputFields, outputFormat, coordSystem, country, matchMode);
-		System.out.println("outFileName: " + user2OutFileNamesArray[0][0] + "\n");
-		a.logOut();
-//		user2OutFileNamesArray[0][0] = "Geocoding_Temp_SHP_FreeUSSAAd_Admin100820135621837";
+															   String matchMode, String totalRecords) throws Exception {
+//		a.login(userID);
+//		a.navigateToUploadFile();
+//		user2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
+//				outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+//		System.out.println("outFileName: " + user2OutFileNamesArray[0][0] + "\n");
+//		a.logOut();
+		user2OutFileNamesArray[0][0] = "RevIn27700_Ext_FreeUSSAAd_User100820135718705";
 	}
 }

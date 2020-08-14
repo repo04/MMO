@@ -80,13 +80,17 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-//        if ("testUploadIncorrectFilesAndCheckValidations".equals(testMethod.getName())) {
-//            System.out.println("Inside testUploadIncorrectFilesAndCheckValidations");
-//            DependentMethods = new String[1];
-//            DependentMethods[0] = "testSAUploadFileConfigureAndStartGeocoding";
-//            annotation.setDependsOnMethods(DependentMethods);
-//            annotation.setAlwaysRun(true);
-//        }
+        if ("testSAUploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUploadIncorrectFilesAndCheckValidations".equals(testMethod.getName())) {
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testJobsBySALogin";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testVerifySAJobEmailsAndAccessDetailsDirectly".equals(testMethod.getName())) {
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testSAUploadFileConfigureAndStartGeocoding";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
 
         if ("testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails");
@@ -113,10 +117,9 @@ public class Transform implements IAnnotationTransformer {
 
         if ("testVerifyAllJobEmails".equals(testMethod.getName())) {
             System.out.println("Inside testVerifyAllJobEmails");
-            DependentMethods = new String[3];
-            DependentMethods[0] = "com.mmo.tests.JobCompletionTests.testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails";
-            DependentMethods[1] = "com.mmo.tests.JobCompletionTests.testAdminsJobsVisibleCompletionAndVerifyDetails";
-            DependentMethods[2] = "com.mmo.tests.JobCompletionTests.testUsersJobsVisibleCompletionAndVerifyDetails";
+            DependentMethods = new String[2];
+            DependentMethods[0] = "com.mmo.tests.JobCompletionTests.testAdminsJobsVisibleCompletionAndVerifyDetails";
+            DependentMethods[1] = "com.mmo.tests.JobCompletionTests.testUsersJobsVisibleCompletionAndVerifyDetails";
             annotation.setDependsOnMethods(DependentMethods);
         }
     }

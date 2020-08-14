@@ -40,7 +40,7 @@ public class JobPage extends BaseClass {
 	 */
 	public void uploadFileConfigureAndStartJob(String secondName, String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-			String matchMode) {
+			String matchMode, String totalRecords) {
 
 		ip.isElementClickableByXpath(driver, "//div/i", 60);
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'CSV')]", 60);
@@ -432,16 +432,18 @@ public class JobPage extends BaseClass {
 	 */
 	public void verifyJobDetails(String userSecondName, String inputFileName, String geocodingType,
 								 String outputFields, String outputFormat, String coordSystem, String country,
-								 String matchMode, String outFileName) {
+								 String matchMode, String totalRecords, String outFileName) {
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outFileName);
 		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 		if(!userSecondName.contains("User")) {
+			ip.isTextPresentByXPATH(driver, "//tr[1]/td[8]", "Success", 10);
 			ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[1]/i", 60);
 			driver.findElement(By.xpath("//tr[1]/td[9]/a[1]/i")).click();
 		}else{
+			ip.isTextPresentByXPATH(driver, "//tr[1]/td[7]", "Success", 10);
 			ip.isElementClickableByXpath(driver, "//tr[1]/td[8]/a[1]/i", 60);
 			driver.findElement(By.xpath("//tr[1]/td[8]/a[1]/i")).click();
 		}
@@ -460,7 +462,13 @@ public class JobPage extends BaseClass {
 
 		ip.isTextPresentByID(driver, "fileName", "File Name: " + inputFileName.substring(0, inputFileName.indexOf(".")), 15);
 		ip.isTextPresentByID(driver, "coordinateSystemValue", "Projection: " + coordSystem.toLowerCase(), 15);
-		//ip.isTextPresentByXPATH(driver, "//div[@id='totalRecords']/span", "", 15);
+		System.out.print("****totalRecords****: " + totalRecords + "\n");
+		ip.isTextPresentByXPATH(driver, "//div[@id='totalRecords']/span", totalRecords, 15);
+		int successRecords = Integer.valueOf(driver.findElement(By.id("successRecordCount")).getText());
+		int failedRecords = Integer.valueOf(driver.findElement(By.id("failedRecordCount")).getText());
+		int actualTotalRecords = successRecords + failedRecords;
+		Assert.assertTrue("Mismatch in totalRecords, expected:" + totalRecords + " whereas actual:" + actualTotalRecords,
+				Integer.valueOf(totalRecords) == actualTotalRecords);
 		if(country.startsWith("Mapped")){
 			ip.isTextPresentByID(driver, "country", "Country: Field (" + country.substring(country.indexOf("_") + 1) + ") mapped from input file", 15);
 		}else{
@@ -483,10 +491,6 @@ public class JobPage extends BaseClass {
 					Assert.assertTrue("Expected default count:37, actual: " + countTH.size(), countTH.size() == 37);
 				}
 		}
-
-		/*for(WebElement th : countTH) {
-			System.out.print("TH: " + th.getText() + "\n");
-		}*/
 	}
 
 	public void verifyJobsShownToUser(String userSecondName, String outFileName) {

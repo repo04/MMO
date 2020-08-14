@@ -49,7 +49,15 @@ public class JobCompletionTests extends BaseClass {
                 CreateSubAccountTests.AllUserDetails(context), AllJobDetails(context));
     }
 
-    @BeforeClass(groups = { "prerequisite" })
+    @DataProvider(name = "SubUsersOutFileNames")
+    public static Object[][] SubUsersOutFileNames(ITestContext context) throws Exception {
+        System.out.println("init SubUsersOutFileNames");
+        return DataProviderUtility.append2DJobDetailsArrayVertically(
+                JobExecutionTests.Admin1OutFileNames(context), JobExecutionTests.Admin2OutFileNames(context),
+                JobExecutionTests.User1OutFileNames(context), JobExecutionTests.User2OutFileNames(context));
+    }
+
+    //@BeforeClass(groups = { "prerequisite" })
     public void testJobCompletionLogIn(ITestContext context) throws Exception {
         a.navigateToHomePage();
         a.navigateToLogin();
@@ -62,12 +70,14 @@ public class JobCompletionTests extends BaseClass {
         a.downloadOutputFileAndCompare(outFileName, outputFormat);
     }
 
-    @Test(dataProvider = "AllAdminsAndJobDetails", groups = {"regressionSuite"})
+    //@Test(dataProvider = "AllAdminsAndJobDetails", groups = {"regressionSuite"})
     public void testAdminsJobsVisibleCompletionAndVerifyDetails(String userID, String userFirstName, String userSecondName,
-                                                                     String inputFileName, String geocodingType, String autoDrag, String dragColumns,
-                                                                     String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                                     String matchMode, String outFileName) throws Exception {
+                                                                String inputFileName, String geocodingType, String autoDrag, String dragColumns,
+                                                                String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
+                                                                String matchMode, String totalRecords, String outFileName) throws Exception {
 
+        System.out.println("inputfile: " + inputFileName);
+        System.out.println("outFileName: " + outFileName);
         if(x == 1){
             a.login(userID);
         }
@@ -76,7 +86,7 @@ public class JobCompletionTests extends BaseClass {
             System.out.print("****Admin Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
-                    coordSystem, country, matchMode, outFileName);
+                    coordSystem, country, matchMode, totalRecords, outFileName);
             a.navigateToDashboard();
         }
         x++;
@@ -84,13 +94,15 @@ public class JobCompletionTests extends BaseClass {
             a.logOut();
             x = 1;
         }
-    }
+   }
 
-    @Test(dataProvider = "AllUsersAndJobDetails", groups = {"regressionSuite"})
+    //@Test(dataProvider = "AllUsersAndJobDetails", groups = {"regressionSuite"})
     public void testUsersJobsVisibleCompletionAndVerifyDetails(String userID, String userFirstName, String userSecondName,
-                                                                    String inputFileName, String geocodingType, String autoDrag, String dragColumns,
-                                                                    String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                                    String matchMode, String outFileName) throws Exception {
+                                                               String inputFileName, String geocodingType, String autoDrag, String dragColumns,
+                                                               String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
+                                                               String matchMode, String totalRecords, String outFileName) throws Exception {
+        System.out.println("inputfile: " + inputFileName);
+        System.out.println("outFileName: " + outFileName);
         if(x == 1){
             a.login(userID);
         }
@@ -98,7 +110,7 @@ public class JobCompletionTests extends BaseClass {
         if(outFileName.contains(userSecondName)){
             System.out.print("****User Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
-            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, outFileName);
+            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
             a.navigateToDashboard();
         }
         x++;
@@ -108,11 +120,13 @@ public class JobCompletionTests extends BaseClass {
         }
     }
 
-    @Test(dataProvider = "FreeUSSAAndJobDetails", groups = {"regressionSuite"})
+    //@Test(dataProvider = "FreeUSSAAndJobDetails", groups = {"regressionSuite"})
     public void testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails(String userID, String userFirstName, String userSecondName,
-                                                                        String inputFileName, String geocodingType, String autoDrag, String dragColumns,
-                                                                        String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                                        String matchMode, String outFileName) throws Exception {
+                                                                           String inputFileName, String geocodingType, String autoDrag, String dragColumns,
+                                                                           String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
+                                                                           String matchMode, String totalRecords, String outFileName) throws Exception {
+        System.out.println("inputfile: " + inputFileName);
+        System.out.println("outFileName: " + outFileName);
         if(x == 1){
             a.login(userID);
         }
@@ -121,7 +135,7 @@ public class JobCompletionTests extends BaseClass {
             System.out.print("****SA Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
-                    coordSystem, country, matchMode, outFileName);
+                    coordSystem, country, matchMode, totalRecords, outFileName);
             a.navigateToDashboard();
         }
         x++;
@@ -129,10 +143,10 @@ public class JobCompletionTests extends BaseClass {
             a.logOut();
             x = 1;
         }
-    }
+   }
 
-    @Test(dataProvider = "OutFileNames", dataProviderClass = JobExecutionTests.class, groups = {"regressionSuite"})
-    public void testVerifyAllJobEmails(String outFileName) throws Exception {
+    @Test(dataProvider = "SubUsersOutFileNames", groups = {"regressionSuite"})
+    public void testVerifySubUsersJobEmails(String outFileName) throws Exception {
         Boolean outFileFound = false;
         System.out.println("**outFileName: **" + outFileName + "\n");
         int p = outFileName.indexOf("Free");
@@ -140,9 +154,9 @@ public class JobCompletionTests extends BaseClass {
         String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
         if(abc == 1) {
             Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true,
-                    6, EmailUtils.EmailFolder.JOBSUCCESS);
+                    4, EmailUtils.EmailFolder.JOBSUCCESS);
             abc++;
-            Assert.assertTrue(Emails.length == 6, "Expected unread messages:6, actual: " + Emails.length);
+            Assert.assertTrue(Emails.length == 4, "Expected unread messages:4, actual: " + Emails.length);
         }
         List<Message> list = new ArrayList<>(Arrays.asList(Emails));
         for (Message email : Emails) {

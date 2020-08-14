@@ -69,17 +69,21 @@ public class DataProviderUtility {
         return mergedArray;
     }
 
-    private static Object[][] appendOutFileName(Object[][] dataProviderData1, Object[][] dataProviderData2) {
-        Object[][] c = new Object[dataProviderData1.length][11];
+    private static Object[][] appendOutFileName(Object[][] jobDetails, Object[][] outFileNames) {
+        int p = 0;
+        int q;
+        for (Object[] job : jobDetails) {
+            p = job.length;
+        }
+        q = p + 1;
 
-        System.out.println("c len: " + c.length);
-
-        for (int i = 0; i < dataProviderData1.length; i++) {
-            for (int j = 0; j < 11; j++) {
-                if (j < 10) {
-                    c[i][j] = dataProviderData1[i][j];
+        Object[][] c = new Object[jobDetails.length][q];
+        for (int i = 0; i < jobDetails.length; i++) {
+            for (int j = 0; j < q; j++) {
+                if (j < p) {
+                    c[i][j] = jobDetails[i][j];
                 } else {
-                    c[i][j] = dataProviderData2[i][0];
+                    c[i][j] = outFileNames[i][0];
                 }
             }
         }
@@ -93,17 +97,26 @@ public class DataProviderUtility {
         return c;
     }
 
-    private static Object[][] append1DArrayVertically(Object[][]... dataProviderData) {
-        Object[][] tabArray = new String[dataProviderData.length][3];
+    private static Iterator<Object[]> append1DArrayVertically(Object[][]... dataProviderData) {
+        int p = 0;
+        for (Object[] object : dataProviderData) {
+            p = p + object.length;
+        }
+
+        System.out.println("P LEN: " + p +"\n");
+        Object[][] tabArray = new String[0][p];
+        List<Object[]> data = Lists.newArrayList();
 
         int ci = 0;
         for (Object[][] object : dataProviderData) {
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < p; j++) {
                 tabArray[ci][j] = object[0][j];
+                //System.out.println("["+ci+"]["+j+"]: " + tabArray[ci][j].toString() +"\n");
             }
             ci++;
         }
-        return tabArray;
+        //return tabArray;
+        return data.iterator();
     }
 
     // Append 2D Array Vertically
@@ -134,7 +147,7 @@ public class DataProviderUtility {
     // Append 2D Array Vertically
     public static Object[][] append2DJobDetailsArrayVertically(Object[][]... dataProviderData) {
         int x = 0;
-        int y = 0;
+        int y;
         int z = 0;
         for (Object[] object : dataProviderData) {
             x = x + object.length;

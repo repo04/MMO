@@ -425,6 +425,33 @@ public class EmailUtils extends BaseClass {
         return token;
     }
 
+    public String getJobTokenFromEmail(Message email) throws Exception {
+        String html = getMessageContent(email);
+        System.out.println("**html**: " + html);
+        int	preIndex = 0;
+        if(envValue.equalsIgnoreCase("qa"))
+        {
+            preIndex = html.indexOf("mapma=rker-qa.li.precisely.services?p=3D");
+        } else if(envValue.equalsIgnoreCase("ppd"))
+        {
+            System.out.print("****OPEN PPD URL****");
+            driver.get("https://" + xpv.getTokenValue("ppdURL"));
+        } else {
+            preIndex = html.indexOf("=oken=3D");
+        }
+
+        int	  searchIndex = preIndex + html.substring(preIndex).indexOf("\" style");
+
+        String token = html.substring(preIndex + 40, searchIndex);
+        String check = "=";
+        if(token.contains(check))
+        {
+            token = token.replaceAll(check, "");
+        }
+        System.out.println("token: " + token);
+        return token;
+    }
+
 
 
 
