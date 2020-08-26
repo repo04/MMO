@@ -21,15 +21,15 @@ public class LoginPage extends BaseClass {
 //        u.verifyWindowTitle(driver, "Precisely - Trust your data. Build your possibilities.", ip);
 //        driver.navigate().back();
 //        ip.isTitlePresent(driver, "MapMarker");
-    	ip.isTextPresentByXPATH(driver, "//h1", "MapMarker");
+    	ip.isGetTextContainsByXPATH(driver, "//h1", "MapMarker");
     	ip.isElementPresentByXPATH(driver, "//div[2]/label");
         ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInUserName"));
         ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInPassword"));
         ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInLoginButton"));
-        ip.isTextPresentByXPATH(driver, "//label/span", "Remember me", 10);
-        ip.isTextPresentByXPATH(driver, "//p/a", "Forgot your password?", 10);
-        ip.isTextPresentByXPATH(driver, "//div/div/label", "Not a registered user?", 10);
-        ip.isTextPresentByXPATH(driver, "//div/div/div/a", "Sign up now", 10);
+        ip.isGetTextContainsByXPATH(driver, "//label/span", "Remember me", 10);
+        ip.isGetTextContainsByXPATH(driver, "//p/a", "Forgot your password?", 10);
+        ip.isGetTextContainsByXPATH(driver, "//div/div/label", "Not a registered user?", 10);
+        ip.isGetTextContainsByXPATH(driver, "//div/div/div/a", "Sign up now", 10);
         ip.isElementPresentByXPATH(driver, "//select[@id='localeChangeDropdown']");
     }
     
@@ -61,7 +61,7 @@ public class LoginPage extends BaseClass {
         plusIndex = user.indexOf("+");
         attherateIndex = user.indexOf("@");
 
-        ip.isTextPresentByXPATH(driver, "//a/div/div", user.substring(0, plusIndex) + " " + user.substring(plusIndex + 1, attherateIndex));
+        ip.isGetTextContainsByXPATH(driver, "//a/div/div", user.substring(0, plusIndex) + " " + user.substring(plusIndex + 1, attherateIndex));
     }
 
     /**

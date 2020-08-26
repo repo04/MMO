@@ -21,7 +21,7 @@ public class UnzipUtility extends BaseClass {
 	/**
 	 * Iterates through a ZIP file without actually extracting it
 	 * 
-	 * @param zipFilePath
+	 * @param zipActualFileName
 	 * @param outFileFormat
 	 * @throws IOException
 	 */

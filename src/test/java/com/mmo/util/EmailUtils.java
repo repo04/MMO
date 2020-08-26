@@ -3,11 +3,7 @@ package com.mmo.util;
 import org.testng.Assert;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -452,9 +448,29 @@ public class EmailUtils extends BaseClass {
         return token;
     }
 
-
-
-
+    public Boolean testVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName, String userID, boolean outFileFound) throws Exception {
+        List<Message> list = new ArrayList<>(Arrays.asList(Emails));
+        for (Message email : Emails) {
+            System.out.println("**EMAIL ID: **" + email.getAllRecipients()[0].toString() + "\n");
+            System.out.println("**user ID: **" + userID + "\n");
+            if(emailUtils.isTextInMessage(email, outFileName.substring(0, 15) + "=" + outFileName.substring(15)))
+            {
+                Assert.assertEquals(email.getAllRecipients()[0].toString(), userID,
+                        "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
+                outFileFound = true;
+                String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email);
+                driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
+                ip.isURLContains(driver, "geocoderesult?jobId=");
+                ip.isElementClickableByXpath(driver, "//h1", 60);
+                ip.isGetTextContainsByXPATH(driver ,"//h1", outFileName);
+                list.remove(email);
+                Emails = list.toArray(new Message[0]);
+                System.out.println("Inside Email LENGTH: " + Emails.length);
+                break;
+            }
+        }
+        return outFileFound;
+    }
 
     //************* BOOLEAN METHODS *******************
 

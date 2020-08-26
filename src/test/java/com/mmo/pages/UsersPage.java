@@ -33,18 +33,12 @@ public class UsersPage extends BaseClass {
 			this.userSecondName = "Prof";
 		}
 
-		if(userRole.contains("SA_Admin")) {
-			this.userSecondName = this.userSecondName + "SA_Admin" + this.dateAndTime;
-			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
-		}else if(userRole.contains("SA_User")){
-			this.userSecondName = this.userSecondName + "SA_User" + this.dateAndTime;
-			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");
-		}else if(userRole.contains("SAAd_Admin")){
-			this.userSecondName = this.userSecondName + "SAAd_Admin" + this.dateAndTime;
+		if(userRole.contains("Admin")) {
+			this.userSecondName = this.userSecondName + userRole + this.dateAndTime;
 			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("Admin");
 		}
 		else{
-			this.userSecondName = this.userSecondName + "SAAd_User" + this.dateAndTime;
+			this.userSecondName = this.userSecondName + userRole + this.dateAndTime;
 			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");
     	}
     	userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
@@ -55,7 +49,7 @@ public class UsersPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@id='emailId']")).clear();
 		driver.findElement(By.xpath("//input[@id='emailId']")).sendKeys(userEmailId);
 		driver.findElement(By.xpath("//button[@id='createUserBtn']")).click();
-		ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div", "User has been successfully created.");
+		ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", "User has been successfully created.");
 	}
     
     public void verifyUserDetailInUsersList(String userID, String userFirstName, String userSecondName, String role) {
@@ -66,9 +60,9 @@ public class UsersPage extends BaseClass {
     	int x = 1;
     	for (; x < TotalRowsList.size()+1;) {
     		try {
-				ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[1]", userFirstName + " " + userSecondName, 5);
-    			ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 5);
-	    		ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[4]", role, 5);
+				ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[1]", userFirstName + " " + userSecondName, 5);
+    			ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 5);
+	    		ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[4]", role, 5);
 	    		System.out.println("found at x : "+ x);
 	    		break;
 	    	}
@@ -94,7 +88,7 @@ public class UsersPage extends BaseClass {
 		int x = 1;
 		for (; x < TotalRowsList1.size()+1;) {
 			try {
-				ip.isTextPresentByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 10);
+				ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 10);
 				System.out.println("found at x : "+ x);
 				break;
 			}
@@ -105,8 +99,8 @@ public class UsersPage extends BaseClass {
 		}
 
 		driver.findElement(By.xpath("//tr["+ x + "]/td[5]/a/i")).click();
-		ip.isTextPresentByXPATH(driver, "//h5", "Confirm Delete User");
-		ip.isTextPresentByXPATH(driver, "//p", "Do you really want to delete this user? Once done cannot be reversed.");
+		ip.isGetTextContainsByXPATH(driver, "//h5", "Confirm Delete User");
+		ip.isGetTextContainsByXPATH(driver, "//p", "Do you really want to delete this user? Once done cannot be reversed.");
 		ip.isElementPresentByXPATH(driver, "(//button[@type='button'])[3]");
 		driver.findElement(By.xpath("(//button[@type='button'])[3]")).click();
 
@@ -117,7 +111,7 @@ public class UsersPage extends BaseClass {
 		List<WebElement> TotalRowsList2 = getRows2.findElements(By.tagName("tr"));
 		System.out.println("Total number of Rows in the table after deletion are : " + TotalRowsList2.size());
 
-		Assert.assertEquals(TotalRowsList2.size(), TotalRowsList1.size() - 1, "Table row is not reduced, might be user is not deleted");
+		Assert.assertEquals(TotalRowsList2.size(), TotalRowsList1.size() - 1, "Table row is not reduced, user might not be deleted");
 
 		for (int y = 1; y < TotalRowsList2.size() + 1; y++) {
 			Assert.assertNotEquals(driver.findElement(By.xpath("//tr["+ y + "]/td[2]")).getText(), userID);

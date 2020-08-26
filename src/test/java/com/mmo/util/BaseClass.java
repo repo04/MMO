@@ -18,6 +18,8 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
+import javax.mail.Message;
+
 @Listeners({TestNGCustomReport.class})
 public class BaseClass {
 
@@ -35,6 +37,7 @@ public class BaseClass {
     public static SoftAssert softAssert = new SoftAssert();
     public static EmailUtils emailUtils;
     public static String loginURL;
+    public static Message[] Emails = null;
 
     //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 	
@@ -70,10 +73,20 @@ public class BaseClass {
         emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
                 "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
+        if(envValue.equalsIgnoreCase("qa"))
+        {
+            loginURL = "login-qa.saas.precisely.services";
+        } else if(envValue.equalsIgnoreCase("ppd"))
+        {
+            loginURL = "login-ppd.saas.precisely.com";
+        } else {
+            loginURL = "login.saas.precisely.com";
+        }
+
         switch (browser) {
             case "chrome":
                 String chromDrvrPath = directory.getCanonicalPath() + File.separator + "lib" + File.separator;
-                System.setProperty("webdriver.chrome.driver", chromDrvrPath + "chromedriver_win32_L" + File.separator + "chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", chromDrvrPath + "chromedriver_win32" + File.separator + "chromedriver.exe");
                 
                 // Setting new download directory path
                 Map<String, Object> prefs = new HashMap<String, Object>();
@@ -116,7 +129,7 @@ public class BaseClass {
                 Reporter.log("Browser: " + browser);                
         }
 
-        a.navigateToHomePage();
+        //a.navigateToHomePage();
     }
 
     /**

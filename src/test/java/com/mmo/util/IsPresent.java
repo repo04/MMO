@@ -32,7 +32,7 @@ public class IsPresent {
      * @param path
      * @param text
      */
-    public void isTextPresentByXPATH(WebDriver driver, String path, String text) {
+    public void isGetTextContainsByXPATH(WebDriver driver, String path, String text) {
         new WebDriverWait(driver, 60).until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(path), text));
     }
 
@@ -45,7 +45,7 @@ public class IsPresent {
      * @param text
      * @param wait
      */
-    public void isTextPresentByXPATH(WebDriver driver, String path, String text, int wait) {
+    public void isGetTextContainsByXPATH(WebDriver driver, String path, String text, int wait) {
         new WebDriverWait(driver, wait).until(ExpectedConditions.textToBePresentInElementLocated(By.xpath(path), text));
     }
 

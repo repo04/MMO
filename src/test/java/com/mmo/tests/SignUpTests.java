@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 import org.testng.Reporter;
 import com.mmo.util.EmailUtils;
 
-public class SignUp extends BaseClass{
+public class SignUpTests extends BaseClass{
 
 	static String freeUSUser;
 	static String freeNonUSUser;
@@ -25,9 +25,9 @@ public class SignUp extends BaseClass{
 	@DataProvider(name = "FreeUSUserDetails")
     public static Object[][] FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-		freeUSUserArray[0][0] = "mmoAutomated+FreeUS100820135236@gmail.com";
-		freeUSUserArray[0][1] = "mmoAutomated";
-		freeUSUserArray[0][2] = "FreeUS100820135236";
+//		freeUSUserArray[0][0] = "mmoAutomated+FreeUS260720161144@gmail.com";
+//		freeUSUserArray[0][1] = "mmoAutomated";
+//		freeUSUserArray[0][2] = "FreeUS260720161144";
 		return freeUSUserArray;
     }
 	
@@ -43,9 +43,9 @@ public class SignUp extends BaseClass{
     @DataProvider(name = "Paid5kUserDetails") 	
     public static Object[][] Paid5kUserDetails(ITestContext context) throws Exception {
         System.out.println("init Paid5kUserDetails");
-//		paid5kUserArray[0][0] = "mmoAutomated+5k280720180105@gmail.com";
+//		paid5kUserArray[0][0] = "mmoAutomated+5k260720161444@gmail.com";
 //		paid5kUserArray[0][1] = "mmoAutomated";
-//		paid5kUserArray[0][2] = "5k280720180105";
+//		paid5kUserArray[0][2] = "5k260720161444";
 		return paid5kUserArray;
     }
 	
@@ -99,7 +99,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(freeUSUser, u.getFirstName(freeUSUser), u.getSecondName(freeUSUser), claimTokenID);
 	}
 
-	//@Test(groups = {"regressionSuite"})
+	@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeNonUSUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -115,7 +115,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(freeNonUSUser, u.getFirstName(freeNonUSUser), u.getSecondName(freeNonUSUser), claimTokenID);
 	}
 
-	//@Test(groups = {"regressionSuite"})
+	@Test(groups = {"regressionSuite"})
 	public void testSignUpPaid5kUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -131,7 +131,7 @@ public class SignUp extends BaseClass{
 		a.completeRegistration(paid5kUser, u.getFirstName(paid5kUser), u.getSecondName(paid5kUser), claimTokenID);
 	}
 
-	//@Test(groups = {"regressionSuite"})
+	@Test(groups = {"regressionSuite"})
 	public void testSignUpPaidProfUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();

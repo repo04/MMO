@@ -95,7 +95,7 @@ public class Actions extends BaseClass{
     public void navigateToDashboard() {
     	ip.isElementClickableByXpath(driver, "//a[contains(text(),'Dashboard')]", 60);
     	u.clickByJavaScript(driver, "//a[contains(text(),'Dashboard')]");
-		ip.isTextPresentByXPATH(driver, "//h1", "MapMarker Dashboard");
+		ip.isGetTextContainsByXPATH(driver, "//h1", "MapMarker Dashboard");
 		u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
 	}
     
@@ -105,7 +105,7 @@ public class Actions extends BaseClass{
     public void navigateToUploadFile() {
     	ip.isElementClickableByXpath(driver, "//button[@id='btnUploadFile']", 60);
     	u.clickByJavaScript(driver, "//button[@id='btnUploadFile']");
-		ip.isTextPresentByXPATH(driver, "//h1", "Step 1: Upload File"); 
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Step 1: Upload File");
     }
     
     /**
@@ -114,7 +114,7 @@ public class Actions extends BaseClass{
     public void navigateToCreateUser() {
     	ip.isElementClickableByXpath(driver, "//a[@id='btnCreateNewUser']", 60);
     	driver.findElement(By.xpath("//a[@id='btnCreateNewUser']")).click();
-		ip.isTextPresentByXPATH(driver, "//h1", "Create New User"); 
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Create New User");
     }
 
     /**
@@ -124,7 +124,7 @@ public class Actions extends BaseClass{
     	ip.isElementClickableByXpath(driver, "//li[@id='userContextMenuLi']/a/div/div", 60);
     	u.clickByJavaScript(driver, "//a[contains(text(),'Billing & Plans')]");
 		u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
-		ip.isTextPresentByXPATH(driver, "//h1", "Billing & Plans");
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Billing & Plans");
     	u.verifyCurrentUrlContains(driver, "billing");    	
     }
 
@@ -134,7 +134,7 @@ public class Actions extends BaseClass{
 	public void navigateToUsers() {
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Users')]", 60);
 		driver.findElement(By.xpath("//a[contains(text(),'Users')]")).click();
-		ip.isTextPresentByXPATH(driver, "//h1", "Users");
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Users");
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Create New User')]", 60);
 	}
 
@@ -217,9 +217,6 @@ public class Actions extends BaseClass{
 	 * 
 	 */
 	public void verifyDashboard(String userFirstName, String userSecondName) {
-		//FooterPage fp = new FooterPage();
-		//fp.verifyFooter();
-
 		DashboardPage dp = new DashboardPage();
 		dp.verifyDashboard(userFirstName, userSecondName);
 	}
@@ -256,21 +253,7 @@ public class Actions extends BaseClass{
 
 	public void navigateToHomePage() {
 
-		if(envValue.equalsIgnoreCase("qa"))
-		{
-			System.out.print("****OPEN QA URL****" + "\n");
-			driver.get("https://" + xpv.getTokenValue("qaURL"));
-			loginURL = "login-qa.saas.precisely.services";
-		} else if(envValue.equalsIgnoreCase("ppd"))
-		{
-			System.out.print("****OPEN PPD URL****");
-			driver.get("https://" + xpv.getTokenValue("ppdURL"));
-			loginURL = "login-ppd.saas.precisely.com";
-		} else {
-			System.out.print("****OPEN PROD URL****");
-			driver.get("https://" + xpv.getTokenValue("prodURL"));
-			loginURL = "login.saas.precisely.com";
-		}
+		driver.get("https://" + xpv.getTokenValue(envValue+"URL"));
 		ip.isTitlePresent(driver, "MapMarker");
 	}
 
@@ -307,7 +290,7 @@ public class Actions extends BaseClass{
 	public void navigateToProfilePage() {
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Profile')]");
 		u.clickByJavaScript(driver, "//a[contains(text(),'Profile')]");
-		ip.isTextPresentByXPATH(driver, "//h1", "Profile");
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Profile");
 	}
 
 	public void verifyProfilePage(String userID, String userFirstName, String userSecondName) {

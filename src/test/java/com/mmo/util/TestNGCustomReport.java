@@ -1,17 +1,19 @@
 package com.mmo.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.ss.formula.functions.Count;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.testng.ITestContext;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.TestListenerAdapter;
+import org.testng.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TestNGCustomReport extends TestListenerAdapter {
 
@@ -26,7 +28,7 @@ public class TestNGCustomReport extends TestListenerAdapter {
     }
 
     @Override
-    public void onTestStart(ITestResult result) {
+    public void onTestStart(ITestResult iTestResult) {
         //Do Nothing
     }
 

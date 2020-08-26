@@ -19,13 +19,13 @@ public class FooterPage extends BaseClass{
 		assertEquals(driver.findElement(By.xpath("//footer/div/div/div/div/span")).getText(),"© 2018, 2020 Precisely. All rights reserved.");
 
 		// Legal
-		ip.isTextPresentByXPATH(driver, "//footer/div/div/div[2]/div/a", "Legal");
+		ip.isGetTextContainsByXPATH(driver, "//footer/div/div/div[2]/div/a", "Legal");
 		driver.findElement(By.xpath("//footer/div/div/div[2]/div/a")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
 		u.verifyWindowTitle(driver, "Mapmarker Online Agreement - Precisely", ip);
 
 		// Contact us
-		ip.isTextPresentByXPATH(driver, "//footer/div/div/div[2]/div/a[2]", "Contact us");
+		ip.isGetTextContainsByXPATH(driver, "//footer/div/div/div[2]/div/a[2]", "Contact us");
 		driver.findElement(By.xpath("//footer/div/div/div[2]/div/a[2]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
 		u.verifyWindowTitle(driver, "Contact Us - Precisely Support", ip);
@@ -35,15 +35,15 @@ public class FooterPage extends BaseClass{
 
 		// Footers
 		ip.isElementClickableByXpath(driver, "//a[contains(@href, 'https://www.precisely.com')]", 60);
-		ip.isTextPresentByXPATH(driver, "//div/span", "©2015,2020 Precisely. All rights reserved.");
+		ip.isGetTextContainsByXPATH(driver, "//div/span", "©2015,2020 Precisely. All rights reserved.");
 
 		// Legal
-		ip.isTextPresentByXPATH(driver, "//div[2]/div/a[1]", "Legal");
+		ip.isGetTextContainsByXPATH(driver, "//div[2]/div/a[1]", "Legal");
 
 		// Privacy
-		ip.isTextPresentByXPATH(driver, "//div[2]/div/a[2]", "Privacy");
+		ip.isGetTextContainsByXPATH(driver, "//div[2]/div/a[2]", "Privacy");
 
 		// Terms of use
-		ip.isTextPresentByXPATH(driver, "//div[2]/div/a[3]", "Terms of use");
+		ip.isGetTextContainsByXPATH(driver, "//div[2]/div/a[3]", "Terms of use");
 	}
 }

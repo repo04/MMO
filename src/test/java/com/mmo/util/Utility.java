@@ -130,7 +130,7 @@ public class Utility {
 				try {
 					ip.isTitleContains(driver, text);
 					if(text.contains("Agreement")) {
-						ip.isTextPresentByXPATH(driver, "//a[contains(@href, '/app/uploads/2020/05/mapmarker-com-service-agreement-may-28-2020.pdf')]", 
+						ip.isGetTextContainsByXPATH(driver, "//a[contains(@href, '/app/uploads/2020/05/mapmarker-com-service-agreement-may-28-2020.pdf')]",
 								"Mapmarker Online Agreement (May 2020)");
 					}
 					driver.close();
@@ -467,8 +467,8 @@ public class Utility {
 
 			endRow = tableEnd.getRow();
 			endCol = tableEnd.getColumn();
-			System.out.println("startRow=" + startRow + ", endRow=" + endRow + ", " + "startCol=" + startCol
-					+ ", endCol=" + endCol);
+//			System.out.println("startRow=" + startRow + ", endRow=" + endRow + ", " + "startCol=" + startCol
+//					+ ", endCol=" + endCol);
 			totalRows = endRow - startRow - 1;
 			totalCols = endCol - startCol - 1;
 			tabArray = new String[totalRows][totalCols];
@@ -478,6 +478,7 @@ public class Utility {
 				cj = 0;
 				for (int j = startCol + 1; j < endCol; j++, cj++) {
 					tabArray[ci][cj] = sheet.getCell(j, i).getContents();
+					//System.out.println("["+ci+"]["+cj+"]: " + tabArray[ci][cj] +"\n");
 				}
 			}
 		} catch (Exception e) {

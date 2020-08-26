@@ -56,11 +56,11 @@ public class JobPage extends BaseClass {
 		WebElement elm;
 		if(geocodingType.equalsIgnoreCase("forward")) {
 			driver.findElement(By.xpath("//div[2]/div/ul/li[1]/a")).click();
-			ip.isTextPresentByXPATH(driver, "//h2", "Geocoding");
+			ip.isGetTextContainsByXPATH(driver, "//h2", "Geocoding");
 			elm = driver.findElement(By.xpath("//input[@type='file']"));
 		}else {
 			driver.findElement(By.xpath("//div[2]/div/ul/li[2]/a")).click();
-			ip.isTextPresentByXPATH(driver, "//div[2]/h2", "Reverse Geocoding");
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/h2", "Reverse Geocoding");
 			elm = driver.findElement(By.xpath("(//input[@type='file'])[2]"));
 		}
 		((JavascriptExecutor) driver).executeScript(
@@ -68,12 +68,12 @@ public class JobPage extends BaseClass {
 				elm);
 		elm.sendKeys(file);
 		ip.isURLContains(driver, "configureGeocoder");
-		ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
-		ip.isTextPresentByXPATH(driver, "//h1", "Step 2: Input Options");
+		ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Step 2: Input Options");
 
 		if(driver.getCurrentUrl().contains("?isFirstJob=true")){
 			System.out.println("***inside first job***");
-			ip.isTextPresentByXPATH(driver, "//div[@id='inputFieldViewAnchor']/div/div/div/h5",
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='inputFieldViewAnchor']/div/div/div/h5",
 					"We filled in some of the fields below, if you need to replace them drag and drop your columns" +
 							" from uploaded records snapshot.");
 			driver.findElement(By.xpath("//div[@id='inputFieldViewAnchor']/div/div/div/button")).click();
@@ -126,7 +126,7 @@ public class JobPage extends BaseClass {
 
 				if (autoDrag.equalsIgnoreCase("Y")) {
 					try {
-						ip.isTextPresentByXPATH(driver, xpath, col, 15);
+						ip.isGetTextContainsByXPATH(driver, xpath, col, 15);
 						x++;
 					} catch (Exception e) {
 						System.out.print("****AUTO DRAG****" + "\n");
@@ -139,7 +139,7 @@ public class JobPage extends BaseClass {
 							Actions builder = new Actions(driver); // Configure the Action
 							((Locatable) dropElement).getCoordinates().inViewPort();
 							builder.dragAndDrop(dragElement, dropElement).build().perform();
-							ip.isTextPresentByXPATH(driver, xpath, col, 15);
+							ip.isGetTextContainsByXPATH(driver, xpath, col, 15);
 							x++;
 							z = 5;
 						} catch (Exception e) {
@@ -208,18 +208,18 @@ public class JobPage extends BaseClass {
 
 		if(geocodingType.equalsIgnoreCase("forward")) {
 			if (!country.startsWith("Mapped")) {
-				ip.isTextPresentByXPATH(driver, "//ngb-modal-window/div/div/div/h5", "Country Not Mapped");
-				ip.isTextPresentByXPATH(driver, "//p",
+				ip.isGetTextContainsByXPATH(driver, "//ngb-modal-window/div/div/div/h5", "Country Not Mapped");
+				ip.isGetTextContainsByXPATH(driver, "//p",
 						"You have not mapped country column from uploaded file with country box in fields to geocode section. "
 								+ "For accurate and faster results, it is recommended to map country especially if your file contains addresses from "
 								+ "multiple countries.");
 				ip.isElementClickableByXpath(driver, "(//button[@type='button'])[4]", 60);
 				driver.findElement(By.xpath("(//button[@type='button'])[4]")).click();
-				ip.isTextPresentByXPATH(driver, "//h1", "Step 3: Geocode Options");
+				ip.isGetTextContainsByXPATH(driver, "//h1", "Step 3: Geocode Options");
 				ip.isElementClickableByXpath(driver, "//select", 60);
 				new Select(driver.findElement(By.xpath("//select"))).selectByVisibleText(country);
 			} else {
-				ip.isTextPresentByXPATH(driver, "//h1", "Step 3: Geocode Options");
+				ip.isGetTextContainsByXPATH(driver, "//h1", "Step 3: Geocode Options");
 				if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[1]/input")).isEnabled()) {
 					u.illegalStateException("Country dropdown should be disabled");
 				}
@@ -227,25 +227,25 @@ public class JobPage extends BaseClass {
 			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
 			new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
 		}else {
-			ip.isTextPresentByXPATH(driver, "//h1", "Step 3: Geocode Options");
-			ip.isTextPresentByXPATH(driver, "//div[1]/h5", "Distance");
-			ip.isTextPresentByXPATH(driver, "//div[2]/h5", "Coordinate System");
+			ip.isGetTextContainsByXPATH(driver, "//h1", "Step 3: Geocode Options");
+			ip.isGetTextContainsByXPATH(driver, "//div[1]/h5", "Distance");
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/h5", "Coordinate System");
 			new Select(driver.findElement(By.xpath("//div[2]/select"))).selectByVisibleText(coordSystem);
 		}
 		
 		driver.findElement(By.xpath("//button[@id='startJobBtn']")).click();
-		ip.isTextPresentByXPATH(driver, "//div[2]/div/div", "Your job \"" + outputFileName + "\" has "
+		ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "Your job \"" + outputFileName + "\" has "
 				+ "been successfully started. We will notify you once it is complete.");
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
-		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outputFileName);
-		ip.isTextPresentByXPATH(driver, "//tr[1]/td[2]", outputFormat.toUpperCase());
+		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
+		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[2]", outputFormat.toUpperCase());
 		if(geocodingType.equalsIgnoreCase("forward")) {
-			ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "Geocoding");
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[4]", "Geocoding");
 		} else{
-			ip.isTextPresentByXPATH(driver, "//tr[1]/td[4]", "Reverse Geocoding");
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[4]", "Reverse Geocoding");
 		}
 
 		if(!secondName.contains("User")) {
@@ -269,7 +269,7 @@ public class JobPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
-		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outputFileName);
+		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
 		int x = 0;
 		do {
 			System.out.print("****x Value**** : " + x + "\n");
@@ -306,7 +306,7 @@ public class JobPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
-		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outputFileName);
+		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
 		ip.isElementClickableByXpath(driver, "//a[@id='downloadFile']", 60);
 
 		this.jobStatus = driver.findElement(By.xpath("//tr[1]/td[7]")).getText();
@@ -339,7 +339,7 @@ public class JobPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
-		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outputFileName);
+		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
 		ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[2]/i", 60);
 		driver.findElement(By.xpath("//tr[1]/td[9]/a[2]/i")).click();
 
@@ -388,11 +388,11 @@ public class JobPage extends BaseClass {
 		WebElement elm;
 		if(geocodingType.equalsIgnoreCase("forward")) {
 			driver.findElement(By.xpath("//div[2]/div/ul/li[1]/a")).click();
-			ip.isTextPresentByXPATH(driver, "//h2", "Geocoding");
+			ip.isGetTextContainsByXPATH(driver, "//h2", "Geocoding");
 			elm = driver.findElement(By.xpath("//input[@type='file']"));
 		}else {
 			driver.findElement(By.xpath("//div[2]/div/ul/li[2]/a")).click();
-			ip.isTextPresentByXPATH(driver, "//div[2]/h2", "Reverse Geocoding");
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/h2", "Reverse Geocoding");
 			elm = driver.findElement(By.xpath("(//input[@type='file'])[2]"));
 		}
 		((JavascriptExecutor) driver).executeScript(
@@ -400,28 +400,28 @@ public class JobPage extends BaseClass {
 				elm);
 		elm.sendKeys(file);
 		if(inputFileName.contains("Casing") || inputFileName.contains("CountryCol")) {
-			ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
 				switch(inputFileName.substring(0, inputFileName.lastIndexOf("."))) {
 				case "ForwardFileWithColRepeat_InSameCasing":
-					ip.isTextPresentByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "Address");
+					ip.isGetTextContainsByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "Address");
 					break;
 				case "ForwardFileWithColRepeat_InDiffCasing":
-					ip.isTextPresentByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "address");
+					ip.isGetTextContainsByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "address");
 					break;
 				case "ReverseFileWithColRepeat_InSameCasing":
-					ip.isTextPresentByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "Longitude");
+					ip.isGetTextContainsByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "Longitude");
 					break;
 				case "ReverseFileWithColRepeat_InDiffCasing":
-					ip.isTextPresentByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "longiTUDE");
+					ip.isGetTextContainsByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "longiTUDE");
 					break;
 				default:
 					System.out.print("****in DEFAULT****" + "\n");
-					ip.isTextPresentByXPATH(driver, "//div[@id='countryColumn']/div/a", "Country");
+					ip.isGetTextContainsByXPATH(driver, "//div[@id='countryColumn']/div/a", "Country");
 			  }
 			driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
-			ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
 		}else {
-			ip.isTextPresentByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
 		}
 		Reporter.log("Verified '" + expectedMessage + "' in " + geocodingType + " geocoding.<br/>");
 	}
@@ -436,14 +436,14 @@ public class JobPage extends BaseClass {
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outFileName);
-		ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outFileName);
 		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 		if(!userSecondName.contains("User")) {
-			ip.isTextPresentByXPATH(driver, "//tr[1]/td[8]", "Success", 10);
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[8]", "Success", 10);
 			ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[1]/i", 60);
 			driver.findElement(By.xpath("//tr[1]/td[9]/a[1]/i")).click();
 		}else{
-			ip.isTextPresentByXPATH(driver, "//tr[1]/td[7]", "Success", 10);
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[7]", "Success", 10);
 			ip.isElementClickableByXpath(driver, "//tr[1]/td[8]/a[1]/i", 60);
 			driver.findElement(By.xpath("//tr[1]/td[8]/a[1]/i")).click();
 		}
@@ -454,16 +454,16 @@ public class JobPage extends BaseClass {
 		ip.invisibilityOfElementByCSS(driver, "div.alert.alert-success");
 
 		if(geocodingType.equalsIgnoreCase("reverse")){
-			ip.isTextPresentByXPATH(driver, "//div[2]/div[2]/div/div/div", "Reverse Geocode Breakdown");
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/div[2]/div/div/div", "Reverse Geocode Breakdown");
 		}else{
-			ip.isTextPresentByXPATH(driver, "//div[2]/div[2]/div/div/div", "Geocode Breakdown");
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/div[2]/div/div/div", "Geocode Breakdown");
 			ip.isTextPresentByID(driver, "matchMode", "Match Mode: " + matchMode, 15);
 		}
 
 		ip.isTextPresentByID(driver, "fileName", "File Name: " + inputFileName.substring(0, inputFileName.indexOf(".")), 15);
 		ip.isTextPresentByID(driver, "coordinateSystemValue", "Projection: " + coordSystem.toLowerCase(), 15);
 		System.out.print("****totalRecords****: " + totalRecords + "\n");
-		ip.isTextPresentByXPATH(driver, "//div[@id='totalRecords']/span", totalRecords, 15);
+		ip.isGetTextContainsByXPATH(driver, "//div[@id='totalRecords']/span", totalRecords, 15);
 		int successRecords = Integer.valueOf(driver.findElement(By.id("successRecordCount")).getText());
 		int failedRecords = Integer.valueOf(driver.findElement(By.id("failedRecordCount")).getText());
 		int actualTotalRecords = successRecords + failedRecords;
@@ -501,7 +501,7 @@ public class JobPage extends BaseClass {
 			System.out.println("***IN USER***");
 			if(outFileName.contains(userSecondName)){
 				System.out.println("***User file found***" + outFileName);
-				ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+				ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outFileName);
 				ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 			}else{
 				System.out.println("***User file not found***" + outFileName);
@@ -511,7 +511,7 @@ public class JobPage extends BaseClass {
 			System.out.println("***IN ADMIN***");
 			if(outFileName.contains("User") || outFileName.contains("Admin")){
 				System.out.println("***Admin file found***" + outFileName);
-				ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+				ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outFileName);
 				ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 			}else{
 				System.out.println("***Admin file not found***" + outFileName);
@@ -519,7 +519,7 @@ public class JobPage extends BaseClass {
 			}
 		}else{
 			System.out.println("***SA file found***" + outFileName);
-			ip.isTextPresentByXPATH(driver, "//tr[1]/td/div", outFileName);
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outFileName);
 			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 		}
 	}

@@ -18,11 +18,11 @@ public class DashboardPage extends BaseClass{
 	 */
 	public void verifyDashboard(String userFirstName, String userSecondName) {
 		ip.isURLContains(driver, "/dashboard");
-		ip.isTextPresentByXPATH(driver, "//a/div/div", userFirstName + " " + userSecondName);
-		ip.isTextPresentByXPATH(driver, "//h1", "MapMarker Dashboard");
+		ip.isGetTextContainsByXPATH(driver, "//a/div/div", userFirstName + " " + userSecondName);
+		ip.isGetTextContainsByXPATH(driver, "//h1", "MapMarker Dashboard");
 		ip.isElementPresentByCSS(driver, "div.progress.customProgress");
-		ip.isTextPresentByXPATH(driver, "//h2", "You have not Geocoded any address yet. Upload file to start geocoding now.");
-		ip.isTextPresentByXPATH(driver, "//div[4]/div/div", "Got questions? Please check our detailed documentation and FAQs.");
+		ip.isGetTextContainsByXPATH(driver, "//h2", "You have not Geocoded any address yet. Upload file to start geocoding now.");
+		ip.isGetTextContainsByXPATH(driver, "//div[4]/div/div", "Got questions? Please check our detailed documentation and FAQs.");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Dashboard')]");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Profile')]");
 		if (userSecondName.contains("Admin")) {
@@ -39,7 +39,15 @@ public class DashboardPage extends BaseClass{
 			ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Billing & Plans')]");
 		}
 
-		ip.isTextPresentByXPATH(driver, "//button[@id='btnUploadFile']", "Upload File");
+		if(userSecondName.contains("Prof")){
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "/ 300,000 geocodes");
+		}else if(userSecondName.contains("5k")){
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "/ 5,000 geocodes");
+		}else{
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "/ 2,500 geocodes");
+		}
+
+		ip.isGetTextContainsByXPATH(driver, "//button[@id='btnUploadFile']", "Upload File");
 
 		driver.findElement(By.xpath("//a[contains(text(),'documentation')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
@@ -56,18 +64,18 @@ public class DashboardPage extends BaseClass{
 	 */
 	public void downloadAllDefaultTemplates(String[] defaultTemplates) {
 		driver.findElement(By.xpath("//button[@id='btnUploadFile']")).click();
-		ip.isTextPresentByXPATH(driver, "//h1", "Step 1: Upload File");
+		ip.isGetTextContainsByXPATH(driver, "//h1", "Step 1: Upload File");
 		
 		u.emptyDefaultDownloadPath(defaultDownloadPath);
 		
 		driver.findElement(By.xpath("//div[2]/div/ul/li[2]/a")).click();
-		ip.isTextPresentByXPATH(driver, "//div[2]/h2", "Reverse Geocoding");
-		ip.isTextPresentByXPATH(driver, "//div[2]/p", "Reverse Geocoding returns an ADDRESS for a given X, Y "
+		ip.isGetTextContainsByXPATH(driver, "//div[2]/h2", "Reverse Geocoding");
+		ip.isGetTextContainsByXPATH(driver, "//div[2]/p", "Reverse Geocoding returns an ADDRESS for a given X, Y "
 				+ "(longitude and latitude values) coordinate.");
 		
 		driver.findElement(By.xpath("//div[2]/div/ul/li/a")).click();
-		ip.isTextPresentByXPATH(driver, "//h2", "Geocoding");
-		ip.isTextPresentByXPATH(driver, "//p", "Geocoding is the process of assigning an X, Y (longitude and latitude values) "
+		ip.isGetTextContainsByXPATH(driver, "//h2", "Geocoding");
+		ip.isGetTextContainsByXPATH(driver, "//p", "Geocoding is the process of assigning an X, Y (longitude and latitude values) "
 				+ "coordinate pair to the description of a place and to accurately identify corresponding records in one or "
 				+ "more reference data sources which closely describe that place.");
 		

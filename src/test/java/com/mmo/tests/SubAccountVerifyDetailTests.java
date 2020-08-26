@@ -5,7 +5,7 @@ import com.mmo.util.BaseClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class SubUsersVerifyDetailTests extends BaseClass {
+public class SubAccountVerifyDetailTests extends BaseClass {
 
     Actions a = new Actions();
     private String downloadDefaultTemplates[] = new String[6];
@@ -16,7 +16,7 @@ public class SubUsersVerifyDetailTests extends BaseClass {
         a.navigateToLogin();
     }
 
-    @Test(dataProvider = "AllAdminDetails", dataProviderClass = CreateSubAccountTests.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "SubscriptionAdminCreateAdminDetails", dataProviderClass = CreateSubAccountTests.class, groups = {"regressionSuite"})
     public void testAdminVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.verifyLoginPage();
 
@@ -42,7 +42,7 @@ public class SubUsersVerifyDetailTests extends BaseClass {
         a.logOut();
     }
 
-    @Test(dataProvider = "AllUserDetails", dataProviderClass = CreateSubAccountTests.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "AdminCreateUserDetails", dataProviderClass = CreateSubAccountTests.class, groups = {"regressionSuite"})
     public void testUserVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.verifyLoginPage();
 

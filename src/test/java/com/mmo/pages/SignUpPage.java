@@ -90,7 +90,7 @@ public class SignUpPage extends BaseClass{
 			driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(this.userEmailId);
 		}else{
 			ip.isURLContains(driver, "addproduct");
-			ip.isTextPresentByXPATH(driver, "//div[@id='alertsuccess']/div[2]/span",
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='alertsuccess']/div[2]/span",
 					"Welcome back. To add MapMarker to your account, fill in your details below and click the \"Add Product\" button");
 			int plusIndex, attherateIndex;
 			plusIndex = addProductFlow.indexOf("+");
@@ -114,14 +114,14 @@ public class SignUpPage extends BaseClass{
 			enterPaymentDetails();
 		}
 		if(!addProductFlow.startsWith("mmoAutomated")) {
-			ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
-			ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
+			ip.isGetTextContainsByXPATH(driver, "//p[@id='successtext']", "Success!");
+			ip.isGetTextContainsByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for MapMarker. "
 					+ "Please check your email to complete your registration process. You may safely close this window.");
 		}else{
-			ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
-			ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Your subscription has been added. Redirecting to Dashboard.");
+			ip.isGetTextContainsByXPATH(driver, "//p[@id='successtext']", "Success!");
+			ip.isGetTextContainsByXPATH(driver, "//p[@id='youraccttext']", "Your subscription has been added. Redirecting to Dashboard.");
 			ip.isURLContains(driver, "/dashboard");
-			ip.isTextPresentByXPATH(driver, "//a/div/div", this.userFirstName + " " + this.userSecondName);
+			ip.isGetTextContainsByXPATH(driver, "//a/div/div", this.userFirstName + " " + this.userSecondName);
 		}
 	}
 
@@ -155,7 +155,7 @@ public class SignUpPage extends BaseClass{
 
 	public void enterPaymentDetails(){
 		ip.isURLContains(driver, "payment/geocoding");
-		ip.isTextPresentByXPATH(driver, "//div[@id='paymentinfoheading']", "Payment Info");
+		ip.isGetTextContainsByXPATH(driver, "//div[@id='paymentinfoheading']", "Payment Info");
 		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Payment')]");
 		ip.frameToBeAvailableAndSwitchToIt(driver, "paymetricsForm");
 		ip.isElementClickableByXpath(driver, "//input[@id='c-cardname']", 60);
@@ -213,8 +213,8 @@ public class SignUpPage extends BaseClass{
 
 		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']/span[2]", 60);
 		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']/span[2]");
-		ip.isTextPresentByXPATH(driver, "//p[@id='successtext']", "Success!");
-		ip.isTextPresentByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for GeoTAX. " +
+		ip.isGetTextContainsByXPATH(driver, "//p[@id='successtext']", "Success!");
+		ip.isGetTextContainsByXPATH(driver, "//p[@id='youraccttext']", "Thank you for registering for GeoTAX. " +
 				"Please check your email to complete your registration process. You may safely close this window.");
 		System.out.println("**" + this.userFirstName + "**" + this.userSecondName + "**" + this.userEmailId);
 	}
@@ -240,7 +240,7 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//input[@id='email-nf']")).sendKeys(userID);
 		driver.findElement(By.xpath("//input[@id='verifyemail']")).sendKeys(userID);
 		ip.isElementClickableByXpath(driver, "//div[@id='alertsuccess']/div[2]/span", 60);
-		ip.isTextPresentByXPATH(driver, "//div[@id='alertsuccess']/div[2]/span",
+		ip.isGetTextContainsByXPATH(driver, "//div[@id='alertsuccess']/div[2]/span",
 				"Welcome back. Please verify your credentials to add MapMarker subscription to your account.");
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'Click here to proceed.')]", 60);
 		driver.findElement(By.xpath("//a[contains(text(),'Click here to proceed.')]")).click();

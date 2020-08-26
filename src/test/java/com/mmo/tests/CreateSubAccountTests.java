@@ -22,36 +22,36 @@ public class CreateSubAccountTests extends BaseClass {
     @DataProvider(name = "SubscriptionAdminCreateAdminDetails")
     public static Object[][] SubscriptionAdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateAdminDetails");
-        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSA_Admin100820135427@gmail.com";
-        subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
-        subscriptionAdminCreateAdminArray[0][2] = "FreeUSSA_Admin100820135427";
+//        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSA_Admin210820141529@gmail.com";
+//        subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
+//        subscriptionAdminCreateAdminArray[0][2] = "FreeUSSA_Admin210820141529";
         return (subscriptionAdminCreateAdminArray);
     }
 
     @DataProvider(name = "SubscriptionAdminCreateUserDetails")
     public static Object[][] SubscriptionAdminCreateUserDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateUserDetails");
-        subscriptionAdminCreateUserArray[0][0] = "mmoAutomated+FreeUSSA_User100820135526@gmail.com";
-        subscriptionAdminCreateUserArray[0][1] = "mmoAutomated";
-        subscriptionAdminCreateUserArray[0][2] = "FreeUSSA_User100820135526";
+//        subscriptionAdminCreateUserArray[0][0] = "mmoAutomated+FreeUSSA_User210820141630@gmail.com";
+//        subscriptionAdminCreateUserArray[0][1] = "mmoAutomated";
+//        subscriptionAdminCreateUserArray[0][2] = "FreeUSSA_User210820141630";
         return (subscriptionAdminCreateUserArray);
     }
 
     @DataProvider(name = "AdminCreateAdminDetails")
     public static Object[][] AdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateAdminDetails");
-        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSAAd_Admin100820135621@gmail.com";
-        adminCreateAdminArray[0][1] = "mmoAutomated";
-        adminCreateAdminArray[0][2] = "FreeUSSAAd_Admin100820135621";
+//        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSAd_Admin210820141731@gmail.com";
+//        adminCreateAdminArray[0][1] = "mmoAutomated";
+//        adminCreateAdminArray[0][2] = "FreeUSAd_Admin210820141731";
         return (adminCreateAdminArray);
     }
 
     @DataProvider(name = "AdminCreateUserDetails")
     public static Object[][] AdminCreateUserDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateUserDetails");
-        adminCreateUserArray[0][0] = "mmoAutomated+FreeUSSAAd_User100820135718@gmail.com";
-        adminCreateUserArray[0][1] = "mmoAutomated";
-        adminCreateUserArray[0][2] = "FreeUSSAAd_User100820135718";
+//        adminCreateUserArray[0][0] = "mmoAutomated+FreeUSAd_User210820141844@gmail.com";
+//        adminCreateUserArray[0][1] = "mmoAutomated";
+//        adminCreateUserArray[0][2] = "FreeUSAd_User210820141844";
         return (adminCreateUserArray);
     }
 
@@ -73,7 +73,7 @@ public class CreateSubAccountTests extends BaseClass {
         a.navigateToLogin();
     }
 
-    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateAdmin(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
@@ -93,7 +93,7 @@ public class CreateSubAccountTests extends BaseClass {
         sa++;
     }
 
-    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateUser(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
@@ -109,7 +109,7 @@ public class CreateSubAccountTests extends BaseClass {
         a.logOut();
         Thread.sleep(10000);
         String claimTokenID = emailUtils.getTokenForSubUsers("Welcome! Get started with Precisely MapMarker", subscriptionAdminCreateUserArray[su][0], EmailUtils.EmailFolder.SUBUSERS);
-        a.completeRegistration(subscriptionAdminCreateUserArray[su][0], subscriptionAdminCreateUserArray[su][1], subscriptionAdminCreateUserArray[su][2]  , claimTokenID);
+        a.completeRegistration(subscriptionAdminCreateUserArray[su][0], subscriptionAdminCreateUserArray[su][1], subscriptionAdminCreateUserArray[su][2] , claimTokenID);
         su++;
     }
 
@@ -151,13 +151,5 @@ public class CreateSubAccountTests extends BaseClass {
         String claimTokenID = emailUtils.getTokenForSubUsers("Welcome! Get started with Precisely MapMarker", adminCreateUserArray[au][0], EmailUtils.EmailFolder.SUBUSERS);
         a.completeRegistration(adminCreateUserArray[au][0], adminCreateUserArray[au][1], adminCreateUserArray[au][2]  , claimTokenID);
         au++;
-    }
-
-    //@Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUp.class)
-    public void testSubscriptionAdminDeleteUser(String userID, String userFirstName, String userSecondName) throws Exception {
-        a.login(userID);
-        a.navigateToUsers();
-        a.deleteUser("qwer+rewq2@gmail.com");
-        Reporter.log("User deleted: " + adminCreateUserArray[0][0], true);
     }
 }

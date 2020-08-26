@@ -18,7 +18,7 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
         a.verifyLoginPageFooters();
     }
 
-    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
@@ -43,7 +43,7 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
         a.logOut();
     }
 
-    @Test(dataProvider = "AllPaidSubscriptionAdminDetails", dataProviderClass = SignUp.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminUpdateAndVerifyCardDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.navigateToBillingPlan();

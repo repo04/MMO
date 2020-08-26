@@ -12,20 +12,20 @@ import org.testng.annotations.Test;
 
 public class AddProductFlowTests extends BaseClass {
     private String[] textInMessage;
-    static String geoTaxUserDetails;
+    //static String geoTaxUserDetails;
     static String[][] geoTaxUserIDArray = new String[1][1];
     private Actions a = new Actions();
 
     private void testSignUpGeoTaxUserAndCompleteEmailRegistration() throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         a.navigateToGeoTaxPage();
-        geoTaxUserDetails =  a.signUpGeoTaxUser();
-        geoTaxUserIDArray[0][0] = geoTaxUserDetails;
-        System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserDetails);
-        Reporter.log("geoTaxUserID: " + geoTaxUserDetails, true);
+        geoTaxUserIDArray[0][0] =  a.signUpGeoTaxUser();
+        //geoTaxUserIDArray[0][0] = geoTaxUserDetails;
+        System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserIDArray[0][0]);
+        Reporter.log("geoTaxUserID: " + geoTaxUserIDArray[0][0], true);
         Thread.sleep(10000);
-        String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", geoTaxUserDetails, EmailUtils.EmailFolder.STARTUSINGGEOTAX);
-        a.completeRegistration(geoTaxUserDetails, u.getFirstName(geoTaxUserDetails), u.getSecondName(geoTaxUserDetails), claimTokenID);
+        String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", geoTaxUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGGEOTAX);
+        a.completeRegistration(geoTaxUserIDArray[0][0], u.getFirstName(geoTaxUserIDArray[0][0]), u.getSecondName(geoTaxUserIDArray[0][0]), claimTokenID);
 
         if(envValue.equalsIgnoreCase("qa"))
         {
@@ -67,7 +67,7 @@ public class AddProductFlowTests extends BaseClass {
         emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 
-    @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
+    //@Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughSignUpScreenCheckAccessEmail(String userID) throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
         a.navigateToSignUpForAddProductFlow("free", userID);

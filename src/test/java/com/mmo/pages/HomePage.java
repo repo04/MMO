@@ -58,13 +58,13 @@ public class HomePage extends BaseClass{
 
 		//Overages	
 		u.clickByJavaScript(driver, "//a[@onclick='showOverageModal()'][1]");
-		ip.isTextPresentByXPATH(driver, "//h5", "About Plan Overages");
+		ip.isGetTextContainsByXPATH(driver, "//h5", "About Plan Overages");
 		assertEquals(driver.findElement(By.xpath("//div[2]/div/div/div[2]/p")).getText(), "Your plan includes a maximum number of geocodes per month. "
 				+ "If you use more than that, we will bill you at the same \"per geocode\" price for your geocoding as you paid before you went over the limit.");
 		driver.findElement(By.xpath("(//button[@type='button'])[2]")).click();
 		ip.isElementClickableByXpath(driver, "(//a[@onclick='showOverageModal()'])[2]", 30);
 		u.clickByJavaScript(driver, "(//a[@onclick='showOverageModal()'])[2]");
-		ip.isTextPresentByXPATH(driver, "//h5", "About Plan Overages");
+		ip.isGetTextContainsByXPATH(driver, "//h5", "About Plan Overages");
 		assertEquals(driver.findElement(By.xpath("//div[2]/div/div/div[2]/p")).getText(), "Your plan includes a maximum number of geocodes per month. "
 				+ "If you use more than that, we will bill you at the same \"per geocode\" price for your geocoding as you paid before you went over the limit.");
 		u.actionBuilderClick(driver, "//div[@id='overageMessageModal']/div/div/div[2]/button");

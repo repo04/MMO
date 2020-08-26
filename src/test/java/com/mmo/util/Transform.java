@@ -17,10 +17,10 @@ public class Transform implements IAnnotationTransformer {
         if ("testSubscriptionAdminVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyDetails");
             DependentMethods = new String[4];
-            DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
-            DependentMethods[1] = "com.mmo.tests.SignUp.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
-            DependentMethods[2] = "com.mmo.tests.SignUp.testSignUpPaid5kUserAndCompleteEmailRegistration";
-            DependentMethods[3] = "com.mmo.tests.SignUp.testSignUpPaidProfUserAndCompleteEmailRegistration";
+            DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[1] = "com.mmo.tests.SignUpTests.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
+            DependentMethods[2] = "com.mmo.tests.SignUpTests.testSignUpPaid5kUserAndCompleteEmailRegistration";
+            DependentMethods[3] = "com.mmo.tests.SignUpTests.testSignUpPaidProfUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
@@ -34,14 +34,14 @@ public class Transform implements IAnnotationTransformer {
         if ("testSubscriptionAdminCreateAdmin".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminCreateAdmin");
             DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
         if ("testSubscriptionAdminCreateUser".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminCreateUser");
             DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.SignUp.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
@@ -73,53 +73,111 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testDegrade5kToFreePlanAndCheckEmail".equals(testMethod.getName())) {
-            System.out.println("Inside testDegrade5kToFreePlanAndCheckEmail");
-            DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.UpgradeTests.testUpgradeFreeTo5kPlan";
+        if ("testSubscriptionAdminUploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminUploadFileConfigureAndStartGeocoding");
+            DependentMethods = new String[2];
+            DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            DependentMethods[1] = "testJobsBySALogin";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testSAUploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUploadIncorrectFilesAndCheckValidations".equals(testMethod.getName())) {
+        if ("testUploadIncorrectFilesAndCheckValidations".equals(testMethod.getName())) {
+            System.out.println("Inside testUploadIncorrectFilesAndCheckValidations");
             DependentMethods = new String[1];
-            DependentMethods[0] = "testJobsBySALogin";
+            DependentMethods[0] = "testSubscriptionAdminUploadFileConfigureAndStartGeocoding";
             annotation.setDependsOnMethods(DependentMethods);
-        }
-
-        if ("testVerifySAJobEmailsAndAccessDetailsDirectly".equals(testMethod.getName())) {
-            DependentMethods = new String[1];
-            DependentMethods[0] = "testSAUploadFileConfigureAndStartGeocoding";
-            annotation.setDependsOnMethods(DependentMethods);
+            annotation.setAlwaysRun(true);
         }
 
         if ("testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails");
+            DependentMethods = new String[2];
+            DependentMethods[0] = "testUploadIncorrectFilesAndCheckValidations";
+            DependentMethods[1] = "testSubscriptionAdminUploadFileConfigureAndStartGeocoding";
+            annotation.setDependsOnMethods(DependentMethods);
+            annotation.setAlwaysRun(true);
+        }
+
+        if ("testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly");
             DependentMethods = new String[1];
-            DependentMethods[0] = "com.mmo.tests.JobsBySATests.testSAUploadFileConfigureAndStartGeocoding";
+            DependentMethods[0] = "testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testAdmin1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testAdmin2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
+            System.out.println("Inside testAdmin1/2JobsVisibleCompletionAndVerifyDetails");
+            DependentMethods = new String[2];
+            DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testSubscriptionAdminCreateAdmin";
+            DependentMethods[1] = "com.mmo.tests.CreateSubAccountTests.testAdminCreateAdmin";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
         if ("testAdminsJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testAdminsJobsVisibleCompletionAndVerifyDetails");
             DependentMethods = new String[2];
-            DependentMethods[0] = "com.mmo.tests.JobExecutionTests.testAdmin1UploadFileConfigureAndStartGeocoding";
-            DependentMethods[1] = "com.mmo.tests.JobExecutionTests.testAdmin2UploadFileConfigureAndStartGeocoding";
+            DependentMethods[0] = "com.mmo.tests.JobExecutionBySubAccountTests.testAdmin1UploadFileConfigureAndStartGeocoding";
+            DependentMethods[1] = "com.mmo.tests.JobExecutionBySubAccountTests.testAdmin2UploadFileConfigureAndStartGeocoding";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testUser1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testUser2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
+            System.out.println("Inside testUser1/2UploadFileConfigureAndStartGeocoding");
+            DependentMethods = new String[2];
+            DependentMethods[0] = "com.mmo.tests.CreateSubAccountTests.testSubscriptionAdminCreateUser";
+            DependentMethods[1] = "com.mmo.tests.CreateSubAccountTests.testAdminCreateUser";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
         if ("testUsersJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testUsersJobsVisibleCompletionAndVerifyDetails");
             DependentMethods = new String[2];
-            DependentMethods[0] = "com.mmo.tests.JobExecutionTests.testUser1UploadFileConfigureAndStartGeocoding";
-            DependentMethods[1] = "com.mmo.tests.JobExecutionTests.testUser2UploadFileConfigureAndStartGeocoding";
+            DependentMethods[0] = "com.mmo.tests.JobExecutionBySubAccountTests.testUser1UploadFileConfigureAndStartGeocoding";
+            DependentMethods[1] = "com.mmo.tests.JobExecutionBySubAccountTests.testUser2UploadFileConfigureAndStartGeocoding";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testVerifyAllJobEmails".equals(testMethod.getName())) {
-            System.out.println("Inside testVerifyAllJobEmails");
+        if ("testSubUsersVerifyJobCompleteEmail".equals(testMethod.getName())) {
+            System.out.println("Inside testSubUsersVerifyJobCompleteEmail");
             DependentMethods = new String[2];
-            DependentMethods[0] = "com.mmo.tests.JobCompletionTests.testAdminsJobsVisibleCompletionAndVerifyDetails";
-            DependentMethods[1] = "com.mmo.tests.JobCompletionTests.testUsersJobsVisibleCompletionAndVerifyDetails";
+            DependentMethods[0] = "testAdminsJobsVisibleCompletionAndVerifyDetails";
+            DependentMethods[1] = "testUsersJobsVisibleCompletionAndVerifyDetails";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testUpgradeFreeTo5kPlanAndCheckEmail".equals(testMethod.getName())) {
+            System.out.println("Inside testUpgradeFreeTo5kPlanAndCheckEmail");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testExecuteJobAfterUpgrade".equals(testMethod.getName())) {
+            System.out.println("Inside testExecuteJobAfterUpgrade");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testUpgradeFreeTo5kPlanAndCheckEmail";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testUpgrade5kToProfPlanAndCheckEmail".equals(testMethod.getName())) {
+            System.out.println("Inside testUpgrade5kToProfPlan");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testExecuteJobAfterUpgrade";
+            annotation.setDependsOnMethods(DependentMethods);
+            annotation.setAlwaysRun(true);
+        }
+
+        if ("testExecuteJobAfterDegrade".equals(testMethod.getName())) {
+            System.out.println("Inside testExecuteJobAfterDegrade");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testDegrade5kToFreePlanAndCheckEmail";
+            annotation.setDependsOnMethods(DependentMethods);
+        }
+
+        if ("testAdmin2DeleteAdmin1".equals(testMethod.getName()) || "testAdmin2DeleteUser1".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminUploadFileConfigureAndStartGeocoding");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testDeleteLogin";
             annotation.setDependsOnMethods(DependentMethods);
         }
     }
