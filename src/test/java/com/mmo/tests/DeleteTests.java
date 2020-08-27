@@ -27,9 +27,22 @@ public class DeleteTests extends BaseClass {
     }
 
     @Test(dataProvider = "AdminCreateUserDetails", dataProviderClass = CreateSubAccountTests.class, groups = "regressionSuite")
-    public void testAdmin2DeleteUser1(String userID, String admin1FirstName, String admin1SecondName) throws Exception {
+    public void testAdmin2DeleteUser2(String userID, String admin1FirstName, String admin1SecondName) throws Exception {
         a.navigateToUsers();
         a.deleteUser(userID);
         Reporter.log("User deleted: " + userID, true);
+    }
+
+    @Test(dataProvider = "User1OutFileNames", dataProviderClass = JobExecutionBySubAccountTests.class, groups = "regressionSuite")
+    public void testAdmin2DeleteUser1Job(String outFileName) throws Exception {
+        a.navigateToDashboard();
+        a.verifyJobsShownToUser("Admin", outFileName);
+        a.deleteJob("Admin", outFileName);
+        Reporter.log("Output Job deleted: " + outFileName, true);
+    }
+
+    @AfterClass(groups = {"prerequisite"})
+    public void testDeleteAdminLogout() throws Exception {
+        a.logOut();
     }
 }

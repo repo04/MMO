@@ -61,13 +61,6 @@ public class JobCompletionTests extends BaseClass {
         a.navigateToLogin();
     }
 
-    //@Test(dataProvider = "defaultJobDetails", groups = {"regressionSuite"})
-    public void testWaitForJobToGetCompleteDownloadAndCompare(String inputFileName, String geocodingType, String autoDrag, String dragColumns,
-                                                              String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                              String matchMode, String outFileName) throws Exception {
-        a.downloadOutputFileAndCompare(outFileName, outputFormat);
-    }
-
     @Test(dataProvider = "AllAdminsAndJobDetails", groups = {"regressionSuite"})
     public void testAdminsJobsVisibleCompletionAndVerifyDetails(String userID, String userFirstName, String userSecondName,
                                                                 String inputFileName, String geocodingType, String autoDrag, String dragColumns,
@@ -83,6 +76,7 @@ public class JobCompletionTests extends BaseClass {
         if(outFileName.contains(userSecondName)){
             System.out.print("****Admin Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
+            a.downloadOutputFileAndCompare(userSecondName, outFileName, outputFormat);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
                     coordSystem, country, matchMode, totalRecords, outFileName);
             a.navigateToDashboard();
@@ -109,6 +103,7 @@ public class JobCompletionTests extends BaseClass {
             System.out.print("****User Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
+            a.downloadOutputFileAndCompare(userSecondName, outFileName, outputFormat);
             a.navigateToDashboard();
         }
         x++;

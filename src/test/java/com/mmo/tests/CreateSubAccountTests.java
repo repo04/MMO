@@ -40,9 +40,9 @@ public class CreateSubAccountTests extends BaseClass {
     @DataProvider(name = "AdminCreateAdminDetails")
     public static Object[][] AdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateAdminDetails");
-//        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSAd_Admin210820141731@gmail.com";
+//        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSAd_Admin250820174957@gmail.com";
 //        adminCreateAdminArray[0][1] = "mmoAutomated";
-//        adminCreateAdminArray[0][2] = "FreeUSAd_Admin210820141731";
+//        adminCreateAdminArray[0][2] = "FreeUSAd_Admin250820174957";
         return (adminCreateAdminArray);
     }
 

@@ -329,20 +329,26 @@ public class JobPage extends BaseClass {
 	}
 
 	/**
-	 * 
+	 *
+	 * @param secondName
 	 * @param outputFileName
 	 * @param outFileFormat
 	 */
-	public void downloadJobOutputFileAndCompare(String outputFileName, String outFileFormat) {
+	public void downloadJobOutputFileAndCompare(String secondName, String outputFileName, String outFileFormat) {
 		boolean fileStatus;
-		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
-		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
-		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
-		ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
-		ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
-		ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[2]/i", 60);
-		driver.findElement(By.xpath("//tr[1]/td[9]/a[2]/i")).click();
-
+		if(!secondName.contains("User")){
+			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
+			driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
+			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
+			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
+			ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[2]/i", 60);
+			driver.findElement(By.xpath("//tr[1]/td[9]/a[2]/i")).click();
+		}else{
+			ip.isElementClickableByXpath(driver, "//a[@id='downloadFile']", 60);
+			driver.findElement(By.xpath("//a[@id='downloadFile']")).click();
+		}
+		u.emptyDefaultDownloadPath(defaultDownloadPath);
 		String zipActualFileName = outputFileName + ".zip";
 		fileStatus = u.isFileDownloaded(defaultDownloadPath, zipActualFileName);
 		if (fileStatus) {
@@ -363,7 +369,6 @@ public class JobPage extends BaseClass {
 		if (!status) {
 			u.illegalStateException("File Not found: " + outputFileName + "." + outFileFormat.toLowerCase());
 		}
-
 	}
 	
 	/**
@@ -420,7 +425,23 @@ public class JobPage extends BaseClass {
 			  }
 			driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
 			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
-		}else {
+		}else if(inputFileName.contains("RecordsMoreThanQuota")){
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "Address");
+			ip.isGetTextContainsByXPATH(driver, "//div[@id='countryColumn']/div/a", "Country");
+			driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
+			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
+			driver.findElement(By.xpath("//button[@id='startJobBtn']")).click();
+			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
+			driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
+			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(inputFileName.substring(0, inputFileName.indexOf(".")) + "-Output");
+			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
+			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[8]", "Failed", 10);
+			ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[1]/i", 60);
+			driver.findElement(By.xpath("//tr[1]/td[9]/a[1]/i")).click();
+			ip.isGetTextContainsByXPATH(driver, "//p", expectedMessage);
+		}
+		else {
 			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
 		}
 		Reporter.log("Verified '" + expectedMessage + "' in " + geocodingType + " geocoding.<br/>");
@@ -524,10 +545,25 @@ public class JobPage extends BaseClass {
 		}
 	}
 
+	public void deleteJob(String userType, String outFileName) {
+		if (userType.contains("User")) {
+			driver.findElement(By.xpath("//tr[1]/td[8]/a[3]/i")).click();
+		} else {
+			driver.findElement(By.xpath("//tr[1]/td[9]/a[3]/i")).click();
+		}
+		ip.isGetTextContainsByXPATH(driver, "//h5", "Confirm Delete Job");
+		ip.isGetTextContainsByXPATH(driver, "//p", "Do you really want to delete this job? Once done cannot be reversed.");
+		driver.findElement(By.xpath("//div[3]/button")).click();
+		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
+		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
+		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outFileName);
+		ip.invisibilityOfElementByXpath(driver, "//tr[1]/td/div");
+	}
+
 	/**
-	 * 
-	 * @return
-	 */
+         *
+         * @return
+         */
 	public String getOutputFileName() {
 		return this.outputFileName;
 	}

@@ -196,9 +196,9 @@ public class Actions extends BaseClass{
 		jp.getJobDetails(outputFilename);
     }
     
-    public void downloadOutputFileAndCompare(String outputFileName,String outFileFormat) {
+    public void downloadOutputFileAndCompare(String secondName, String outputFileName,String outFileFormat) {
     	JobPage jp = new JobPage();
-		jp.downloadJobOutputFileAndCompare(outputFileName, outFileFormat);
+		jp.downloadJobOutputFileAndCompare(secondName, outputFileName, outFileFormat);
     }
 
 	/**
@@ -249,6 +249,11 @@ public class Actions extends BaseClass{
 	public void verifyJobsShownToUser(String userSecondName, String outFileName) {
 		JobPage jp = new JobPage();
 		jp.verifyJobsShownToUser(userSecondName, outFileName);
+	}
+
+	public void deleteJob(String userType, String outFileName) {
+		JobPage jp = new JobPage();
+		jp.deleteJob(userType, outFileName);
 	}
 
 	public void navigateToHomePage() {

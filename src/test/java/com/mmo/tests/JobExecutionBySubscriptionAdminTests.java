@@ -72,7 +72,7 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
     @Test(dataProvider = "SAIdAndInputJobDetails", groups = {"regressionSuite"})
     public void testSubscriptionAdminUploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName, String inputFileName, String geocodingType, String autoDrag, String                                                                dragColumns,String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
                                                                           String matchMode, String totalRecords, String inpRows) throws Exception {
-        System.out.println("inputfile: " + inputFileName);
+        /*System.out.println("inputfile: " + inputFileName);
         if (m == 0){
             saOutFileNamesArray = new String[Integer.valueOf(inpRows)][1];
         }
@@ -82,7 +82,7 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
         Reporter.log("outFileBySA: " + saOutFileNamesArray[m][0], true);
         appendOutFileName(inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, inpRows, saOutFileNamesArray[m][0]);
+                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, inpRows, saOutFileNamesArray[m][0]);*/
 //        saOutFileNamesArray[0][0] = "UnevenInvrtdComa_FG_FreeUS100820135236775";
 //        saOutFileNamesArray[1][0] = "JobSuccessNoGeocode_FG_FreeUS100820135236992";
     }
@@ -99,35 +99,36 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
                                                                            String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                                            String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
                                                                            String matchMode, String totalRecords, String outFileName) throws Exception {
-        System.out.println("inputfile: " + inputFileName);
-        System.out.println("outFileName: " + outFileName);
-        a.navigateToDashboard();
-        a.verifyJobsShownToUser(userSecondName, outFileName);
-        if(outFileName.contains(userSecondName)){
-            System.out.print("****SA Out****:" + outFileName + "\n");
-            a.waitforJobToGetComplete(userSecondName, outFileName);
-            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
-                    coordSystem, country, matchMode, totalRecords, outFileName);
-            a.navigateToDashboard();
-        }
+//        System.out.println("inputfile: " + inputFileName);
+//        System.out.println("outFileName: " + outFileName);
+//        a.navigateToDashboard();
+//        a.verifyJobsShownToUser(userSecondName, outFileName);
+//        if(outFileName.contains(userSecondName)){
+//            System.out.print("****SA Out****:" + outFileName + "\n");
+//            a.waitforJobToGetComplete(userSecondName, outFileName);
+//            a.downloadOutputFileAndCompare(userSecondName, outFileName, outputFormat);
+//            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
+//                    coordSystem, country, matchMode, totalRecords, outFileName);
+//            a.navigateToDashboard();
+//        }
     }
 
     @Test(dataProvider = "SAOutFileNames", groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName) throws Exception {
-        System.out.println("**outFileName: **" + outFileName + "\n");
-        System.out.println("**final M value: **" + m + "\n");
-        int p = outFileName.indexOf("Free");
-        int q = outFileName.length();
-        String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
-        if(abc == 1) {
-            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true,
-                    m, EmailUtils.EmailFolder.JOBSUCCESS);
-            abc++;
-            Assert.assertTrue(Emails.length == m, "Expected unread messages:" + m + ", actual: " + Emails.length);
-        }
-        if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false)){
-            u.illegalStateException("Job completion email not found for: " + outFileName);
-        }
+//        System.out.println("**outFileName: **" + outFileName + "\n");
+//        System.out.println("**final M value: **" + m + "\n");
+//        int p = outFileName.indexOf("Free");
+//        int q = outFileName.length();
+//        String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
+//        if(abc == 1) {
+//            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true,
+//                    m, EmailUtils.EmailFolder.JOBSUCCESS);
+//            abc++;
+//            Assert.assertTrue(Emails.length == m, "Expected unread messages:" + m + ", actual: " + Emails.length);
+//        }
+//        if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false)){
+//            u.illegalStateException("Job completion email not found for: " + outFileName);
+//        }
     }
 
     @AfterClass(groups = {"prerequisite"})

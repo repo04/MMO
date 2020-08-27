@@ -9,10 +9,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-
 public class AddProductFlowTests extends BaseClass {
     private String[] textInMessage;
-    //static String geoTaxUserDetails;
     static String[][] geoTaxUserIDArray = new String[1][1];
     private Actions a = new Actions();
 
@@ -20,7 +18,6 @@ public class AddProductFlowTests extends BaseClass {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         a.navigateToGeoTaxPage();
         geoTaxUserIDArray[0][0] =  a.signUpGeoTaxUser();
-        //geoTaxUserIDArray[0][0] = geoTaxUserDetails;
         System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserIDArray[0][0]);
         Reporter.log("geoTaxUserID: " + geoTaxUserIDArray[0][0], true);
         Thread.sleep(10000);
@@ -67,7 +64,7 @@ public class AddProductFlowTests extends BaseClass {
         emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 
-    //@Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
+    @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughSignUpScreenCheckAccessEmail(String userID) throws Exception {
         emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
         a.navigateToSignUpForAddProductFlow("free", userID);
