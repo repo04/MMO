@@ -62,7 +62,7 @@ public class JobCompletionTests extends BaseClass {
     }
 
     @Test(dataProvider = "AllAdminsAndJobDetails", groups = {"regressionSuite"})
-    public void testAdminsJobsVisibleCompletionAndVerifyDetails(String userID, String userFirstName, String userSecondName,
+    public void testAdminsVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
                                                                 String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                                 String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
                                                                 String matchMode, String totalRecords, String outFileName) throws Exception {
@@ -76,7 +76,7 @@ public class JobCompletionTests extends BaseClass {
         if(outFileName.contains(userSecondName)){
             System.out.print("****Admin Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
-            a.downloadOutputFileAndCompare(userSecondName, outFileName, outputFormat);
+            a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
                     coordSystem, country, matchMode, totalRecords, outFileName);
             a.navigateToDashboard();
@@ -89,7 +89,7 @@ public class JobCompletionTests extends BaseClass {
    }
 
     @Test(dataProvider = "AllUsersAndJobDetails", groups = {"regressionSuite"})
-    public void testUsersJobsVisibleCompletionAndVerifyDetails(String userID, String userFirstName, String userSecondName,
+    public void testUsersJobsJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
                                                                String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                                String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
                                                                String matchMode, String totalRecords, String outFileName) throws Exception {
@@ -103,7 +103,7 @@ public class JobCompletionTests extends BaseClass {
             System.out.print("****User Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
-            a.downloadOutputFileAndCompare(userSecondName, outFileName, outputFormat);
+            a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
             a.navigateToDashboard();
         }
         x++;
@@ -143,7 +143,7 @@ public class JobCompletionTests extends BaseClass {
             pqr++;
             Assert.assertTrue(Emails.length == 4, "Expected unread messages:4, actual: " + Emails.length);
         }
-        if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false)){
+        if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false, "N")){
             u.illegalStateException("Job completion email not found for: " + outFileName);
         }
     }

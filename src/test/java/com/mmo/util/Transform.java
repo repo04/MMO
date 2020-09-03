@@ -89,8 +89,16 @@ public class Transform implements IAnnotationTransformer {
             annotation.setAlwaysRun(true);
         }
 
-        if ("testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
-            System.out.println("Inside testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails");
+        if ("testSubscriptionAdminVerifyJobsFailureEmails".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminVerifyJobsFailureEmails");
+            DependentMethods = new String[1];
+            DependentMethods[0] = "testUploadIncorrectFilesAndCheckValidations";
+            annotation.setDependsOnMethods(DependentMethods);
+            annotation.setAlwaysRun(true);
+        }
+
+        if ("testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength".equals(testMethod.getName())) {
+            System.out.println("Inside testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength");
             DependentMethods = new String[2];
             DependentMethods[0] = "testUploadIncorrectFilesAndCheckValidations";
             DependentMethods[1] = "testSubscriptionAdminUploadFileConfigureAndStartGeocoding";
@@ -101,7 +109,7 @@ public class Transform implements IAnnotationTransformer {
         if ("testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly");
             DependentMethods = new String[1];
-            DependentMethods[0] = "testSubscriptionAdminJobsVisibleCompletionAndVerifyDetails";
+            DependentMethods[0] = "testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
@@ -113,8 +121,8 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testAdminsJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
-            System.out.println("Inside testAdminsJobsVisibleCompletionAndVerifyDetails");
+        if ("testAdminsVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength".equals(testMethod.getName())) {
+            System.out.println("Inside testAdminsVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength");
             DependentMethods = new String[2];
             DependentMethods[0] = "com.mmo.tests.JobExecutionBySubAccountTests.testAdmin1UploadFileConfigureAndStartGeocoding";
             DependentMethods[1] = "com.mmo.tests.JobExecutionBySubAccountTests.testAdmin2UploadFileConfigureAndStartGeocoding";
@@ -129,8 +137,8 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testUsersJobsVisibleCompletionAndVerifyDetails".equals(testMethod.getName())) {
-            System.out.println("Inside testUsersJobsVisibleCompletionAndVerifyDetails");
+        if ("testUsersJobsJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength".equals(testMethod.getName())) {
+            System.out.println("Inside testUsersJobsJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength");
             DependentMethods = new String[2];
             DependentMethods[0] = "com.mmo.tests.JobExecutionBySubAccountTests.testUser1UploadFileConfigureAndStartGeocoding";
             DependentMethods[1] = "com.mmo.tests.JobExecutionBySubAccountTests.testUser2UploadFileConfigureAndStartGeocoding";
@@ -140,8 +148,8 @@ public class Transform implements IAnnotationTransformer {
         if ("testSubUsersVerifyJobCompleteEmail".equals(testMethod.getName())) {
             System.out.println("Inside testSubUsersVerifyJobCompleteEmail");
             DependentMethods = new String[2];
-            DependentMethods[0] = "testAdminsJobsVisibleCompletionAndVerifyDetails";
-            DependentMethods[1] = "testUsersJobsVisibleCompletionAndVerifyDetails";
+            DependentMethods[0] = "testAdminsVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength";
+            DependentMethods[1] = "testUsersJobsJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength";
             annotation.setDependsOnMethods(DependentMethods);
         }
 

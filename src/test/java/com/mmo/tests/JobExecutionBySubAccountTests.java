@@ -119,7 +119,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	public void testJobExecutionLogIn(ITestContext context) throws Exception {
 		a.navigateToHomePage();
 		a.navigateToLogin();
-		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.JOBSUCCESS);
+		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
 	}
 
 	@Test(dataProvider = "Admin1IdAndInputJobDetails", groups = {"regressionSuite"})

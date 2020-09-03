@@ -39,7 +39,7 @@ public class UpgradeTests extends BaseClass {
 
     @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgradeFreeTo5kPlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "5k");
@@ -47,7 +47,6 @@ public class UpgradeTests extends BaseClass {
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
-
         emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated",userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 
@@ -65,7 +64,7 @@ public class UpgradeTests extends BaseClass {
 
     @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgrade5kToProfPlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.navigateToDashboard();
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Prof");
@@ -74,14 +73,12 @@ public class UpgradeTests extends BaseClass {
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
-
-        emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated",
-                userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
+       emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 
     //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgradeFreeToProfPlan(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Prof");
@@ -89,8 +86,6 @@ public class UpgradeTests extends BaseClass {
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
-
-        emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated",
-                userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
+       emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 }

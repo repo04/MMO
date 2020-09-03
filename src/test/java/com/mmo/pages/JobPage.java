@@ -2,6 +2,7 @@ package com.mmo.pages;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -156,27 +157,42 @@ public class JobPage extends BaseClass {
 		}
 
 		if (outputFields.equalsIgnoreCase("All")) {
-			driver.findElement(By.xpath("//button[@id='moveAllToRight']")).click();
-			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
+//			driver.findElement(By.xpath("//button[@id='moveAllToRight']")).click();
+//			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
+			driver.findElement(By.xpath("//div/ul/p-treenode[2]/li/div/div/div")).click();
+			driver.findElement(By.xpath("//div/ul/p-treenode[3]/li/div/div/div")).click();
+			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
+			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
 			if(geocodingType.equalsIgnoreCase("forward")) {
-				Assert.assertTrue("All output columns not equal to 35, actual fields are " + rightElements.size(), rightElements.size() == 35);
+				Assert.assertTrue("All checked output columns not equal to 37, actual fields are " + checkedElements.size(), checkedElements.size() == 37);
+				Assert.assertTrue("All unchecked output columns not equal to 2, actual fields are " + uncheckedElements.size(), uncheckedElements.size() == 2);
 			}else {
-				Assert.assertTrue("All output columns not equal to 36, actual fields are " + rightElements.size(), rightElements.size() == 36);
+				Assert.assertTrue("All output columns not equal to 39, actual fields are " + checkedElements.size(), checkedElements.size() == 39);
 			}
 		} else if(outputFields.equalsIgnoreCase("Default")) {
-			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
-			Assert.assertTrue("Default output columns not equal to 5", rightElements.size() == 5);
+			//List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
+			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
+			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
+			Assert.assertTrue("All checked output columns not equal to 6, actual fields are " + checkedElements.size(), checkedElements.size() == 6);
+			Assert.assertTrue("All unchecked output columns not equal to 33, actual fields are " + uncheckedElements.size(), uncheckedElements.size() == 33);
 		} else{
-			if(geocodingType.equalsIgnoreCase("forward")) {
-				driver.findElement(By.xpath("//div[@id='formattedStreetAddress']")).click();
-				driver.findElement(By.xpath("//div[@id='formattedLocationAddress']")).click();
-			}else{
-				driver.findElement(By.xpath("//div[@id='X']")).click();
-				driver.findElement(By.xpath("//div[@id='Y']")).click();
-			}
-			driver.findElement(By.xpath("//button[@id='moveToRight']")).click();
-			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
-			Assert.assertTrue("Some output columns not equal to 7", rightElements.size() == 7);
+//			if(geocodingType.equalsIgnoreCase("forward")) {
+//				driver.findElement(By.xpath("//div[@id='formattedStreetAddress']")).click();
+//				driver.findElement(By.xpath("//div[@id='formattedLocationAddress']")).click();
+//			}else{
+//				driver.findElement(By.xpath("//div[@id='X']")).click();
+//				driver.findElement(By.xpath("//div[@id='Y']")).click();
+//			}
+			driver.findElement(By.xpath("//p-treenode[2]/li/ul/p-treenode[1]/li/div/div/div")).click();
+			driver.findElement(By.xpath("//p-treenode[2]/li/ul/p-treenode[2]/li/div/div/div")).click();
+//			driver.findElement(By.xpath("//button[@id='moveToRight']")).click();
+//			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
+			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
+			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
+			List<WebElement> semicheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-minus']"));
+			Assert.assertTrue("All checked output columns not equal to 8, actual fields are " + checkedElements.size(), checkedElements.size() == 8);
+			Assert.assertTrue("All unchecked output columns not equal to 30, actual fields are " + uncheckedElements.size(), uncheckedElements.size() == 30);
+			Assert.assertTrue("All semichecked output columns not equal to 1, actual fields are " + semicheckedElements.size(), semicheckedElements.size() == 1);
 		}
 
 		new Select(driver.findElement(By.xpath("//select[@id='selectExportFormat']"))).selectByVisibleText(outputFormat.toUpperCase());
@@ -263,7 +279,7 @@ public class JobPage extends BaseClass {
 	 * 
 	 * @param outputFileName
 	 */
-	public void waitforJobToGetComplete(String userSecondName, String outputFileName) {
+	public void waitForJobToGetComplete(String userSecondName, String outputFileName) {
 		String path;
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
@@ -334,7 +350,7 @@ public class JobPage extends BaseClass {
 	 * @param outputFileName
 	 * @param outFileFormat
 	 */
-	public void downloadJobOutputFileAndCompare(String secondName, String outputFileName, String outFileFormat) {
+	public void downloadOutputVerifyExtensionsAndDataTypeLength(String secondName, String outputFileName, String outFileFormat) {
 		boolean fileStatus;
 		if(!secondName.contains("User")){
 			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
@@ -377,19 +393,18 @@ public class JobPage extends BaseClass {
 	 * @param geocodingType
 	 * @param expectedMessage
 	 */
-	public void uploadIncorrectFilesAndCheckValidations(String inputFileName, String geocodingType,
-			String expectedMessage) {
-		
+	public void uploadIncorrectFilesAndCheckValidations(String loginID, String inputFileName, String geocodingType, String expectedMessage) {
+
 		ip.isElementClickableByXpath(driver, "//div/i", 60);
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'CSV')]", 60);
-		
+
 		String file = null;
 		try {
 			file = directory.getCanonicalPath() + File.separator + "data" + File.separator + "NegativeFiles" + File.separator + inputFileName;
 		} catch (IOException ex) {
 			Logger.getLogger(File.class.getName()).log(Level.SEVERE, null, ex);
 		}
-		
+
 		WebElement elm;
 		if(geocodingType.equalsIgnoreCase("forward")) {
 			driver.findElement(By.xpath("//div[2]/div/ul/li[1]/a")).click();
@@ -427,19 +442,29 @@ public class JobPage extends BaseClass {
 			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
 		}else if(inputFileName.contains("RecordsMoreThanQuota")){
 			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div","File successfully uploaded and geocoding options configured.");
-			ip.isGetTextContainsByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "Address");
+			if(inputFileName.contains("Forward")){
+				ip.isGetTextContainsByXPATH(driver, "//div[@id='streetNameColumn']/div/a", "Address");
+			}else{
+				ip.isGetTextContainsByXPATH(driver, "//div[@id='longitudeColumn']/div/a", "Longitude");
+				ip.isGetTextContainsByXPATH(driver, "//div[@id='latitudeColumn']/div/a", "Latitude");
+			}
 			ip.isGetTextContainsByXPATH(driver, "//div[@id='countryColumn']/div/a", "Country");
+			outputFileName = inputFileName.substring(0, inputFileName.indexOf(".")) + u.getMilliSeconds();
+			driver.findElement(By.xpath("//input[@type='text']")).clear();
+			driver.findElement(By.xpath("//input[@type='text']")).sendKeys(outputFileName);
 			driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
 			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
 			driver.findElement(By.xpath("//button[@id='startJobBtn']")).click();
+			waitForJobToGetComplete(u.getSecondName(loginID), outputFileName);
 			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
-			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(inputFileName.substring(0, inputFileName.indexOf(".")) + "-Output");
+			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[8]", "Failed", 10);
 			ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[1]/i", 60);
 			driver.findElement(By.xpath("//tr[1]/td[9]/a[1]/i")).click();
 			ip.isGetTextContainsByXPATH(driver, "//p", expectedMessage);
+			failJobNames.add(inputFileName.substring(0, inputFileName.indexOf(".")));
 		}
 		else {
 			ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", expectedMessage);
@@ -507,7 +532,7 @@ public class JobPage extends BaseClass {
 				break;
 			default:
 				if(geocodingType.equalsIgnoreCase("forward")){
-					Assert.assertTrue("Expected default count:44, actual: " + countTH.size(), countTH.size() == 44);
+					Assert.assertTrue("Expected default count:35, actual: " + countTH.size(), countTH.size() == 35);
 				}else{
 					Assert.assertTrue("Expected default count:37, actual: " + countTH.size(), countTH.size() == 37);
 				}

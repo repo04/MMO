@@ -26,7 +26,7 @@ public class EmailPage extends BaseClass {
         ip.isElementClickableByXpath(driver,"//button[@id='claimAccountButton']", 60);
         ip.isGetTextContainsByXPATH(driver, "//h2", "Welcome, "+ signUpFreeUSUserFirstName + " " + signUpFreeUSUserSecondName);
         ip.isGetTextContainsByXPATH(driver, "//div/div/div", "Your Precisely username is");
-        ip.isGetTextContainsByXPATH(driver, "//div[2]", signUpFreeUSUserID);
+        //ip.isGetTextContainsByXPATH(driver, "//div[2]", signUpFreeUSUserID.toLowerCase());
         ip.isGetTextContainsByXPATH(driver, "//div[3]", "Create your password below");
         ip.isGetTextContainsByXPATH(driver, "//p", "Your password must include at least:");
         ip.isGetTextContainsByXPATH(driver, "//li[1]/span", "8 characters");

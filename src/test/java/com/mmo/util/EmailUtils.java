@@ -1,6 +1,9 @@
 package com.mmo.util;
 
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.Locatable;
 import org.testng.Assert;
+import org.testng.Reporter;
 
 import java.io.*;
 import java.util.*;
@@ -31,6 +34,7 @@ public class EmailUtils extends BaseClass {
         PLANCHANGE("planChange"),
         SUBUSERS("subUsers"),
         JOBSUCCESS("jobSuccess"),
+        JOBFAIL("jobFail"),
         SPAM("SPAM");
 
 
@@ -354,13 +358,44 @@ public class EmailUtils extends BaseClass {
         folder.close(true);
     }
 
+    public void deleteAllEmails(EmailFolder emailFolder) throws Exception {
+        //folder = store.getDefaultFolder().getFolder("[Gmail]/All Mail");
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        int countAllEmails = getNumberOfMessages();
+        System.out.println("countAllEmails: " + countAllEmails);
+        Message[] m = folder.getMessages();
+
+        if(countAllEmails > 0){
+            for (int i = 0; i < countAllEmails; i++) {
+                m[i].setFlag(Flags.Flag.DELETED, true);
+                System.out.println("i: " + i);
+            }
+        }
+        folder.close(true);
+    }
+
     public String getToken(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
-        Message email = getMessagesBySubject(emailSubject, true, 1)[0];
+        Message email = null;
+        int z = 0;
+        while (z < 13) {
+            try {
+                email = getMessagesBySubject(emailSubject, true, 1)[0];
+                z = 13;
+            } catch (ArrayIndexOutOfBoundsException ae) {
+                z++;
+                Thread.sleep(5000);
+                System.out.print("****IN CATCH****" + "\n");
+                if (z == 13) {
+                    u.illegalStateException("Email with subject: " + emailSubject + " not found after multiple tries " + ae);
+                }
+            }
+        }
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
-        if(!html.contains("You're almost ready to start using " + emailSubject.substring(28) + ". Complete your registrationusing this email address: " + userID))
+        if(!html.contains("You're almost ready to start using " + emailSubject.substring(28) + ". Complete your registrationusing this email address: " + userID.toLowerCase()))
         {
             u.illegalStateException("Complete your registration using this email address is not found: "+ userID);
         }
@@ -390,8 +425,21 @@ public class EmailUtils extends BaseClass {
     public String getTokenForSubUsers(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
-        folder.getUnreadMessageCount();
-        Message email = getMessagesBySubject(emailSubject, true, 1)[0];
+        Message email = null;
+        int z = 0;
+        while (z < 13) {
+            try {
+                email = getMessagesBySubject(emailSubject, true, 1)[0];
+                z = 13;
+            } catch (ArrayIndexOutOfBoundsException ae) {
+                z++;
+                Thread.sleep(5000);
+                System.out.print("****IN CATCH****" + "\n");
+                if (z == 13) {
+                    u.illegalStateException("Email with subject: " + emailSubject + " not found after multiple tries " + ae);
+                }
+            }
+        }
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
         if(!html.contains("Your access t=o MapMarker has been granted. All you need to do is register with your emai=l address: " + userID))
@@ -421,13 +469,13 @@ public class EmailUtils extends BaseClass {
         return token;
     }
 
-    public String getJobTokenFromEmail(Message email) throws Exception {
+    public String getJobTokenFromEmail(Message email, String findText) throws Exception {
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
         int	preIndex = 0;
         if(envValue.equalsIgnoreCase("qa"))
         {
-            preIndex = html.indexOf("mapma=rker-qa.li.precisely.services?p=3D");
+            preIndex = html.indexOf(findText);
         } else if(envValue.equalsIgnoreCase("ppd"))
         {
             System.out.print("****OPEN PPD URL****");
@@ -448,21 +496,50 @@ public class EmailUtils extends BaseClass {
         return token;
     }
 
-    public Boolean testVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName, String userID, boolean outFileFound) throws Exception {
+    public Boolean testVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName, String userID, boolean outFileFound, String download) throws Exception {
         List<Message> list = new ArrayList<>(Arrays.asList(Emails));
         for (Message email : Emails) {
             System.out.println("**EMAIL ID: **" + email.getAllRecipients()[0].toString() + "\n");
             System.out.println("**user ID: **" + userID + "\n");
-            if(emailUtils.isTextInMessage(email, outFileName.substring(0, 15) + "=" + outFileName.substring(15)))
+            System.out.println("**File: **" + outFileName.substring(0, 13) + "=" + outFileName.substring(13) + "\n");
+            Boolean fileFoundInEmail;
+
+            if(download.equalsIgnoreCase("N")){
+                fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName.substring(0, 15) + "=" + outFileName.substring(15));
+            }else{
+                fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName.substring(0, 13) + "=" + outFileName.substring(13));
+            }
+
+            if(fileFoundInEmail)
             {
+                System.out.println("**File Found**" + "\n");
                 Assert.assertEquals(email.getAllRecipients()[0].toString(), userID,
                         "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
                 outFileFound = true;
-                String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email);
-                driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
-                ip.isURLContains(driver, "geocoderesult?jobId=");
-                ip.isElementClickableByXpath(driver, "//h1", 60);
-                ip.isGetTextContainsByXPATH(driver ,"//h1", outFileName);
+                u.emptyDefaultDownloadPath(defaultDownloadPath);
+                if(download.equalsIgnoreCase("N")){
+                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapma=rker-qa.li.precisely.services?p=3D");
+                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
+                    ip.isURLContains(driver, "geocoderesult?jobId=");
+                    ip.isElementClickableByXpath(driver, "//h1", 60);
+                    ip.isGetTextContainsByXPATH(driver ,"//h1", outFileName);
+                }else{
+                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapmarker-qa.li.=precisely.services?p=3D");
+                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
+                    String zipActualFileName = null;
+
+                    if(outFileName.contains("Forward_CSV_")){
+                        zipActualFileName = "MapMarker_Geocoding_Template.csv";
+                    }else{
+                        zipActualFileName = "MapMarker_ReverseGeocoding_Template.csv";
+                    }
+
+                    if (u.isFileDownloaded(defaultDownloadPath, zipActualFileName)) {
+                        Reporter.log("File downloaded successfully: " + zipActualFileName + "\n");
+                    } else {
+                        softAssert.fail("Unable to download file fully until 2 mins: " + zipActualFileName);
+                    }
+                }
                 list.remove(email);
                 Emails = list.toArray(new Message[0]);
                 System.out.println("Inside Email LENGTH: " + Emails.length);
@@ -473,7 +550,6 @@ public class EmailUtils extends BaseClass {
     }
 
     //************* BOOLEAN METHODS *******************
-
     /**
      * Searches an email message for a specific string
      */

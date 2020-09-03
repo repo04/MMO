@@ -64,9 +64,6 @@ public class TestNGCustomReport extends TestListenerAdapter {
             File screenshot = ((TakesScreenshot) BaseClass.driver).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenshot, new File(NewFileNamePath));
             
-//            Screenshot screenshot=new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000)).takeScreenshot(BaseClass.driver);
-//            ImageIO.write(screenshot.getImage(),"jpg",new File(NewFileNamePath));
-            
             Reporter.log(methodName + " failed; Click on image to enlarge<br/>"
                     + "<a target=\"_blank\" href=\"" + "file:///" + NewFileNamePath + "\"><img src=\"file:///" + NewFileNamePath
                     + "\" alt=\"\"" + "height='100' width='100'/></a><br/>");

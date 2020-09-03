@@ -16,7 +16,7 @@
 			</run>
 		</groups>
 		<classes>
-			<!--<class name="com.mmo.tests.SignUpTests"/>
+			<class name="com.mmo.tests.SignUpTests"/>
 			<class name="com.mmo.tests.SubscriptionAdminVerifyDetailTests"/>
 			<class name="com.mmo.tests.CreateSubAccountTests"/>
 			<class name="com.mmo.tests.SubAccountVerifyDetailTests"/>
@@ -26,9 +26,7 @@
 			<class name="com.mmo.tests.UpgradeTests"/>
 			<class name="com.mmo.tests.DegradeTests"/>
 			<class name="com.mmo.tests.DeleteTests"/>
-			<class name="com.mmo.tests.AddProductFlowTests"/>-->
-			<class name="com.mmo.tests.SignUpTests"/>
-			<class name="com.mmo.tests.JobExecutionBySubscriptionAdminTests"/>
+			<class name="com.mmo.tests.AddProductFlowTests"/>
 		</classes>
     </test>
 </suite>

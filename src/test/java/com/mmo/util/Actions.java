@@ -3,6 +3,8 @@ package com.mmo.util;
 import com.mmo.pages.*;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class Actions extends BaseClass{
@@ -180,25 +182,24 @@ public class Actions extends BaseClass{
 	 * @param geocodingType
 	 * @param expectedMessage
 	 */
-	public void uploadIncorrectFilesAndCheckValidations(String inputFileName, String geocodingType,
-			String expectedMessage) {
+	public void uploadIncorrectFilesAndCheckValidations(String loginId, String inputFileName, String geocodingType, String expectedMessage) {
 		JobPage jp = new JobPage();
-		jp.uploadIncorrectFilesAndCheckValidations(inputFileName, geocodingType, expectedMessage);
+		jp.uploadIncorrectFilesAndCheckValidations(loginId, inputFileName, geocodingType, expectedMessage);
 	}
     
     public void waitforJobToGetComplete(String userSecondName, String outputFileName) {
     	JobPage jp = new JobPage();
-		jp.waitforJobToGetComplete(userSecondName, outputFileName);
+		jp.waitForJobToGetComplete(userSecondName, outputFileName);
     }
     
     public void getJobDetails(String outputFilename) {
     	JobPage jp = new JobPage();
 		jp.getJobDetails(outputFilename);
     }
-    
-    public void downloadOutputFileAndCompare(String secondName, String outputFileName,String outFileFormat) {
+
+	public void downloadOutputVerifyExtensionsAndDataTypeLength(String secondName, String outputFileName,String outFileFormat) {
     	JobPage jp = new JobPage();
-		jp.downloadJobOutputFileAndCompare(secondName, outputFileName, outFileFormat);
+		jp.downloadOutputVerifyExtensionsAndDataTypeLength(secondName, outputFileName, outFileFormat);
     }
 
 	/**

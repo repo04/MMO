@@ -61,7 +61,8 @@ public class UsersPage extends BaseClass {
     	for (; x < TotalRowsList.size()+1;) {
     		try {
 				ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[1]", userFirstName + " " + userSecondName, 5);
-    			ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[2]", userID, 5);
+    			//ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[2]", userID.toLowerCase(), 5);
+				Assert.assertEquals(driver.findElement(By.xpath("//tr["+ x + "]/td[2]")).getText().toLowerCase(), userID.toLowerCase(), "User id not found");
 	    		ip.isGetTextContainsByXPATH(driver, "//tr["+ x + "]/td[4]", role, 5);
 	    		System.out.println("found at x : "+ x);
 	    		break;

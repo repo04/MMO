@@ -15,12 +15,11 @@ public class AddProductFlowTests extends BaseClass {
     private Actions a = new Actions();
 
     private void testSignUpGeoTaxUserAndCompleteEmailRegistration() throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGGEOTAX);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         a.navigateToGeoTaxPage();
         geoTaxUserIDArray[0][0] =  a.signUpGeoTaxUser();
         System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserIDArray[0][0]);
         Reporter.log("geoTaxUserID: " + geoTaxUserIDArray[0][0], true);
-        Thread.sleep(10000);
         String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", geoTaxUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         a.completeRegistration(geoTaxUserIDArray[0][0], u.getFirstName(geoTaxUserIDArray[0][0]), u.getSecondName(geoTaxUserIDArray[0][0]), claimTokenID);
 
@@ -51,30 +50,26 @@ public class AddProductFlowTests extends BaseClass {
 
     @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughLoginScreenCheckAccessEmail(String userID) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
         a.navigateToLogin();
         a.enterLoginDetailsOnly(userID);
         a.navigateToHomeAndVerifyAddProductFlowInitiated();
         a.signUpUser("free", "US", userID);
-        Thread.sleep(15);
         textInMessage = new String[2];
         textInMessage[0] = "You now have access to MapMarker.";
-        textInMessage[1] = "Your registra=tion is complete. To access MapMarker " +
-                "all you need to do is sign in with yo=ur email address: " + userID;
+        textInMessage[1] = "Your registra=tion is complete. To access MapMarker " + "all you need to do is sign in with yo=ur email address: " + userID;
         emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 
     @Test(dataProvider = "GeoTaxUserID", groups = {"regressionSuite", "sanitySuite"})
     public void testAddProductFlowThroughSignUpScreenCheckAccessEmail(String userID) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
         a.navigateToSignUpForAddProductFlow("free", userID);
         a.enterLoginDetailsOnly(userID);
         a.signUpUser("free", "US", userID);
-        Thread.sleep(15);
         textInMessage = new String[2];
         textInMessage[0] = "You now have access to MapMarker.";
-        textInMessage[1] = "Your registra=tion is complete. To access MapMarker " +
-                "all you need to do is sign in with yo=ur email address: " + userID;
+        textInMessage[1] = "Your registra=tion is complete. To access MapMarker " + "all you need to do is sign in with yo=ur email address: " + userID;
         emailUtils.isTextPresentInMessage("You're ready to start using MapMarker", userID, textInMessage, EmailUtils.EmailFolder.STARTUSINGMMO);
     }
 }

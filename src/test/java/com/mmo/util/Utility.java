@@ -81,7 +81,6 @@ public class Utility {
 	 */
 	public void illegalStateException(String message) {
 		throw new IllegalStateException(message);
-		//throw new IllegalSta
 	}
 
 	/**

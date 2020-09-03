@@ -1,6 +1,7 @@
 package com.mmo.util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class BaseClass {
     public static EmailUtils emailUtils;
     public static String loginURL;
     public static Message[] Emails = null;
+    public static ArrayList<String> failJobNames = new ArrayList<>();
 
     //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 	
@@ -94,6 +96,8 @@ public class BaseClass {
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--start-maximized");
                 options.addArguments("--disable-extensions");
+                options.addArguments("--disable-gpu");
+                options.addArguments("--dns-prefetch-disable");
                 options.setExperimentalOption("prefs", prefs);
                 driver = new ChromeDriver(options);
                 Reporter.log("Browser: " + browser);

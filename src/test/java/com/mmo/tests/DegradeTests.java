@@ -38,7 +38,7 @@ public class DegradeTests extends BaseClass {
 
     @Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testDegrade5kToFreePlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.PLANCHANGE);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToDashboard();
         a.navigateToBillingPlan();
@@ -47,9 +47,7 @@ public class DegradeTests extends BaseClass {
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
-
-        emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated",
-                userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
+        emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 
     @Test(dataProvider = "Paid5kLoginAndDeg5ktoFreeJobDetails", groups = {"regressionSuite"})

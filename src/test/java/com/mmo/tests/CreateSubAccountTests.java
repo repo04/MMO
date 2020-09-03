@@ -75,7 +75,7 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateAdmin(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
         subscriptionAdminCreateAdminArray[sa][0] = a.createUser(userSecondName, "SA_Admin");
@@ -87,7 +87,6 @@ public class CreateSubAccountTests extends BaseClass {
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(subscriptionAdminCreateAdminArray[sa][0], subscriptionAdminCreateAdminArray[sa][1], subscriptionAdminCreateAdminArray[sa][2], "Admin");
         a.logOut();
-        Thread.sleep(10000);
         String claimTokenID = emailUtils.getTokenForSubUsers("Welcome! Get started with Precisely MapMarker", subscriptionAdminCreateAdminArray[sa][0], EmailUtils.EmailFolder.SUBUSERS);
         a.completeRegistration(subscriptionAdminCreateAdminArray[sa][0], subscriptionAdminCreateAdminArray[sa][1], subscriptionAdminCreateAdminArray[sa][2]  , claimTokenID);
         sa++;
@@ -95,7 +94,7 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminCreateUser(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
         subscriptionAdminCreateUserArray[su][0] = a.createUser(userSecondName, "SA_User");
@@ -107,7 +106,6 @@ public class CreateSubAccountTests extends BaseClass {
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(subscriptionAdminCreateUserArray[su][0], subscriptionAdminCreateUserArray[su][1], subscriptionAdminCreateUserArray[su][2], "User");
         a.logOut();
-        Thread.sleep(10000);
         String claimTokenID = emailUtils.getTokenForSubUsers("Welcome! Get started with Precisely MapMarker", subscriptionAdminCreateUserArray[su][0], EmailUtils.EmailFolder.SUBUSERS);
         a.completeRegistration(subscriptionAdminCreateUserArray[su][0], subscriptionAdminCreateUserArray[su][1], subscriptionAdminCreateUserArray[su][2] , claimTokenID);
         su++;
@@ -115,7 +113,7 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "SubscriptionAdminCreateAdminDetails", groups = {"regressionSuite"})
     public void testAdminCreateAdmin(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
         adminCreateAdminArray[aa][0] = a.createUser(userSecondName, "Ad_Admin");
@@ -127,7 +125,6 @@ public class CreateSubAccountTests extends BaseClass {
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(adminCreateAdminArray[aa][0], adminCreateAdminArray[aa][1], adminCreateAdminArray[aa][2], "Admin");
         a.logOut();
-        Thread.sleep(10000);
         String claimTokenID = emailUtils.getTokenForSubUsers("Welcome! Get started with Precisely MapMarker", adminCreateAdminArray[aa][0], EmailUtils.EmailFolder.SUBUSERS);
         a.completeRegistration(adminCreateAdminArray[aa][0], adminCreateAdminArray[aa][1], adminCreateAdminArray[aa][2]  , claimTokenID);
         aa++;
@@ -135,7 +132,7 @@ public class CreateSubAccountTests extends BaseClass {
 
     @Test(dataProvider = "SubscriptionAdminCreateAdminDetails", groups = {"regressionSuite"})
     public void testAdminCreateUser(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.SUBUSERS);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.SUBUSERS);
         a.login(userID);
         a.navigateToCreateUser();
         adminCreateUserArray[au][0] = a.createUser(userSecondName, "Ad_User");
@@ -147,7 +144,6 @@ public class CreateSubAccountTests extends BaseClass {
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(adminCreateUserArray[au][0], adminCreateUserArray[au][1], adminCreateUserArray[au][2], "User");
         a.logOut();
-        Thread.sleep(10000);
         String claimTokenID = emailUtils.getTokenForSubUsers("Welcome! Get started with Precisely MapMarker", adminCreateUserArray[au][0], EmailUtils.EmailFolder.SUBUSERS);
         a.completeRegistration(adminCreateUserArray[au][0], adminCreateUserArray[au][1], adminCreateUserArray[au][2]  , claimTokenID);
         au++;

@@ -20,6 +20,8 @@ import org.testng.Reporter;
 public class UnzipUtility extends BaseClass {
 
 	private Actions a = new Actions();
+	private static final int BUFFER_SIZE = 4096;
+
 	/**
 	 * Iterates through a ZIP file without actually extracting it
 	 * 
@@ -28,9 +30,15 @@ public class UnzipUtility extends BaseClass {
 	 * @throws IOException
 	 */
 	public boolean unzip(String zipActualFileName, String outFileFormat) throws IOException {
-		String wholePath = defaultDownloadPath + File.separator + zipActualFileName;
-		System.out.print("wholePath: " + wholePath + "\n");
-		ZipFile zip_file = new ZipFile(wholePath);
+		String zipFilePath = defaultDownloadPath + File.separator + zipActualFileName;
+		System.out.print("zipPath: " + zipFilePath + "\n");
+		String destDirectory = defaultDownloadPath + File.separator +
+				zipActualFileName.substring(0, zipActualFileName.indexOf("."));
+		File destDir = new File(destDirectory);
+		if (!destDir.exists()) {
+			destDir.mkdir();
+		}
+		ZipFile zip_file = new ZipFile(zipFilePath);
 		ArrayList<String> zipExtEntries = new ArrayList<>();
 		ArrayList<String> zipExtFound = new ArrayList<>();
 
@@ -51,7 +59,7 @@ public class UnzipUtility extends BaseClass {
 
 		Assert.assertTrue(zip_file.size() == zipExtEntries.size(),"Zip entries differ in size");
 
-		ZipInputStream zipIn = new ZipInputStream(new FileInputStream(wholePath));
+		ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
 		ZipEntry entry = zipIn.getNextEntry();
 		String findFile = zipActualFileName.substring(0, zipActualFileName.indexOf(".")) + "."
 				+ outFileFormat.toLowerCase();
@@ -61,6 +69,8 @@ public class UnzipUtility extends BaseClass {
 
 		// iterates over entries in the zip file
 		while (entry != null) {
+			String filePath = destDirectory + File.separator + entry.getName();
+			extractFile(zipIn, filePath);
 			System.out.print("Entry: " + entry.getName() + "\n");
 			for (String zipExtEntry : zipExtEntries){
 				if (entry.getName().contains(zipExtEntry)) {
@@ -73,8 +83,7 @@ public class UnzipUtility extends BaseClass {
 						fileFound = true;
 						Reporter.log("File found in ZIP folder: " + findFile + "\n");
 						if(outFileFormat.equalsIgnoreCase("tab")){
-							verifyDataTypeLength(wholePath.substring(0, wholePath.indexOf("."))
-									 + File.separator + entry.getName());
+							verifyDataTypeLength(filePath);
 						}
 					}
 				}
@@ -97,9 +106,19 @@ public class UnzipUtility extends BaseClass {
 
 		ArrayList<String> expTexts = new ArrayList<>();
 
-		expTexts.add("Longitude char (24) ;");
-		expTexts.add("Latitude char (9) ;");
-		expTexts.add("Country char (3) ;");
+		if(fileWithPath.contains("RevIn27700_NonExt")){
+			expTexts.add("S_No_ integer ;");
+			expTexts.add("Longitude float ;");
+			expTexts.add("Latitude char (18) ;");
+			expTexts.add("inp_country char (3) ;");
+		}else if(fileWithPath.contains("Geocoding_Temp_SHP")){
+			expTexts.add("Sno largeint ;");
+			expTexts.add("Address char (254) ;");
+			expTexts.add("City char (10) ;");
+			expTexts.add("State char (10) ;");
+			expTexts.add("Postcode char (10) ;");
+			expTexts.add("Country char (3) ;");
+		}
 
 		BufferedReader reader = null;
 		try {
@@ -131,5 +150,15 @@ public class UnzipUtility extends BaseClass {
 			a.navigateToDashboard();
 			u.illegalStateException("Mismatch in DataType Length");
 		}
+	}
+
+	private void extractFile(ZipInputStream zipIn, String filePath) throws IOException {
+		BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(filePath));
+		byte[] bytesIn = new byte[BUFFER_SIZE];
+		int read = 0;
+		while ((read = zipIn.read(bytesIn)) != -1) {
+			bos.write(bytesIn, 0, read);
+		}
+		bos.close();
 	}
 }
