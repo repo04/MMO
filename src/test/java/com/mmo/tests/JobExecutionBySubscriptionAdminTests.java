@@ -69,12 +69,13 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
     public void testJobsBySALogin(String userID, String userFirstName, String userSecondName) throws Exception {
         loginID = userID;
         a.login(userID);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBFAIL);
+        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
     }
 
     @Test(dataProvider = "SAIdAndInputJobDetails", groups = {"regressionSuite"})
     public void testSubscriptionAdminUploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName, String inputFileName, String geocodingType, String autoDrag, String                                                                dragColumns,String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
                                                                           String matchMode, String totalRecords, String inpRows) throws Exception {
-        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
         System.out.println("inputfile: " + inputFileName);
         if (m == 0){
             saOutFileNamesArray = new String[Integer.valueOf(inpRows)][1];
@@ -99,6 +100,7 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
 
     @Test(groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobsFailureEmails() throws Exception {
+        emailUtils.waitForEmailReceived("MapMarker Job Complete", EmailUtils.EmailFolder.JOBFAIL, 2);
         Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker Job Complete", true, 2, EmailUtils.EmailFolder.JOBFAIL);
         System.out.println("failJobCount: " + failJobNames.size());
         for(String jobName: failJobNames){
@@ -136,8 +138,8 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
         int q = outFileName.length();
         String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
         if(abc == 1) {
-            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true,
-                    m, EmailUtils.EmailFolder.JOBSUCCESS);
+            emailUtils.waitForEmailReceived("MapMarker File Ready", EmailUtils.EmailFolder.JOBSUCCESS, m);
+            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true, m, EmailUtils.EmailFolder.JOBSUCCESS);
             abc++;
             Assert.assertTrue(Emails.length == m, "Expected unread messages:" + m + ", actual: " + Emails.length);
         }

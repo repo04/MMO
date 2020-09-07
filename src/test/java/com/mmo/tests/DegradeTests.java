@@ -47,6 +47,7 @@ public class DegradeTests extends BaseClass {
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
+        emailUtils.waitForEmailReceived("Your MapMarker subscription has been updated", EmailUtils.EmailFolder.PLANCHANGE, 1);
         emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
     }
 

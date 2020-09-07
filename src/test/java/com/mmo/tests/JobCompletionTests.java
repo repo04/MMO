@@ -15,7 +15,6 @@ public class JobCompletionTests extends BaseClass {
     private Actions a = new Actions();
     int x = 1;
     private int pqr = 1;
-    Message[] Emails = null;
 
     @DataProvider(name = "AllJobDetails")
     public static Object[][] AllJobDetails(ITestContext context) throws Exception {
@@ -98,6 +97,7 @@ public class JobCompletionTests extends BaseClass {
         if(x == 1){
             a.login(userID);
         }
+        x++;
         a.verifyJobsShownToUser(userSecondName, outFileName);
         if(outFileName.contains(userSecondName)){
             System.out.print("****User Out****:" + outFileName + "\n");
@@ -106,7 +106,6 @@ public class JobCompletionTests extends BaseClass {
             a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
             a.navigateToDashboard();
         }
-        x++;
         if(x == 7){
             a.logOut();
             x = 1;
@@ -138,8 +137,8 @@ public class JobCompletionTests extends BaseClass {
         int q = outFileName.length();
         String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
         if(pqr == 1) {
-            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true,
-                    4, EmailUtils.EmailFolder.JOBSUCCESS);
+            emailUtils.waitForEmailReceived("MapMarker File Ready", EmailUtils.EmailFolder.JOBSUCCESS, 4);
+            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true,4, EmailUtils.EmailFolder.JOBSUCCESS);
             pqr++;
             Assert.assertTrue(Emails.length == 4, "Expected unread messages:4, actual: " + Emails.length);
         }

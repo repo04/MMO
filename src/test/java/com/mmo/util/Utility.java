@@ -4,6 +4,7 @@ import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
+import org.apache.commons.io.FileUtils;
 import org.awaitility.core.ConditionTimeoutException;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
@@ -607,7 +608,8 @@ public class Utility {
 	 */
 	public void emptyDefaultDownloadPath(String defaultDownloadPath) {
 		File file = new File(defaultDownloadPath);
-		if(file.isDirectory()){
+
+		/*if(file.isDirectory()){
 	         if(file.list().length > 0) { 
 	            System.out.println("Directory is not empty!");
 	            try {
@@ -618,6 +620,22 @@ public class Utility {
 				}
 	         }
 	         System.out.println("Directory is empty!");
+		}*/
+
+		if(file.isDirectory()){
+			if (file.list().length > 0) {
+				System.out.println("Directory is not empty!");
+				System.out.println("DIRECTORY SIZE: " + file.list().length);
+				try {
+					FileUtils.cleanDirectory(file);
+					System.out.println("Directory emptied!");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("Directory is empty!");
+			}
 		}
 	}
 

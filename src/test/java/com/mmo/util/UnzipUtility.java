@@ -38,11 +38,12 @@ public class UnzipUtility extends BaseClass {
 		if (!destDir.exists()) {
 			destDir.mkdir();
 		}
-		ZipFile zip_file = new ZipFile(zipFilePath);
+		ZipFile zipActEntries = new ZipFile(zipFilePath);
 		ArrayList<String> zipExtEntries = new ArrayList<>();
 		ArrayList<String> zipExtFound = new ArrayList<>();
 
 		if(outFileFormat.equalsIgnoreCase("shp")){
+			zipExtEntries.add(".cpg");
 			zipExtEntries.add(".dbf");
 			zipExtEntries.add(".prj");
 			zipExtEntries.add(".shx");
@@ -57,7 +58,8 @@ public class UnzipUtility extends BaseClass {
 			zipExtEntries.add(".csv");
 		}
 
-		Assert.assertTrue(zip_file.size() == zipExtEntries.size(),"Zip entries differ in size");
+		Assert.assertTrue(zipActEntries.size() == zipExtEntries.size(),"Zip entries differ in size, exp: " + zipExtEntries.size() +
+				" whereas act: " + zipActEntries.size());
 
 		ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
 		ZipEntry entry = zipIn.getNextEntry();

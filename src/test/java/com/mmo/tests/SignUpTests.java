@@ -82,7 +82,6 @@ public class SignUpTests extends BaseClass{
 
 	@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeUSUserAndCompleteEmailRegistration() throws Exception {
-		emailUtils.markAllEmailsAsUnread(EmailUtils.EmailFolder.STARTUSINGMMO);
 		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
 		freeUSUser =  a.signUpUser("free", "US", "N");
@@ -92,6 +91,7 @@ public class SignUpTests extends BaseClass{
 		Reporter.log("signUpFreeUSUserID: " + freeUSUser, true);
 		Reporter.log("signUpFreeUSUserFirstName: " + u.getFirstName(freeUSUser), true);
 		Reporter.log("signUpFreeUSUserSecondName: " + u.getSecondName(freeUSUser), true);
+		emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", freeUSUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(freeUSUser, u.getFirstName(freeUSUser), u.getSecondName(freeUSUser), claimTokenID);
 	}
@@ -107,6 +107,7 @@ public class SignUpTests extends BaseClass{
 		Reporter.log("signUpFreeNonUSUserID: " + freeNonUSUser, true);
 		Reporter.log("signUpFreeNonUSUserFirstName: " + u.getFirstName(freeNonUSUser), true);
 		Reporter.log("signUpFreeNonUSUserSecondName: " + u.getSecondName(freeNonUSUser), true);
+		emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", freeNonUSUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(freeNonUSUser, u.getFirstName(freeNonUSUser), u.getSecondName(freeNonUSUser), claimTokenID);
 	}
@@ -122,6 +123,7 @@ public class SignUpTests extends BaseClass{
 		Reporter.log("signUpPaid5kUserID: " + paid5kUser, true);
 		Reporter.log("signUpPaid5kUserFirstName: " + u.getFirstName(paid5kUser), true);
 		Reporter.log("signUpPaid5kUserSecondName: " + u.getSecondName(paid5kUser), true);
+		emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", paid5kUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(paid5kUser, u.getFirstName(paid5kUser), u.getSecondName(paid5kUser), claimTokenID);
 	}
@@ -137,6 +139,7 @@ public class SignUpTests extends BaseClass{
 		Reporter.log("signUpPaidProfUserID: " + profUser, true);
 		Reporter.log("signUpPaidProfUserFirstName: " + u.getFirstName(profUser), true);
 		Reporter.log("signUpPaidProfUserSecondName: " + u.getSecondName(profUser), true);
+		emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", profUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(profUser, u.getFirstName(profUser), u.getSecondName(profUser), claimTokenID);
 	}

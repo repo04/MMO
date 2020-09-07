@@ -51,7 +51,8 @@ public class BillingPage extends BaseClass {
         ip.isURLContains(driver, "/dashboard");
         u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
         ip.isGetTextContainsByXPATH(driver, "//a/div/div", userFirstName + " " + userSecondName);
-        String text = driver.findElement(By.xpath("//div[2]/div/div")).getText();
+        ip.isElementPresentByCSS(driver, "div.progressContainerHead");
+        String text = driver.findElement(By.cssSelector("div.progressContainerHead")).getText();
 
         switch(plan){
             case "Free":

@@ -287,7 +287,7 @@ public class EmailUtils extends BaseClass {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
-        Assert.assertEquals(email.getAllRecipients()[0].toString(), userID,
+        Assert.assertEquals(email.getAllRecipients()[0].toString().toLowerCase(), userID.toLowerCase(),
                 "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
         for (String text : textInMessage){
             System.out.println("**TXT: **" + text + "\n");
@@ -375,24 +375,35 @@ public class EmailUtils extends BaseClass {
         folder.close(true);
     }
 
-    public String getToken(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
+    public Boolean waitForEmailReceived(String emailSubject, EmailFolder emailFolder, int unreadEmails) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
-        Message email = null;
+        Boolean emailsReceived = null;
         int z = 0;
         while (z < 13) {
             try {
-                email = getMessagesBySubject(emailSubject, true, 1)[0];
-                z = 13;
+                if(unreadEmails == getNumberOfUnreadMessages()){
+                    emailsReceived = true;
+                    z = 13;
+                }
             } catch (ArrayIndexOutOfBoundsException ae) {
                 z++;
                 Thread.sleep(5000);
                 System.out.print("****IN CATCH****" + "\n");
                 if (z == 13) {
+                    folder.close(true);
                     u.illegalStateException("Email with subject: " + emailSubject + " not found after multiple tries " + ae);
                 }
             }
         }
+        folder.close(true);
+        return emailsReceived;
+    }
+
+    public String getToken(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
+        Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
         if(!html.contains("You're almost ready to start using " + emailSubject.substring(28) + ". Complete your registrationusing this email address: " + userID.toLowerCase()))
@@ -425,21 +436,7 @@ public class EmailUtils extends BaseClass {
     public String getTokenForSubUsers(String emailSubject, String userID, EmailFolder emailFolder) throws Exception {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
-        Message email = null;
-        int z = 0;
-        while (z < 13) {
-            try {
-                email = getMessagesBySubject(emailSubject, true, 1)[0];
-                z = 13;
-            } catch (ArrayIndexOutOfBoundsException ae) {
-                z++;
-                Thread.sleep(5000);
-                System.out.print("****IN CATCH****" + "\n");
-                if (z == 13) {
-                    u.illegalStateException("Email with subject: " + emailSubject + " not found after multiple tries " + ae);
-                }
-            }
-        }
+        Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
         if(!html.contains("Your access t=o MapMarker has been granted. All you need to do is register with your emai=l address: " + userID))
@@ -513,17 +510,18 @@ public class EmailUtils extends BaseClass {
             if(fileFoundInEmail)
             {
                 System.out.println("**File Found**" + "\n");
-                Assert.assertEquals(email.getAllRecipients()[0].toString(), userID,
+                Assert.assertEquals(email.getAllRecipients()[0].toString().toLowerCase(), userID.toLowerCase(),
                         "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
                 outFileFound = true;
-                u.emptyDefaultDownloadPath(defaultDownloadPath);
                 if(download.equalsIgnoreCase("N")){
-                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapma=rker-qa.li.precisely.services?p=3D");
-                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
-                    ip.isURLContains(driver, "geocoderesult?jobId=");
-                    ip.isElementClickableByXpath(driver, "//h1", 60);
-                    ip.isGetTextContainsByXPATH(driver ,"//h1", outFileName);
+//                    **As users are not logged-in**
+//                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapma=rker-qa.li.precisely.services?p=3D");
+//                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
+//                    ip.isURLContains(driver, "geocoderesult?jobId=");
+//                    ip.isElementClickableByXpath(driver, "//h1", 60);
+//                    ip.isGetTextContainsByXPATH(driver ,"//h1", outFileName);
                 }else{
+                    u.emptyDefaultDownloadPath(defaultDownloadPath);
                     String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapmarker-qa.li.=precisely.services?p=3D");
                     driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
                     String zipActualFileName = null;
@@ -534,9 +532,9 @@ public class EmailUtils extends BaseClass {
                         zipActualFileName = "MapMarker_ReverseGeocoding_Template.csv";
                     }
 
-                    if (u.isFileDownloaded(defaultDownloadPath, zipActualFileName)) {
+                    if(u.isFileDownloaded(defaultDownloadPath, zipActualFileName)) {
                         Reporter.log("File downloaded successfully: " + zipActualFileName + "\n");
-                    } else {
+                    }else{
                         softAssert.fail("Unable to download file fully until 2 mins: " + zipActualFileName);
                     }
                 }

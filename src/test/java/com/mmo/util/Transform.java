@@ -182,7 +182,7 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testAdmin2DeleteAdmin1".equals(testMethod.getName()) || "testAdmin2DeleteUser1".equals(testMethod.getName())
+        if ("testAdmin2DeleteAdmin1".equals(testMethod.getName()) || "testAdmin2DeleteUser2".equals(testMethod.getName())
             || "testAdmin2DeleteUser1Job".equals(testMethod.getName())) {
             DependentMethods = new String[1];
             DependentMethods[0] = "testDeleteLogin";

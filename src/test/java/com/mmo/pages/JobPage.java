@@ -351,6 +351,7 @@ public class JobPage extends BaseClass {
 	 * @param outFileFormat
 	 */
 	public void downloadOutputVerifyExtensionsAndDataTypeLength(String secondName, String outputFileName, String outFileFormat) {
+		u.emptyDefaultDownloadPath(defaultDownloadPath);
 		boolean fileStatus;
 		if(!secondName.contains("User")){
 			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
@@ -364,11 +365,10 @@ public class JobPage extends BaseClass {
 			ip.isElementClickableByXpath(driver, "//a[@id='downloadFile']", 60);
 			driver.findElement(By.xpath("//a[@id='downloadFile']")).click();
 		}
-		u.emptyDefaultDownloadPath(defaultDownloadPath);
 		String zipActualFileName = outputFileName + ".zip";
 		fileStatus = u.isFileDownloaded(defaultDownloadPath, zipActualFileName);
 		if (fileStatus) {
-			Reporter.log("File downloaded successfully: " + zipActualFileName + "\n");
+			Reporter.log("File downloaded successfully: " + zipActualFileName + "\n", true);
 		} else {
 			softAssert.fail("Unable to download file fully until 2 mins: " + zipActualFileName);
 		}

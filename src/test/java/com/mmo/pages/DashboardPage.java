@@ -39,12 +39,13 @@ public class DashboardPage extends BaseClass{
 			ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Billing & Plans')]");
 		}
 
+		ip.isElementPresentByCSS(driver, "div.progressContainerHead");
 		if(userSecondName.contains("Prof")){
-			ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "/ 300,000 geocodes");
+			ip.isTextPresentByCSS(driver, "div.progressContainerHead", "/ 300,000 geocodes");
 		}else if(userSecondName.contains("5k")){
-			ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "/ 5,000 geocodes");
+			ip.isTextPresentByCSS(driver, "div.progressContainerHead", "/ 5,000 geocodes");
 		}else{
-			ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "/ 2,500 geocodes");
+			ip.isTextPresentByCSS(driver, "div.progressContainerHead", "/ 2,500 geocodes");
 		}
 
 		ip.isGetTextContainsByXPATH(driver, "//button[@id='btnUploadFile']", "Upload File");

@@ -20,6 +20,7 @@ public class AddProductFlowTests extends BaseClass {
         geoTaxUserIDArray[0][0] =  a.signUpGeoTaxUser();
         System.out.println("ID testSignUpGeoTaxUserAndCompleteEmailRegistration: " + geoTaxUserIDArray[0][0]);
         Reporter.log("geoTaxUserID: " + geoTaxUserIDArray[0][0], true);
+        emailUtils.waitForEmailReceived("You're ready to start using GeoTAX", EmailUtils.EmailFolder.STARTUSINGGEOTAX, 1);
         String claimTokenID = emailUtils.getToken("You're ready to start using GeoTAX", geoTaxUserIDArray[0][0], EmailUtils.EmailFolder.STARTUSINGGEOTAX);
         a.completeRegistration(geoTaxUserIDArray[0][0], u.getFirstName(geoTaxUserIDArray[0][0]), u.getSecondName(geoTaxUserIDArray[0][0]), claimTokenID);
 
