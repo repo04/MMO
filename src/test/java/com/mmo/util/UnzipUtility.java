@@ -83,7 +83,7 @@ public class UnzipUtility extends BaseClass {
 					if (entry.getName().contentEquals(findFile)) {
 						System.out.print("File found: " + findFile + "\n");
 						fileFound = true;
-						Reporter.log("File found in ZIP folder: " + findFile + "\n");
+						Reporter.log("File found in ZIP folder: " + findFile  + "<br/>");
 						if(outFileFormat.equalsIgnoreCase("tab")){
 							verifyDataTypeLength(filePath);
 						}

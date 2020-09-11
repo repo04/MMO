@@ -116,7 +116,7 @@ public class DashboardPage extends BaseClass{
 					
 			fileStatus = u.isFileDownloaded(defaultDownloadPath, fileName);
 			if(fileStatus) {
-				Reporter.log("File downloaded successfully: " + fileName + "\n");				
+				Reporter.log("File downloaded successfully: " + fileName  + "<br/>");
 			}else {
 				//softAssert.assertTrue("Unable to download file fully until 2 mins: " + fileName);
 				softAssert.fail("Unable to download file fully until 2 mins: " + fileName);

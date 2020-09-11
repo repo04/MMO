@@ -6,9 +6,10 @@ import com.mmo.util.DataProviderUtility;
 import com.mmo.util.EmailUtils;
 import org.testng.Assert;
 import org.testng.ITestContext;
-import org.testng.annotations.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
-import javax.mail.Message;
 import java.util.Iterator;
 
 public class JobCompletionTests extends BaseClass {
@@ -74,10 +75,9 @@ public class JobCompletionTests extends BaseClass {
         a.verifyJobsShownToUser(userSecondName, outFileName);
         if(outFileName.contains(userSecondName)){
             System.out.print("****Admin Out****:" + outFileName + "\n");
-            a.waitforJobToGetComplete(userSecondName, outFileName);
+            a.waitforJobToGetComplete(userSecondName, outFileName, 10000);
             a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
-            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
-                    coordSystem, country, matchMode, totalRecords, outFileName);
+            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
             a.navigateToDashboard();
         }
         x++;
@@ -101,7 +101,7 @@ public class JobCompletionTests extends BaseClass {
         a.verifyJobsShownToUser(userSecondName, outFileName);
         if(outFileName.contains(userSecondName)){
             System.out.print("****User Out****:" + outFileName + "\n");
-            a.waitforJobToGetComplete(userSecondName, outFileName);
+            a.waitforJobToGetComplete(userSecondName, outFileName, 10000);
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
             a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
             a.navigateToDashboard();

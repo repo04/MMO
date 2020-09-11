@@ -100,7 +100,7 @@ public class SignUpPage extends BaseClass{
 			this.userEmailId = addProductFlow;
 			assertEquals(driver.findElement(By.xpath("//input[@id='firstname-nf']")).getAttribute("value"), this.userFirstName);
 			assertEquals(driver.findElement(By.xpath("//input[@id='lastname-nf']")).getAttribute("value"), this.userSecondName);
-			assertEquals(driver.findElement(By.xpath("//input[@id='email-nf']")).getAttribute("value"), this.userEmailId);
+			assertEquals(driver.findElement(By.xpath("//input[@id='email-nf']")).getAttribute("value").toLowerCase(), this.userEmailId.toLowerCase());
 			assertEquals(driver.findElement(By.xpath("//button[@id='createaccbtn-nf']/span[2]")).getText(), "Add Product");
 		}
 

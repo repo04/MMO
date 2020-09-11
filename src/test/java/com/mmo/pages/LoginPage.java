@@ -1,11 +1,8 @@
 package com.mmo.pages;
 
-import static org.testng.Assert.assertEquals;
-
+import com.mmo.util.BaseClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
-import com.mmo.util.BaseClass;
 
 public class LoginPage extends BaseClass {
 
@@ -61,7 +58,7 @@ public class LoginPage extends BaseClass {
         plusIndex = user.indexOf("+");
         attherateIndex = user.indexOf("@");
 
-        ip.isGetTextContainsByXPATH(driver, "//a/div/div", user.substring(0, plusIndex) + " " + user.substring(plusIndex + 1, attherateIndex));
+        //ip.isGetTextContainsByXPATH(driver, "//a/div/div", user.substring(0, plusIndex) + " " + user.substring(plusIndex + 1, attherateIndex));
     }
 
     /**

@@ -23,14 +23,14 @@ public class DeleteTests extends BaseClass {
     public void testAdmin2DeleteAdmin1(String adminID, String admin2FirstName, String admin2SecondName) throws Exception {
         a.navigateToUsers();
         a.deleteUser(adminID);
-        Reporter.log("Admin deleted: " + adminID, true);
+        Reporter.log("Admin deleted: " + adminID + "<br/>", true);
     }
 
     @Test(dataProvider = "AdminCreateUserDetails", dataProviderClass = CreateSubAccountTests.class, groups = "regressionSuite")
     public void testAdmin2DeleteUser2(String userID, String admin1FirstName, String admin1SecondName) throws Exception {
         a.navigateToUsers();
         a.deleteUser(userID);
-        Reporter.log("User deleted: " + userID, true);
+        Reporter.log("User deleted: " + userID + "<br/>", true);
     }
 
     @Test(dataProvider = "User1OutFileNames", dataProviderClass = JobExecutionBySubAccountTests.class, groups = "regressionSuite")
@@ -38,7 +38,7 @@ public class DeleteTests extends BaseClass {
         a.navigateToDashboard();
         a.verifyJobsShownToUser("Admin", outFileName);
         a.deleteJob("Admin", outFileName);
-        Reporter.log("Output Job deleted: " + outFileName, true);
+        Reporter.log("Output Job deleted: " + outFileName + "<br/>", true);
     }
 
     @AfterClass(groups = {"prerequisite"})

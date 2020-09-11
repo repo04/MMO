@@ -43,12 +43,13 @@ public class UpgradeTests extends BaseClass {
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "5k");
-        Reporter.log("Free user upgraded to 5k", true);
+        Reporter.log("Free user upgraded to 5k <br/>", true);
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
         emailUtils.waitForEmailReceived("Your MapMarker subscription has been updated", EmailUtils.EmailFolder.PLANCHANGE, 1);
         emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated",userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
+        Reporter.log("Free user upgraded to 5k - Email successfully received <br/>", true);
     }
 
     @Test(dataProvider = "FreeUSLoginAndUpgFreeto5kJobDetails", groups = {"regressionSuite"})
@@ -59,8 +60,8 @@ public class UpgradeTests extends BaseClass {
         a.navigateToUploadFile();
         executeJobUpgradeFreeto5k[0][0] = a.uploadFileConfigureAndStartJob(userSecondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
-        Reporter.log("JobAfterUpgradeto5k: " + executeJobUpgradeFreeto5k[0][0], true);
-        a.waitforJobToGetComplete("FreeUS260720161144", executeJobUpgradeFreeto5k[0][0]);
+        Reporter.log("JobAfterUpgradeto5k: " + executeJobUpgradeFreeto5k[0][0] + "<br/>", true);
+        a.waitforJobToGetComplete("FreeUS260720161144", executeJobUpgradeFreeto5k[0][0], 30000);
     }
 
     @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
@@ -69,13 +70,14 @@ public class UpgradeTests extends BaseClass {
         a.navigateToDashboard();
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Prof");
-        Reporter.log("5k user upgraded to Prof", true);
+        Reporter.log("5k user upgraded to Prof <br/>", true);
         a.logOut();
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
        emailUtils.waitForEmailReceived("Your MapMarker subscription has been updated", EmailUtils.EmailFolder.PLANCHANGE, 1);
        emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
+       Reporter.log("5k user upgraded to Prof Email - successfully received <br/>", true);
     }
 
     //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})

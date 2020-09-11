@@ -1,10 +1,5 @@
 package com.mmo.util;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,13 +10,16 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Parameters;
 import org.testng.asserts.SoftAssert;
 
 import javax.mail.Message;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-@Listeners({TestNGCustomReport.class})
+//@Listeners({TestNGCustomReport.class})
 public class BaseClass {
 
 	public static XpathValues xpv;
@@ -72,8 +70,7 @@ public class BaseClass {
         System.out.println("test: " + testValue);
         defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
 
-        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123",
-                "smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123","smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
         if(envValue.equalsIgnoreCase("qa"))
         {
@@ -100,14 +97,14 @@ public class BaseClass {
                 options.addArguments("--dns-prefetch-disable");
                 options.setExperimentalOption("prefs", prefs);
                 driver = new ChromeDriver(options);
-                Reporter.log("Browser: " + browser);
+                Reporter.log("Browser: " + browser + "<br/>");
                 break;
             case "ie":
             	String ieDrvrPath = directory.getCanonicalPath() + File.separator + "lib" + File.separator;
             	System.setProperty("webdriver.ie.driver", ieDrvrPath + "IEDriverServer_Win32_3.150.1" + File.separator + "IEDriverServer.exe");
             	driver = new InternetExplorerDriver();
             	driver.manage().window().maximize();
-            	Reporter.log("Browser: " + browser);
+            	Reporter.log("Browser: " + browser + "<br/>");
             	break;
             default:
             	String ffDrvrPath = directory.getCanonicalPath() + File.separator + "lib" + File.separator;
@@ -130,7 +127,7 @@ public class BaseClass {
             	option.setProfile(profile);
             	driver = new FirefoxDriver(option);
             	driver.manage().window().maximize();
-                Reporter.log("Browser: " + browser);                
+                Reporter.log("Browser: " + browser + "<br/>");
         }
 
         //a.navigateToHomePage();
@@ -144,7 +141,7 @@ public class BaseClass {
      */
     @AfterTest(alwaysRun = true, groups = {"prerequisite"})
     public void tearDown() throws Exception {
-        EmailUtils.storeClose();
+//        EmailUtils.storeClose();
 //        driver.quit();
     }
 }

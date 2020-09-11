@@ -82,7 +82,7 @@ public class CreateSubAccountTests extends BaseClass {
         subscriptionAdminCreateAdminArray[sa][1] = subscriptionAdminCreateAdminArray[sa][0].substring(0, subscriptionAdminCreateAdminArray[sa][0].indexOf("+"));
         subscriptionAdminCreateAdminArray[sa][2] = subscriptionAdminCreateAdminArray[sa][0].substring(subscriptionAdminCreateAdminArray[sa][0].indexOf("+") + 1,
                 subscriptionAdminCreateAdminArray[sa][0].indexOf("@"));
-        Reporter.log("SubcAdminCreateAdmin_UserID: " + subscriptionAdminCreateAdminArray[sa][0], true);
+        Reporter.log("SubcAdminCreateAdmin_UserID: " + subscriptionAdminCreateAdminArray[sa][0] + "<br/>", true);
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(subscriptionAdminCreateAdminArray[sa][0], subscriptionAdminCreateAdminArray[sa][1], subscriptionAdminCreateAdminArray[sa][2], "Admin");
         a.logOut();
@@ -101,7 +101,7 @@ public class CreateSubAccountTests extends BaseClass {
         subscriptionAdminCreateUserArray[su][1] = subscriptionAdminCreateUserArray[su][0].substring(0, subscriptionAdminCreateUserArray[su][0].indexOf("+"));
         subscriptionAdminCreateUserArray[su][2] = subscriptionAdminCreateUserArray[su][0].substring(subscriptionAdminCreateUserArray[su][0].indexOf("+") + 1,
                 subscriptionAdminCreateUserArray[su][0].indexOf("@"));
-        Reporter.log("SubcAdminCreateUser_UserID: " + subscriptionAdminCreateUserArray[su][0], true);
+        Reporter.log("SubcAdminCreateUser_UserID: " + subscriptionAdminCreateUserArray[su][0] + "<br/>", true);
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(subscriptionAdminCreateUserArray[su][0], subscriptionAdminCreateUserArray[su][1], subscriptionAdminCreateUserArray[su][2], "User");
         a.logOut();
@@ -120,7 +120,7 @@ public class CreateSubAccountTests extends BaseClass {
         adminCreateAdminArray[aa][1] = adminCreateAdminArray[aa][0].substring(0, adminCreateAdminArray[aa][0].indexOf("+"));
         adminCreateAdminArray[aa][2] = adminCreateAdminArray[aa][0].substring(adminCreateAdminArray[aa][0].indexOf("+") + 1,
                 adminCreateAdminArray[aa][0].indexOf("@"));
-        Reporter.log("AdminCreateAdmin_UserID: " + adminCreateAdminArray[aa][0], true);
+        Reporter.log("AdminCreateAdmin_UserID: " + adminCreateAdminArray[aa][0] + "<br/>", true);
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(adminCreateAdminArray[aa][0], adminCreateAdminArray[aa][1], adminCreateAdminArray[aa][2], "Admin");
         a.logOut();
@@ -139,7 +139,7 @@ public class CreateSubAccountTests extends BaseClass {
         adminCreateUserArray[au][1] = adminCreateUserArray[au][0].substring(0, adminCreateUserArray[au][0].indexOf("+"));
         adminCreateUserArray[au][2] = adminCreateUserArray[au][0].substring(adminCreateUserArray[au][0].indexOf("+") + 1,
                 adminCreateUserArray[au][0].indexOf("@"));
-        Reporter.log("AdminCreateUser_UserID: " + adminCreateUserArray[au][0], true);
+        Reporter.log("AdminCreateUser_UserID: " + adminCreateUserArray[au][0] + "<br/>", true);
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(adminCreateUserArray[au][0], adminCreateUserArray[au][1], adminCreateUserArray[au][2], "User");
         a.logOut();

@@ -1,22 +1,14 @@
 package com.mmo.util;
 
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.Locatable;
 import org.testng.Assert;
 import org.testng.Reporter;
 
+import javax.mail.*;
+import javax.mail.search.SubjectTerm;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.search.SubjectTerm;
 
 /**
  * Utility for interacting with an Email application
@@ -134,6 +126,12 @@ public class EmailUtils extends BaseClass {
     }
 
     public int getNumberOfUnreadMessages()throws MessagingException {
+        return folder.getUnreadMessageCount();
+    }
+
+    public int getNumberOfUnreadMessagesByFolder(EmailFolder emailFolder) throws MessagingException {
+        folder = store.getFolder(emailFolder.getText());
+        folder.open(Folder.READ_WRITE);
         return folder.getUnreadMessageCount();
     }
 
@@ -376,23 +374,23 @@ public class EmailUtils extends BaseClass {
     }
 
     public Boolean waitForEmailReceived(String emailSubject, EmailFolder emailFolder, int unreadEmails) throws Exception {
-        folder = store.getFolder(emailFolder.getText());
-        folder.open(Folder.READ_WRITE);
         Boolean emailsReceived = null;
         int z = 0;
+        int unreadCount;
         while (z < 13) {
-            try {
-                if(unreadEmails == getNumberOfUnreadMessages()){
-                    emailsReceived = true;
-                    z = 13;
-                }
-            } catch (ArrayIndexOutOfBoundsException ae) {
+            unreadCount = getNumberOfUnreadMessagesByFolder(emailFolder);
+            System.out.print("****UNREAD: ****" + unreadCount + "\n");
+            if (unreadEmails == unreadCount) {
+                System.out.print("****INSIDE IF: ****" + unreadCount + "\n");
+                emailsReceived = true;
+                z = 13;
+            }else{
+                System.out.print("****INSIDE ELSE Z= " + z + "\n");
                 z++;
                 Thread.sleep(5000);
-                System.out.print("****IN CATCH****" + "\n");
                 if (z == 13) {
                     folder.close(true);
-                    u.illegalStateException("Email with subject: " + emailSubject + " not found after multiple tries " + ae);
+                    u.illegalStateException("Email with subject: " + emailSubject + " not found after multiple wait");
                 }
             }
         }
@@ -513,14 +511,8 @@ public class EmailUtils extends BaseClass {
                 Assert.assertEquals(email.getAllRecipients()[0].toString().toLowerCase(), userID.toLowerCase(),
                         "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
                 outFileFound = true;
-                if(download.equalsIgnoreCase("N")){
-//                    **As users are not logged-in**
-//                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapma=rker-qa.li.precisely.services?p=3D");
-//                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
-//                    ip.isURLContains(driver, "geocoderesult?jobId=");
-//                    ip.isElementClickableByXpath(driver, "//h1", 60);
-//                    ip.isGetTextContainsByXPATH(driver ,"//h1", outFileName);
-                }else{
+                Reporter.log("Job success email received for : " + outFileName + "<br/>", true);
+                if(download.equalsIgnoreCase("Y")){
                     u.emptyDefaultDownloadPath(defaultDownloadPath);
                     String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapmarker-qa.li.=precisely.services?p=3D");
                     driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
@@ -528,14 +520,23 @@ public class EmailUtils extends BaseClass {
 
                     if(outFileName.contains("Forward_CSV_")){
                         zipActualFileName = "MapMarker_Geocoding_Template.csv";
-                    }else{
+                    }else if(outFileName.contains("Forward_TAB_")){
+                        zipActualFileName = "MapMarker_Geocoding_Template_TAB.zip";
+                    }else if(outFileName.contains("Forward_SHP_")){
+                        zipActualFileName = "MapMarker_Geocoding_Template_SHP.zip";
+                    }else if(outFileName.contains("Reverse_CSV_")){
                         zipActualFileName = "MapMarker_ReverseGeocoding_Template.csv";
+                    }else if(outFileName.contains("Reverse_NonExtTAB_")){
+                        zipActualFileName = "MapMarker_ReverseGeocoding_Template_TAB.zip";
+                    }else{
+                        zipActualFileName = "MapMarker_ReverseGeocoding_Template_SHP.zip";
                     }
 
                     if(u.isFileDownloaded(defaultDownloadPath, zipActualFileName)) {
-                        Reporter.log("File downloaded successfully: " + zipActualFileName + "\n");
+                        Reporter.log("Successfully accessed Email & Downloaded input file template for fail job: " + zipActualFileName + "<br/>",
+                                true);
                     }else{
-                        softAssert.fail("Unable to download file fully until 2 mins: " + zipActualFileName);
+                        Assert.fail("Unable to download file fully until 2 mins: " + zipActualFileName);
                     }
                 }
                 list.remove(email);

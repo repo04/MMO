@@ -3,8 +3,6 @@ package com.mmo.util;
 import com.mmo.pages.*;
 import org.openqa.selenium.By;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
 public class Actions extends BaseClass{
@@ -187,9 +185,9 @@ public class Actions extends BaseClass{
 		jp.uploadIncorrectFilesAndCheckValidations(loginId, inputFileName, geocodingType, expectedMessage);
 	}
     
-    public void waitforJobToGetComplete(String userSecondName, String outputFileName) {
+    public void waitforJobToGetComplete(String userSecondName, String outputFileName, long ms) {
     	JobPage jp = new JobPage();
-		jp.waitForJobToGetComplete(userSecondName, outputFileName);
+		jp.waitForJobToGetComplete(userSecondName, outputFileName, ms);
     }
     
     public void getJobDetails(String outputFilename) {

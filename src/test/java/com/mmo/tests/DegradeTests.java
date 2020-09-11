@@ -43,12 +43,13 @@ public class DegradeTests extends BaseClass {
         a.navigateToDashboard();
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Free");
-        Reporter.log("5k user degraded to Free", true);
+        Reporter.log("5k user degraded to Free <br/>", true);
         textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
         emailUtils.waitForEmailReceived("Your MapMarker subscription has been updated", EmailUtils.EmailFolder.PLANCHANGE, 1);
         emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
+        Reporter.log("5k user degraded to Free - Email successfully received <br/>", true);
     }
 
     @Test(dataProvider = "Paid5kLoginAndDeg5ktoFreeJobDetails", groups = {"regressionSuite"})
@@ -59,8 +60,8 @@ public class DegradeTests extends BaseClass {
         a.navigateToUploadFile();
         executeJobDegrade5ktoFree[0][0] = a.uploadFileConfigureAndStartJob(userSecondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
-        Reporter.log("JobAfterDegrade: " + executeJobDegrade5ktoFree[0][0], true);
-        a.waitforJobToGetComplete("5k260720161444", executeJobDegrade5ktoFree[0][0]);
+        Reporter.log("JobAfterDegrade: " + executeJobDegrade5ktoFree[0][0] + "<br/>", true);
+        a.waitforJobToGetComplete("5k260720161444", executeJobDegrade5ktoFree[0][0], 30000);
         a.logOut();
     }
 }

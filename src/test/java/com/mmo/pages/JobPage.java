@@ -1,12 +1,7 @@
 package com.mmo.pages;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
+import com.mmo.util.BaseClass;
+import com.mmo.util.UnzipUtility;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -16,8 +11,11 @@ import org.openqa.selenium.interactions.Locatable;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Reporter;
 
-import com.mmo.util.BaseClass;
-import com.mmo.util.UnzipUtility;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class JobPage extends BaseClass {
 
@@ -279,7 +277,7 @@ public class JobPage extends BaseClass {
 	 * 
 	 * @param outputFileName
 	 */
-	public void waitForJobToGetComplete(String userSecondName, String outputFileName) {
+	public void waitForJobToGetComplete(String userSecondName, String outputFileName, long ms) {
 		String path;
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
@@ -298,7 +296,7 @@ public class JobPage extends BaseClass {
 			if (driver.findElement(By.xpath(path)).getText().equalsIgnoreCase("Geocoding")) {
 				driver.findElement(By.xpath("//button[@id='refreshDashboard']")).click();
 				try {
-					Thread.sleep(30000);
+					Thread.sleep(ms);
 					x++;
 					if (x == 10) {
 						u.illegalStateException("File running since 300 secs :" + outputFileName);
@@ -368,7 +366,7 @@ public class JobPage extends BaseClass {
 		String zipActualFileName = outputFileName + ".zip";
 		fileStatus = u.isFileDownloaded(defaultDownloadPath, zipActualFileName);
 		if (fileStatus) {
-			Reporter.log("File downloaded successfully: " + zipActualFileName + "\n", true);
+			Reporter.log("File downloaded successfully: " + zipActualFileName  + "<br/>", true);
 		} else {
 			softAssert.fail("Unable to download file fully until 2 mins: " + zipActualFileName);
 		}
@@ -455,13 +453,14 @@ public class JobPage extends BaseClass {
 			driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
 			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
 			driver.findElement(By.xpath("//button[@id='startJobBtn']")).click();
-			waitForJobToGetComplete(u.getSecondName(loginID), outputFileName);
+			waitForJobToGetComplete(u.getSecondName(loginID), outputFileName, 5000);
 			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
+			driver.findElement(By.xpath("//button[@id='refreshDashboard']")).click();
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[8]", "Failed", 10);
-			ip.isElementClickableByXpath(driver, "//tr[1]/td[9]/a[1]/i", 60);
+			ip.waitForElementToBeRefreshedAndClickable(driver, By.xpath("//tr[1]/td[9]/a[1]/i"));
 			driver.findElement(By.xpath("//tr[1]/td[9]/a[1]/i")).click();
 			ip.isGetTextContainsByXPATH(driver, "//p", expectedMessage);
 			failJobNames.add(inputFileName.substring(0, inputFileName.indexOf(".")));

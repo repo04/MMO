@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.mmo.util.EmailUtils;
 import org.testng.ITestContext;
+import org.testng.Reporter;
 import org.testng.annotations.*;
 
 import com.mmo.util.Actions;
@@ -131,7 +132,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
         a.navigateToUploadFile();
         admin1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
-        System.out.println("outFileName: " + admin1OutFileNamesArray[0][0] + "\n");
+        Reporter.log("Admin1 successfully uploaded & started job : " + admin1OutFileNamesArray[0][0] + "<br/>", true);
         a.logOut();
 //		admin1OutFileNamesArray[0][0] = "UnevenInvrtdComa_RG_FreeUSSA_Admin100820135427198";
 	}
@@ -145,7 +146,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
         a.navigateToUploadFile();
         user1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
-        System.out.println("outFileName: " + user1OutFileNamesArray[0][0] + "\n");
+        Reporter.log("User1 successfully uploaded & started job : " + user1OutFileNamesArray[0][0] + "<br/>", true);
         a.logOut();
 //		user1OutFileNamesArray[0][0] = "EmptyLinesAtEnd_RG_XY_FreeUSSA_User100820135526749";
 	}
@@ -159,7 +160,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
         a.navigateToUploadFile();
         admin2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
-        System.out.println("outFileName: " + admin2OutFileNamesArray[0][0] + "\n");
+        Reporter.log("Admin2 successfully uploaded & started job : " + admin2OutFileNamesArray[0][0] + "<br/>", true);
         a.logOut();
 //		admin2OutFileNamesArray[0][0] = "Geocoding_Temp_SHP_FreeUSSAAd_Admin100820135621462";
 	}
@@ -173,7 +174,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 		a.navigateToUploadFile();
 		user2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
 				outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
-		System.out.println("outFileName: " + user2OutFileNamesArray[0][0] + "\n");
+		Reporter.log("User2 successfully uploaded & started job : " + user2OutFileNamesArray[0][0] + "<br/>", true);
 		a.logOut();
 //		user2OutFileNamesArray[0][0] = "RevIn27700_Ext_FreeUSSAAd_User100820135718705";
 	}

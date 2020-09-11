@@ -4,10 +4,12 @@
  */
 package com.mmo.util;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 
 
 public class IsPresent {
@@ -228,6 +230,10 @@ public class IsPresent {
      */
     public void checkStalenessOfElement(WebDriver driver, WebElement element) {
     	new WebDriverWait(driver, 60).until(ExpectedConditions.stalenessOf(element));
+    }
+
+    public void waitForElementToBeRefreshedAndClickable(WebDriver driver, By by) {
+        new WebDriverWait(driver, 60).until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(by)));
     }
 
     /**
