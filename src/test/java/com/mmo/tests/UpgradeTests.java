@@ -55,11 +55,12 @@ public class UpgradeTests extends BaseClass {
     @Test(dataProvider = "FreeUSLoginAndUpgFreeto5kJobDetails", groups = {"regressionSuite"})
     public void testExecuteJobAfterUpgrade(String userID, String userFirstName, String userSecondName,
                                            String inputFileName, String geocodingType, String autoDrag, String dragColumns,String dropFieldsToGeocode,
-                                           String outputFields, String outputFormat, String coordSystem, String country, String matchMode, String totalRecords) throws Exception {
+                                           String outputFields, String outputFormat, String coordSystem, String country, String matchMode, String totalRecords,
+                                           String advanceGeocoding, String multiMatch) throws Exception {
         a.navigateToDashboard();
         a.navigateToUploadFile();
         executeJobUpgradeFreeto5k[0][0] = a.uploadFileConfigureAndStartJob(userSecondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("JobAfterUpgradeto5k: " + executeJobUpgradeFreeto5k[0][0] + "<br/>", true);
         a.waitforJobToGetComplete("FreeUS260720161144", executeJobUpgradeFreeto5k[0][0], 30000);
     }

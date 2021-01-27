@@ -404,7 +404,7 @@ public class EmailUtils extends BaseClass {
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
-        if(!html.contains("You're almost ready to start using " + emailSubject.substring(28) + ". Complete your registrationusing this email address: " + userID.toLowerCase()))
+        if(!html.contains("You're almost= ready to start using " + emailSubject.substring(28) + ". Complete your registration using this emai=l address: " + userID.toLowerCase()))
         {
             u.illegalStateException("Complete your registration using this email address is not found: "+ userID);
         }
@@ -437,7 +437,7 @@ public class EmailUtils extends BaseClass {
         Message email = getMessagesBySubject(emailSubject, true, 1)[0];
         String html = getMessageContent(email);
         System.out.println("**html**: " + html);
-        if(!html.contains("Your access t=o MapMarker has been granted. All you need to do is register with your emai=l address: " + userID))
+        if(!html.contains("Your access to MapMarker has been granted. All you need to do is register with your email address: " + userID))
         {
             u.illegalStateException("Complete your registration for subUser's using this email address is not found: "+ userID);
         }
@@ -445,7 +445,7 @@ public class EmailUtils extends BaseClass {
         int	preIndex = 0;
         if(envValue.equalsIgnoreCase("qa"))
         {
-            preIndex = html.indexOf("toke=n=3D");
+            preIndex = html.indexOf("token=");
         } else if(envValue.equalsIgnoreCase("ppd"))
         {
             System.out.print("****OPEN PPD URL****");
@@ -458,7 +458,7 @@ public class EmailUtils extends BaseClass {
 
         System.out.println("preIndex: " + preIndex);
         System.out.println("searchIndex: " + searchIndex);
-        String token = html.substring(preIndex + 9, searchIndex);
+        String token = html.substring(preIndex + 6, searchIndex);
         System.out.println("token: " + token);
         folder.close(true);
         return token;

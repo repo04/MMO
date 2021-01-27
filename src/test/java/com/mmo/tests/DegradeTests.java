@@ -55,11 +55,12 @@ public class DegradeTests extends BaseClass {
     @Test(dataProvider = "Paid5kLoginAndDeg5ktoFreeJobDetails", groups = {"regressionSuite"})
     public void testExecuteJobAfterDegrade(String userID, String userFirstName, String userSecondName,
                                            String inputFileName, String geocodingType, String autoDrag, String dragColumns,String dropFieldsToGeocode,
-                                           String outputFields, String outputFormat, String coordSystem, String country, String matchMode, String totalRecords) throws Exception {
+                                           String outputFields, String outputFormat, String coordSystem, String country, String matchMode, String totalRecords,
+                                           String advanceGeocoding, String multiMatch) throws Exception {
         a.navigateToDashboard();
         a.navigateToUploadFile();
         executeJobDegrade5ktoFree[0][0] = a.uploadFileConfigureAndStartJob(userSecondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("JobAfterDegrade: " + executeJobDegrade5ktoFree[0][0] + "<br/>", true);
         a.waitforJobToGetComplete("5k260720161444", executeJobDegrade5ktoFree[0][0], 30000);
         a.logOut();

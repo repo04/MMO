@@ -1,15 +1,16 @@
 package com.mmo.tests;
 
-import java.util.Iterator;
-
-import com.mmo.util.EmailUtils;
-import org.testng.ITestContext;
-import org.testng.Reporter;
-import org.testng.annotations.*;
-
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import com.mmo.util.DataProviderUtility;
+import com.mmo.util.EmailUtils;
+import org.testng.ITestContext;
+import org.testng.Reporter;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+import java.util.Iterator;
 
 public class JobExecutionBySubAccountTests extends BaseClass {
 
@@ -127,11 +128,11 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	public void testAdmin1UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															   String matchMode, String totalRecords) throws Exception {
+															   String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
         a.login(userID);
         a.navigateToUploadFile();
         admin1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("Admin1 successfully uploaded & started job : " + admin1OutFileNamesArray[0][0] + "<br/>", true);
         a.logOut();
 //		admin1OutFileNamesArray[0][0] = "UnevenInvrtdComa_RG_FreeUSSA_Admin100820135427198";
@@ -141,11 +142,11 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	public void testUser1UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															  String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															  String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															  String matchMode, String totalRecords) throws Exception {
+															  String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
         a.login(userID);
         a.navigateToUploadFile();
         user1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("User1 successfully uploaded & started job : " + user1OutFileNamesArray[0][0] + "<br/>", true);
         a.logOut();
 //		user1OutFileNamesArray[0][0] = "EmptyLinesAtEnd_RG_XY_FreeUSSA_User100820135526749";
@@ -155,11 +156,11 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	public void testAdmin2UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															   String matchMode, String totalRecords) throws Exception {
+															   String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
         a.login(userID);
         a.navigateToUploadFile();
         admin2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+                outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("Admin2 successfully uploaded & started job : " + admin2OutFileNamesArray[0][0] + "<br/>", true);
         a.logOut();
 //		admin2OutFileNamesArray[0][0] = "Geocoding_Temp_SHP_FreeUSSAAd_Admin100820135621462";
@@ -169,11 +170,11 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	public void testUser2UploadFileConfigureAndStartGeocoding(String userID, String firstName, String secondName,
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-															   String matchMode, String totalRecords) throws Exception {
+															   String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
 		a.login(userID);
 		a.navigateToUploadFile();
 		user2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
-				outputFields, outputFormat, coordSystem, country, matchMode, totalRecords);
+				outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
 		Reporter.log("User2 successfully uploaded & started job : " + user2OutFileNamesArray[0][0] + "<br/>", true);
 		a.logOut();
 //		user2OutFileNamesArray[0][0] = "RevIn27700_Ext_FreeUSSAAd_User100820135718705";

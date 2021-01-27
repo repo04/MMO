@@ -22,9 +22,9 @@ public class SignUpTests extends BaseClass{
 	@DataProvider(name = "FreeUSUserDetails")
     public static Object[][] FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-		freeUSUserArray[0][0] = "mmoautomated+freenonus100920132251@gmail.com";
+		freeUSUserArray[0][0] = "mmoautomated+FreeUS270121155055@gmail.com";
 		freeUSUserArray[0][1] = "mmoAutomated";
-		freeUSUserArray[0][2] = "freeus100920132328";
+		freeUSUserArray[0][2] = "FreeUS270121155055";
 		return freeUSUserArray;
     }
 	
@@ -64,7 +64,8 @@ public class SignUpTests extends BaseClass{
 	@DataProvider(name = "AllFreeSubscriptionAdminDetails")
 	public static Object[][] AllFreeSubscriptionAdminDetails(ITestContext context) throws Exception {
 		System.out.println("init AllFreeSubscriptionAdminDetails");
-		return DataProviderUtility.append2DArrayVertically(FreeNonUSUserDetails(context), FreeUSUserDetails(context));
+		//return DataProviderUtility.append2DArrayVertically(FreeNonUSUserDetails(context), FreeUSUserDetails(context));
+		return DataProviderUtility.append2DArrayVertically(FreeUSUserDetails(context));
 	}
 
 	@DataProvider(name = "AllPaidSubscriptionAdminDetails")
@@ -76,13 +77,13 @@ public class SignUpTests extends BaseClass{
 	@BeforeClass(groups = {"prerequisite"})
 	public void testVerifyHomePage() throws Exception {
 		a.navigateToHomePage();
-//		a.verifyHomePage();
-//		a.verifyFooters();
+		a.verifyHomePage();
+		a.verifyFooters();
 	}
 
 	@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeUSUserAndCompleteEmailRegistration() throws Exception {
-//		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
+		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
 //		a.navigateToHomePage();
 //		freeUSUser =  a.signUpUser("free", "US", "N");
 //		freeUSUserArray[0][0] = freeUSUser;

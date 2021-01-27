@@ -167,10 +167,10 @@ public class Actions extends BaseClass{
     }
 
     public String uploadFileConfigureAndStartJob(String secondName, String inputFileName, String geocodingType, String autoDrag, String dragColumns, String dropFieldsToGeocode, String outputFields,
-			String outputFormat, String coordSystem, String country, String matchMode, String totalRecords) {
+			String outputFormat, String coordSystem, String country, String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) {
     	JobPage jp = new JobPage();
 		jp.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode, outputFields,
-				outputFormat, coordSystem, country, matchMode, totalRecords);
+				outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
 		return jp.getOutputFileName();
     }
     

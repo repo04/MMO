@@ -39,7 +39,7 @@ public class JobPage extends BaseClass {
 	 */
 	public void uploadFileConfigureAndStartJob(String secondName, String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 			String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-			String matchMode, String totalRecords) {
+			String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) {
 
 		ip.isElementClickableByXpath(driver, "//div/i", 60);
 		ip.isElementClickableByXpath(driver, "//a[contains(text(),'CSV')]", 60);
@@ -154,21 +154,21 @@ public class JobPage extends BaseClass {
 			}
 		}
 
+		if(geocodingType.equalsIgnoreCase("forward")){
+			ip.isGetTextContainsByXPATH(driver, "//div[9]/div/div", "DPV Fields in the output are subjected to no DPV seed violation as per USPS.");
+			ip.isElementPresentByXPATH(driver, "//a[contains(text(),'DPV seed violation')]");
+			driver.findElement(By.xpath("//a[contains(text(),'DPV seed violation')]")).click();
+			u.waitForNumberOfWindowsToEqual(driver, 60, 2);
+			u.verifyWindowTitle(driver, "MapMarker User Guide - Frequently Asked Questions", ip);
+		}
+
 		if (outputFields.equalsIgnoreCase("All")) {
-//			driver.findElement(By.xpath("//button[@id='moveAllToRight']")).click();
-//			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
 			driver.findElement(By.xpath("//div/ul/p-treenode[2]/li/div/div/div")).click();
 			driver.findElement(By.xpath("//div/ul/p-treenode[3]/li/div/div/div")).click();
+			driver.findElement(By.xpath("//div/ul/p-treenode[4]/li/div/div/div")).click();
 			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
-			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
-			if(geocodingType.equalsIgnoreCase("forward")) {
-				Assert.assertTrue("All checked output columns not equal to 37, actual fields are " + checkedElements.size(), checkedElements.size() == 37);
-				Assert.assertTrue("All unchecked output columns not equal to 2, actual fields are " + uncheckedElements.size(), uncheckedElements.size() == 2);
-			}else {
-				Assert.assertTrue("All output columns not equal to 39, actual fields are " + checkedElements.size(), checkedElements.size() == 39);
-			}
+			Assert.assertTrue("All checked output columns not equal to 39, actual fields are " + checkedElements.size(), checkedElements.size() == 39);
 		} else if(outputFields.equalsIgnoreCase("Default")) {
-			//List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
 			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
 			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
 			Assert.assertTrue("All checked output columns not equal to 6, actual fields are " + checkedElements.size(), checkedElements.size() == 6);
@@ -183,8 +183,6 @@ public class JobPage extends BaseClass {
 //			}
 			driver.findElement(By.xpath("//p-treenode[2]/li/ul/p-treenode[1]/li/div/div/div")).click();
 			driver.findElement(By.xpath("//p-treenode[2]/li/ul/p-treenode[2]/li/div/div/div")).click();
-//			driver.findElement(By.xpath("//button[@id='moveToRight']")).click();
-//			List<WebElement> rightElements = driver.findElements(By.xpath("//div[@class='output-field-drop']/div"));
 			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
 			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
 			List<WebElement> semicheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-minus']"));
@@ -207,10 +205,10 @@ public class JobPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@type='text']")).sendKeys(outputFileName);
 		
 		if(geocodingType.equalsIgnoreCase("forward") && outputFormat.equalsIgnoreCase("CSV")) {
-			if(!driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).isEnabled()) {
+			if(!driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[11]/div[3]/input")).isEnabled()) {
 				System.out.print("****COORDINATE DROPDOWN DISABLED****: " + "\n");
 				System.out.print("****VALUE****: " + 
-						driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[10]/div[3]/input")).getAttribute("value") + "\n");
+						driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[11]/div[3]/input")).getAttribute("value") + "\n");
 			}	
 		}else if(geocodingType.equalsIgnoreCase("forward") &&
 				(outputFormat.equalsIgnoreCase("TAB")|| outputFormat.equalsIgnoreCase("SHP"))){
@@ -237,9 +235,50 @@ public class JobPage extends BaseClass {
 				if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[1]/input")).isEnabled()) {
 					u.illegalStateException("Country dropdown should be disabled");
 				}
-			}	
+			}
+			ip.isGetTextContainsByXPATH(driver, "//div[1]/h5", "Country");
+			ip.isElementPresentByXPATH(driver, "//div[1]/h5/a/i");
+			ip.isGetTextContainsByXPATH(driver, "//div[2]/h5", "Match Mode");
+			ip.isElementPresentByXPATH(driver, "//div[2]/h5/a/i");
+			ip.isGetTextContainsByXPATH(driver, "//div[3]/h5", "Multi Matched Address");
+			ip.isElementPresentByXPATH(driver, "//div[3]/h5/a/i");
+			ip.isGetTextContainsByXPATH(driver, "//td/h5", "Advanced Geocoding options for");
+
+			switch (advanceGeocoding) {
+				case "Increase Match Rate":
+					new Select(driver.findElement(By.xpath("//td[2]/select"))).selectByVisibleText(advanceGeocoding);
+					if (driver.findElement(By.xpath("//*[@id='selectMatchMode']")).isEnabled()) {
+						u.illegalStateException("Match Mode dropdown should be disabled");
+					}
+
+					driver.findElement(By.xpath("//*[@id='selectMatchMode']")).getAttribute("ng-reflect-model").equalsIgnoreCase("relaxed");
+
+					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).isEnabled()) {
+						u.illegalStateException("Multi Matched Address dropdown should be disabled");
+					}
+					driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).
+							getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first");
+					break;
+				case "Increase Accuracy":
+					new Select(driver.findElement(By.xpath("//td[2]/select"))).selectByVisibleText(advanceGeocoding);
+					ip.isElementClickableByXpath(driver, "//select[@id='selectMatchMode']", 5);
+
+					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).isEnabled()) {
+						u.illegalStateException("Multi Matched Address dropdown should be disabled");
+					}
+					driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).
+							getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first");
+
+					new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
+					break;
+				default:
+					new Select(driver.findElement(By.xpath("//td[2]/select"))).selectByVisibleText(advanceGeocoding);
+					ip.isElementClickableByXpath(driver, "//select[@id='selectMatchMode']", 5);
+					ip.isElementClickableByXpath(driver, "//div[3]/select", 5);
+					new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
+					new Select(driver.findElement(By.xpath("//div[3]/select"))).selectByVisibleText(multiMatch);
+			}
 			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
-			new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
 		}else {
 			ip.isGetTextContainsByXPATH(driver, "//h1", "Step 3: Geocode Options");
 			ip.isGetTextContainsByXPATH(driver, "//div[1]/h5", "Distance");

@@ -31,7 +31,7 @@ public class EmailPage extends BaseClass {
         ip.isGetTextContainsByXPATH(driver, "//p", "Your password must include at least:");
         ip.isGetTextContainsByXPATH(driver, "//li[1]/span", "8 characters");
         ip.isGetTextContainsByXPATH(driver, "//li[2]/span", "1 uppercase letter");
-        ip.isGetTextContainsByXPATH(driver, "//li[3]/span", "1 digit or special character");
+        ip.isGetTextContainsByXPATH(driver, "//li[3]/span", "1 digit or given special characters ! @ # $ % ^ & ~ ( ) * + , - . / : ; < = > ? are allowed");
         driver.findElement(By.xpath("//input[@id='newPassword']")).sendKeys("Precisely@123");
         driver.findElement(By.xpath("//input[@id='confirmPassword']")).sendKeys("Precisely@123");
         driver.findElement(By.xpath("//button[@id='claimAccountButton']")).click();

@@ -1,10 +1,9 @@
 package com.mmo.pages;
 
-import static org.testng.Assert.assertEquals;
-
+import com.mmo.util.BaseClass;
 import org.openqa.selenium.By;
 
-import com.mmo.util.BaseClass;
+import static org.testng.Assert.assertEquals;
 
 
 public class HomePage extends BaseClass{
@@ -28,18 +27,20 @@ public class HomePage extends BaseClass{
 		assertEquals(driver.findElement(By.xpath("//span[2]")).getText(), "FREE");
 		assertEquals(driver.findElement(By.xpath("//div[2]/div[4]/span")).getText(), "$");
 		assertEquals(driver.findElement(By.xpath("//div[2]/div[4]/span[2]")).getText(), "50");
-		assertEquals(driver.findElement(By.xpath("//div[2]/div[4]/div")).getText(), "per month");
+		assertEquals(driver.findElement(By.xpath("//div[2]/div[4]/div")).getText(), "per month(USD)");
 		assertEquals(driver.findElement(By.xpath("//div[2]/div[5]")).getText(), "5k minimum plus overages");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/span")).getText(), "$");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/span[2]")).getText(), "2700");
-		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/div")).getText(), "per quarter");
+		assertEquals(driver.findElement(By.xpath("//div[3]/div[4]/div")).getText(), "per quarter(USD)");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[5]")).getText(), "Annual Commitment" + "\n" + "10% discount!" +"\n" + "300k minimum plus overages");
 		assertEquals(driver.findElement(By.xpath("//div[4]/div[4]/span")).getText(), "Monthly" + "\n" + "or" + "\n" +"Annually");
 		assertEquals(driver.findElement(By.xpath("//div[4]/div[5]")).getText(), "20%+ discount based on volume!");
 		assertEquals(driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=free')\"]")).getText(), "Choose");
-		assertEquals(driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]")).getText(), "Choose");
-		assertEquals(driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]")).getText(), "Choose");
-		assertEquals(driver.findElement(By.xpath("//a[contains(@href, 'https://support.precisely.com/contactus')]")).getText(), "Contact Us");
+		//assertEquals(driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_5k_monthly')\"]")).getText(), "Choose");
+		//assertEquals(driver.findElement(By.xpath("//a[@onclick=\"selectPlan('?plan=gc_300k_quarterly')\"]")).getText(), "Choose");
+		assertEquals(driver.findElement(By.xpath("//h3")).getText(), "Coming Soon");
+		assertEquals(driver.findElement(By.xpath("//div[3]/div[6]/h3")).getText(), "Coming Soon");
+		assertEquals(driver.findElement(By.xpath("//a[contains(@href, 'https://support.precisely.com')]")).getText(), "Contact Us");
 		assertEquals(driver.findElement(By.xpath("//div[1]/div[6]")).getText(), "Try our Geocoding service with up to 2,500 geocodes for 14 days.");
 		assertEquals(driver.findElement(By.xpath("//div[2]/div[7]")).getText(), "Our low-cost basic plan gives you 5,000 geocodes for $50 a month.");
 		assertEquals(driver.findElement(By.xpath("//div[3]/div[7]")).getText(), "Our discounted annual plan gives you 300,000 geocodes for $2,700 a quarter.");
@@ -48,13 +49,13 @@ public class HomePage extends BaseClass{
 		//Help document
 		driver.findElement(By.cssSelector("svg.hiddenOnDevice")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "MapMarker - Introduction", ip);
+		u.verifyWindowTitle(driver, "MapMarker User Guide - Introduction", ip);
 
 		//Contact us from Last plan
-		ip.isElementClickableByXpath(driver, "//a[contains(@href, 'https://support.precisely.com/contactus')]", 30);
-		driver.findElement(By.xpath("//a[contains(@href, 'https://support.precisely.com/contactus')]")).click();
+		ip.isElementClickableByXpath(driver, "//a[contains(@href, 'https://support.precisely.com')]", 30);
+		driver.findElement(By.xpath("//a[contains(@href, 'https://support.precisely.com')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "Contact Us - Precisely Support", ip);
+		u.verifyWindowTitle(driver, "Precisely Support", ip);
 
 		//Overages	
 		u.clickByJavaScript(driver, "//a[@onclick='showOverageModal()'][1]");

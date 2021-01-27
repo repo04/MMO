@@ -1,13 +1,8 @@
 package com.mmo.pages;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
+import com.mmo.util.BaseClass;
 import org.openqa.selenium.By;
 import org.testng.Reporter;
-
-import com.mmo.util.BaseClass;
 
 public class DashboardPage extends BaseClass{
 
@@ -52,11 +47,11 @@ public class DashboardPage extends BaseClass{
 
 		driver.findElement(By.xpath("//a[contains(text(),'documentation')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "MapMarker - Step 1: Upload File", ip);
+		u.verifyWindowTitle(driver, "MapMarker User Guide - Step 1: Upload File", ip);
 
 		driver.findElement(By.xpath("//a[contains(text(),'FAQs')]")).click();
 		u.waitForNumberOfWindowsToEqual(driver, 60, 2);
-		u.verifyWindowTitle(driver, "MapMarker - Frequently Asked Questions", ip);
+		u.verifyWindowTitle(driver, "MapMarker User Guide - Frequently Asked Questions", ip);
 	}
 
 	/**

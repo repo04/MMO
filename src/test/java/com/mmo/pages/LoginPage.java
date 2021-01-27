@@ -21,8 +21,7 @@ public class LoginPage extends BaseClass {
     	ip.isGetTextContainsByXPATH(driver, "//h1", "MapMarker");
     	ip.isElementPresentByXPATH(driver, "//div[2]/label");
         ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInUserName"));
-        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInPassword"));
-        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInLoginButton"));
+        ip.isElementPresentByXPATH(driver, "//button[@id='nextButton']/span");
         ip.isGetTextContainsByXPATH(driver, "//label/span", "Remember me", 10);
         ip.isGetTextContainsByXPATH(driver, "//p/a", "Forgot your password?", 10);
         ip.isGetTextContainsByXPATH(driver, "//div/div/label", "Not a registered user?", 10);
@@ -41,13 +40,15 @@ public class LoginPage extends BaseClass {
         ip.isElementClickableByXpath(driver, xpv.getTokenValue("signInUserName"), 60);
         
         WebElement userName = driver.findElement(By.xpath(xpv.getTokenValue("signInUserName")));
+        userName.clear();
+        userName.sendKeys(user);
+        driver.findElement(By.xpath("//button[@id='nextButton']/span")).click();
+        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInPassword"));
+        ip.isElementPresentByXPATH(driver, xpv.getTokenValue("signInLoginButton"));
         WebElement passWord = driver.findElement(By.xpath(xpv.getTokenValue("signInPassword")));
+        passWord.clear();
         WebElement loginBtn = driver.findElement(By.xpath(xpv.getTokenValue("signInLoginButton")));
 
-        userName.clear();
-        passWord.clear();
-        
-        userName.sendKeys(user);
         passWord.sendKeys("Precisely@123");
         loginBtn.click();
         u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");

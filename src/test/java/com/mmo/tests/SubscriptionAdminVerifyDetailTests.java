@@ -18,18 +18,19 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
         a.verifyLoginPageFooters();
     }
 
-    @Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
+    //@Test(dataProvider = "AllSubscriptionAdminDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "AllFreeSubscriptionAdminDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.verifyDashboard(userFirstName, userSecondName);
 
-        downloadDefaultTemplates[0] = "FRWD CSV";
-        downloadDefaultTemplates[1] = "FRWD SHP";
-        downloadDefaultTemplates[2] = "FRWD TAB";
-        downloadDefaultTemplates[3] = "RVRS CSV";
-        downloadDefaultTemplates[4] = "RVRS SHP";
-        downloadDefaultTemplates[5] = "RVRS TAB";
-        a.downloadAllDefaultTemplates(downloadDefaultTemplates);
+//        downloadDefaultTemplates[0] = "FRWD CSV";
+//        downloadDefaultTemplates[1] = "FRWD SHP";
+//        downloadDefaultTemplates[2] = "FRWD TAB";
+//        downloadDefaultTemplates[3] = "RVRS CSV";
+//        downloadDefaultTemplates[4] = "RVRS SHP";
+//        downloadDefaultTemplates[5] = "RVRS TAB";
+//        a.downloadAllDefaultTemplates(downloadDefaultTemplates);
 
         a.navigateToProfilePage();
         a.verifyProfilePage(userID, userFirstName, userSecondName);
@@ -37,13 +38,13 @@ public class SubscriptionAdminVerifyDetailTests extends BaseClass {
         a.navigateToUsers();
         a.verifyUserDetailInUsersList(userID, userFirstName, userSecondName, "SubscriptionAdmin");
 
-        a.navigateToBillingPlan();
-        a.verifyBillingPage(userSecondName);
+//        a.navigateToBillingPlan();
+//        a.verifyBillingPage(userSecondName);
 
         a.logOut();
     }
 
-    @Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
+    //@Test(dataProvider = "ProfUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testSubscriptionAdminUpdateAndVerifyCardDetails(String userID, String userFirstName, String userSecondName) throws Exception {
         a.login(userID);
         a.navigateToBillingPlan();

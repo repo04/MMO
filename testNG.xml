@@ -20,7 +20,7 @@
 			<class name="com.mmo.tests.SubscriptionAdminVerifyDetailTests"/>
 			<class name="com.mmo.tests.CreateSubAccountTests"/>
 			<class name="com.mmo.tests.SubAccountVerifyDetailTests"/>
-			<class name="com.mmo.tests.JobExecutionBySubscriptionAdminTests"/>
+			class name="com.mmo.tests.JobExecutionBySubscriptionAdminTests"/>
 			<class name="com.mmo.tests.JobExecutionBySubAccountTests"/>
 			<class name="com.mmo.tests.JobCompletionTests"/>
 			<class name="com.mmo.tests.UpgradeTests"/>

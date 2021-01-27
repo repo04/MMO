@@ -1,10 +1,10 @@
 package com.mmo.util;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-
 import org.testng.IAnnotationTransformer;
 import org.testng.annotations.ITestAnnotation;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 public class Transform implements IAnnotationTransformer {
 	
@@ -16,11 +16,11 @@ public class Transform implements IAnnotationTransformer {
 
         if ("testSubscriptionAdminVerifyDetails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyDetails");
-            DependentMethods = new String[4];
+            DependentMethods = new String[1];
             DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
-            DependentMethods[1] = "com.mmo.tests.SignUpTests.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
-            DependentMethods[2] = "com.mmo.tests.SignUpTests.testSignUpPaid5kUserAndCompleteEmailRegistration";
-            DependentMethods[3] = "com.mmo.tests.SignUpTests.testSignUpPaidProfUserAndCompleteEmailRegistration";
+//            DependentMethods[1] = "com.mmo.tests.SignUpTests.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
+//            DependentMethods[2] = "com.mmo.tests.SignUpTests.testSignUpPaid5kUserAndCompleteEmailRegistration";
+//            DependentMethods[3] = "com.mmo.tests.SignUpTests.testSignUpPaidProfUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
 
