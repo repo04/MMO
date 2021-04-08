@@ -239,10 +239,10 @@ public class Actions extends BaseClass{
 
 	public void verifyJobDetails(String userSecondName, String inputFileName, String geocodingType,
 								 String outputFields, String outputFormat, String coordSystem, String country,
-								 String matchMode, String totalRecords, String outFileName) {
+								 String matchMode, String totalRecords, String advanceGeocoding, String multiMatch, String outFileName) {
 		JobPage jp = new JobPage();
 		jp.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat,
-				coordSystem, country, matchMode, totalRecords, outFileName);
+				coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch, outFileName);
 	}
 
 	public void verifyJobsShownToUser(String userSecondName, String outFileName) {

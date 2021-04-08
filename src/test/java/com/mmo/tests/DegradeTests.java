@@ -62,7 +62,7 @@ public class DegradeTests extends BaseClass {
         executeJobDegrade5ktoFree[0][0] = a.uploadFileConfigureAndStartJob(userSecondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("JobAfterDegrade: " + executeJobDegrade5ktoFree[0][0] + "<br/>", true);
-        a.waitforJobToGetComplete("5k260720161444", executeJobDegrade5ktoFree[0][0], 30000);
+        a.waitforJobToGetComplete(userSecondName, executeJobDegrade5ktoFree[0][0], 30000);
         a.logOut();
     }
 }

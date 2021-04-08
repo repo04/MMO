@@ -13,15 +13,15 @@ import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -628,6 +628,7 @@ public class Utility {
 				System.out.println("DIRECTORY SIZE: " + file.list().length);
 				try {
 					FileUtils.cleanDirectory(file);
+					FileUtils.forceDelete(file);
 					System.out.println("Directory emptied!");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

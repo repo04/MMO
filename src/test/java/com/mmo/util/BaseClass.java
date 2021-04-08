@@ -38,6 +38,7 @@ public class BaseClass {
     public static String loginURL;
     public static Message[] Emails = null;
     public static ArrayList<String> failJobNames = new ArrayList<>();
+    public static int totalJobs;
 
     //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 	

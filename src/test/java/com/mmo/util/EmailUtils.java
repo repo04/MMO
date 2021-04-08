@@ -76,7 +76,6 @@ public class EmailUtils extends BaseClass {
             e.printStackTrace();
             System.exit(-1);
         }
-
         session = Session.getInstance(props);
         store = session.getStore("imaps");
         store.connect(server, username, password);
@@ -361,7 +360,7 @@ public class EmailUtils extends BaseClass {
         folder = store.getFolder(emailFolder.getText());
         folder.open(Folder.READ_WRITE);
         int countAllEmails = getNumberOfMessages();
-        System.out.println("countAllEmails: " + countAllEmails);
+        System.out.println("countAllEmails " + emailFolder.getText() + " :" + countAllEmails );
         Message[] m = folder.getMessages();
 
         if(countAllEmails > 0){
@@ -494,44 +493,61 @@ public class EmailUtils extends BaseClass {
     public Boolean testVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName, String userID, boolean outFileFound, String download) throws Exception {
         List<Message> list = new ArrayList<>(Arrays.asList(Emails));
         for (Message email : Emails) {
-            System.out.println("**EMAIL ID: **" + email.getAllRecipients()[0].toString() + "\n");
-            System.out.println("**user ID: **" + userID + "\n");
-            System.out.println("**File: **" + outFileName.substring(0, 13) + "=" + outFileName.substring(13) + "\n");
             Boolean fileFoundInEmail;
 
-            if(download.equalsIgnoreCase("N")){
-                fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName.substring(0, 15) + "=" + outFileName.substring(15));
-            }else{
-                fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName.substring(0, 13) + "=" + outFileName.substring(13));
-            }
+//            if(download.equalsIgnoreCase("N")){
+//                fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName.substring(0, 15) + "=" + outFileName.substring(15));
+//            }else{
+//                fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName);
+//            }
+
+//          System.out.println("**EMAIL ID: **" + email.getAllRecipients()[0].toString() + "\n");
+            System.out.println("**user ID: **" + userID + "\n");
+            System.out.println("**File: **" + outFileName + "\n");
+
+            fileFoundInEmail = emailUtils.isTextInMessage(email, outFileName);
 
             if(fileFoundInEmail)
             {
                 System.out.println("**File Found**" + "\n");
-                Assert.assertEquals(email.getAllRecipients()[0].toString().toLowerCase(), userID.toLowerCase(),
-                        "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
+//                Assert.assertEquals(email.getAllRecipients()[0].toString().toLowerCase(), userID.toLowerCase(),
+//                        "Recipient incorrect; expected: " + userID + " but actual: " + email.getAllRecipients()[0].toString());
                 outFileFound = true;
                 Reporter.log("Job success email received for : " + outFileName + "<br/>", true);
                 if(download.equalsIgnoreCase("Y")){
                     u.emptyDefaultDownloadPath(defaultDownloadPath);
-                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapmarker-qa.li.=precisely.services?p=3D");
-                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
+                    String downloadTemplate = null;
                     String zipActualFileName = null;
+//                    String jobTokenFromEmail = emailUtils.getJobTokenFromEmail(email, "mapmarker-qa.li.=precisely.services?p=3D");
+//                    driver.get("https://mandrillapp.com/track/click/30875726/mapmarker-qa.li.precisely.services?p=" + jobTokenFromEmail);
 
                     if(outFileName.contains("Forward_CSV_")){
-                        zipActualFileName = "MapMarker_Geocoding_Template.csv";
+                        downloadTemplate = "MapMarker_Geocoding_Template.csv";
+                        Assert.assertTrue(emailUtils.isTextInMessage(email, downloadTemplate), downloadTemplate + " is not in email");
+                        zipActualFileName = downloadTemplate;
                     }else if(outFileName.contains("Forward_TAB_")){
-                        zipActualFileName = "MapMarker_Geocoding_Template_TAB.zip";
+                        downloadTemplate = "MapMarker_Geocoding_Template_TAB.zip";
+                        Assert.assertTrue(emailUtils.isTextInMessage(email, downloadTemplate), downloadTemplate + " is not in email");
+                        zipActualFileName = downloadTemplate;
                     }else if(outFileName.contains("Forward_SHP_")){
-                        zipActualFileName = "MapMarker_Geocoding_Template_SHP.zip";
+                        downloadTemplate = "MapMarker_Geocoding_Template_SHP.zip";
+                        Assert.assertTrue(emailUtils.isTextInMessage(email, downloadTemplate), downloadTemplate + " is not in email");
+                        zipActualFileName = downloadTemplate;
                     }else if(outFileName.contains("Reverse_CSV_")){
-                        zipActualFileName = "MapMarker_ReverseGeocoding_Template.csv";
+                        downloadTemplate = "MapMarker_ReverseGeocoding_Template.csv";
+                        Assert.assertTrue(emailUtils.isTextInMessage(email, downloadTemplate), downloadTemplate + " is not in email");
+                        zipActualFileName = downloadTemplate;
                     }else if(outFileName.contains("Reverse_NonExtTAB_")){
-                        zipActualFileName = "MapMarker_ReverseGeocoding_Template_TAB.zip";
+                        downloadTemplate = "MapMarker_ReverseGeocoding_Template_TAB.zip";
+                        Assert.assertTrue(emailUtils.isTextInMessage(email, downloadTemplate), downloadTemplate + " is not in email");
+                        zipActualFileName = downloadTemplate;
                     }else{
-                        zipActualFileName = "MapMarker_ReverseGeocoding_Template_SHP.zip";
+                        downloadTemplate = "MapMarker_ReverseGeocoding_Template_SHP.zip";
+                        Assert.assertTrue(emailUtils.isTextInMessage(email, downloadTemplate), downloadTemplate + " is not in email");
+                        zipActualFileName = downloadTemplate;
                     }
 
+                    driver.get("https://mapmarker-qa.li.precisely.services/assets/" + downloadTemplate);
                     if(u.isFileDownloaded(defaultDownloadPath, zipActualFileName)) {
                         Reporter.log("Successfully accessed Email & Downloaded input file template for fail job: " + zipActualFileName + "<br/>",
                                 true);

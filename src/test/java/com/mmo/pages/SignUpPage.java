@@ -1,16 +1,11 @@
 package com.mmo.pages;
 
-import static org.testng.Assert.assertEquals;
-
-import java.util.List;
-
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.Select;
-
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
+
+import static org.testng.Assert.assertEquals;
 
 public class SignUpPage extends BaseClass{
 
@@ -108,10 +103,11 @@ public class SignUpPage extends BaseClass{
 
 		verifyfooters();
 
-		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']", 60);
-		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']");
+//		ip.isElementClickableByXpath(driver, "//button[@id='createaccbtn-nf']", 60);
+//		u.clickByJavaScript(driver, "//button[@id='createaccbtn-nf']");
+		u.actionBuilderClick(driver, "//button[@id='createaccbtn-nf']");
 		if(!plan.equalsIgnoreCase("free")) {
-			enterPaymentDetails();
+			enterPaymentDetails("NEW");
 		}
 		if(!addProductFlow.startsWith("mmoAutomated")) {
 			ip.isGetTextContainsByXPATH(driver, "//p[@id='successtext']", "Success!");
@@ -153,34 +149,37 @@ public class SignUpPage extends BaseClass{
 		}
 	}
 
-	public void enterPaymentDetails(){
-		ip.isURLContains(driver, "payment/geocoding");
-		ip.isGetTextContainsByXPATH(driver, "//div[@id='paymentinfoheading']", "Payment Info");
-		ip.isElementPresentByXPATH(driver, "//a[contains(text(),'Payment')]");
-		ip.frameToBeAvailableAndSwitchToIt(driver, "paymetricsForm");
-		ip.isElementClickableByXpath(driver, "//input[@id='c-cardname']", 60);
-		driver.findElement(By.xpath("//input[@id='c-cardname']")).clear();
-		driver.findElement(By.xpath("//input[@id='c-cardname']")).sendKeys("CARD NAME");
-		driver.findElement(By.xpath("//input[@id='c-cardnumber']")).clear();
-		driver.findElement(By.xpath("//input[@id='c-cardnumber']")).sendKeys("4111111111111111");
-		driver.findElement(By.xpath("//input[@id='c-cvv']")).clear();
-		driver.findElement(By.xpath("//input[@id='c-cvv']")).sendKeys("123");
-		new Select(driver.findElement(By.xpath("//select[@id='c-ct']"))).selectByVisibleText("VISA");
-		new Select(driver.findElement(By.xpath("//select[@id='c-exmth']"))).selectByVisibleText("Jan");
-		new Select(driver.findElement(By.xpath("//select[@id='c-exyr']"))).selectByVisibleText("2021");
-		driver.findElement(By.xpath("//input[@id='address1']")).clear();
-		driver.findElement(By.xpath("//input[@id='address1']")).sendKeys("DERRY STREETS");
-		driver.findElement(By.xpath("//input[@id='city']")).clear();
-		driver.findElement(By.xpath("//input[@id='city']")).sendKeys("DERRY");
-		new Select(driver.findElement(By.xpath("//select[@id='us-state']"))).selectByVisibleText("NH");
-		driver.findElement(By.xpath("//input[@id='postalCode']")).clear();
-		driver.findElement(By.xpath("//input[@id='postalCode']")).sendKeys("03038");
-		driver.switchTo().defaultContent();
+	public void enterPaymentDetails(String change){
+		ip.isURLContains(driver, "payment2/geocoding");
+		ip.isGetTextContainsByXPATH(driver, "//div[@id='paymentinfoheading']", "Enter your payment information.");
+		driver.findElement(By.xpath("//input[@type='text']")).clear();
+		driver.findElement(By.xpath("//input[@type='text']")).sendKeys("CARD");
+		driver.findElement(By.xpath("(//input[@type='text'])[2]")).clear();
+		driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("NAME " + change);
+		ip.frameToBeAvailableByIndexAndSwitchToIt(driver, 0);
+		ip.isElementClickableByXpath(driver, "//input[@id='recurly-hosted-field-input']", 15);
+		driver.findElement(By.xpath("//input[@id='recurly-hosted-field-input']")).clear();
+		driver.findElement(By.xpath("//input[@id='recurly-hosted-field-input']")).sendKeys("3566002020360505");
+		driver.findElement(By.xpath("(//input[@type='tel'])[2]")).clear();
+		driver.findElement(By.xpath("(//input[@type='tel'])[2]")).sendKeys("11 / 24");
+		driver.findElement(By.xpath("(//input[@type='tel'])[3]")).clear();
+		driver.findElement(By.xpath("(//input[@type='tel'])[3]")).sendKeys("123");
+		driver.switchTo().parentFrame();
+		driver.findElement(By.xpath("(//input[@type='text'])[3]")).clear();
+		driver.findElement(By.xpath("(//input[@type='text'])[3]")).sendKeys("1 Global View");
+		driver.findElement(By.xpath("(//input[@type='text'])[5]")).clear();
+		driver.findElement(By.xpath("(//input[@type='text'])[5]")).sendKeys("12180");
+		driver.findElement(By.xpath("(//input[@type='text'])[6]")).clear();
+		driver.findElement(By.xpath("(//input[@type='text'])[6]")).sendKeys("TROY");
+		new Select(driver.findElement(By.xpath("//select"))).selectByVisibleText("New York");
+		driver.findElement(By.xpath("//span[@id='buttonContent']")).click();
+		ip.isGetTextContainsByXPATH(driver, "//div[8]/div",
+				"Our Address Verification API has corrected your address. Confirm the changes below.", 15);
+		driver.findElement(By.xpath("//input[@name='address']")).click();
 
 		verifyfooters();
 
-		ip.isElementClickableByXpath(driver, "//button[@id='activateplanbutton']", 60);
-		u.clickByJavaScript(driver, "//button[@id='activateplanbutton']");
+		driver.findElement(By.xpath("//span[@id='buttonContent']")).click();
 		ip.isURLContains(driver, "thanks/geocoding");
 	}
 

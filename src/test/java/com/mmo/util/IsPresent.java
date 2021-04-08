@@ -256,4 +256,26 @@ public class IsPresent {
     public void frameToBeAvailableAndSwitchToIt(WebDriver driver, String frameID) {
         new WebDriverWait(driver, 60).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameID));
     }
+
+    /**
+     * An expectation for checking whether the given frame is available to switch to. If the frame
+     * is available it switches the given driver to the specified frame
+     *
+     * @param driver
+     * @param frameIndex
+     */
+    public void frameToBeAvailableByIndexAndSwitchToIt(WebDriver driver, int frameIndex) {
+        new WebDriverWait(driver, 60).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frameIndex));
+    }
+
+    /**
+     * An expectation for checking whether the given frame is available to switch to. <p> If the frame
+     * is available it switches the given driver to the specified frame.
+     *
+     * @param elementXpath used to find the frame
+     * @return WebDriver instance after frame has been switched
+     */
+    public void frameToBeAvailableByXpathAndSwitchToIt(WebDriver driver, String elementXpath) {
+        new WebDriverWait(driver, 60).until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(By.xpath(elementXpath)));
+    }
 }

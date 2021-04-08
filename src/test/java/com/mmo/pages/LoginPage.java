@@ -51,7 +51,7 @@ public class LoginPage extends BaseClass {
 
         passWord.sendKeys("Precisely@123");
         loginBtn.click();
-        u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
+//        u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
         ip.isTitlePresent(driver, "MapMarker");
         ip.isElementClickableByXpath(driver, "//a/div/div", 60);
 

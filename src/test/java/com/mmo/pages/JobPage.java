@@ -155,7 +155,8 @@ public class JobPage extends BaseClass {
 		}
 
 		if(geocodingType.equalsIgnoreCase("forward")){
-			ip.isGetTextContainsByXPATH(driver, "//div[9]/div/div", "DPV Fields in the output are subjected to no DPV seed violation as per USPS.");
+//			System.out.println("PRINT 9 : " + driver.findElement(By.xpath("//div[9]/div/div")).getText());
+//			ip.isGetTextContainsByXPATH(driver, "//div[9]/div/div", "DPV Fields in the output are subjected to no DPV seed violation as per USPS.");
 			ip.isElementPresentByXPATH(driver, "//a[contains(text(),'DPV seed violation')]");
 			driver.findElement(By.xpath("//a[contains(text(),'DPV seed violation')]")).click();
 			u.waitForNumberOfWindowsToEqual(driver, 60, 2);
@@ -165,7 +166,9 @@ public class JobPage extends BaseClass {
 		if (outputFields.equalsIgnoreCase("All")) {
 			driver.findElement(By.xpath("//div/ul/p-treenode[2]/li/div/div/div")).click();
 			driver.findElement(By.xpath("//div/ul/p-treenode[3]/li/div/div/div")).click();
-			driver.findElement(By.xpath("//div/ul/p-treenode[4]/li/div/div/div")).click();
+			if(geocodingType.equalsIgnoreCase("forward")) {
+				driver.findElement(By.xpath("//div/ul/p-treenode[4]/li/div/div/div")).click();
+			}
 			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
 			Assert.assertTrue("All checked output columns not equal to 39, actual fields are " + checkedElements.size(), checkedElements.size() == 39);
 		} else if(outputFields.equalsIgnoreCase("Default")) {
@@ -173,14 +176,13 @@ public class JobPage extends BaseClass {
 			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
 			Assert.assertTrue("All checked output columns not equal to 6, actual fields are " + checkedElements.size(), checkedElements.size() == 6);
 			Assert.assertTrue("All unchecked output columns not equal to 33, actual fields are " + uncheckedElements.size(), uncheckedElements.size() == 33);
+		} else if(outputFields.equalsIgnoreCase("dpv")) {
+			driver.findElement(By.xpath("//div/ul/p-treenode[4]/li/div/div/div")).click();
+			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
+			List<WebElement> uncheckedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa']"));
+			Assert.assertTrue("All checked output columns not equal to 8, actual fields are " + checkedElements.size(), checkedElements.size() == 8);
+			Assert.assertTrue("All unchecked output columns not equal to 31, actual fields are " + uncheckedElements.size(), uncheckedElements.size() == 31);
 		} else{
-//			if(geocodingType.equalsIgnoreCase("forward")) {
-//				driver.findElement(By.xpath("//div[@id='formattedStreetAddress']")).click();
-//				driver.findElement(By.xpath("//div[@id='formattedLocationAddress']")).click();
-//			}else{
-//				driver.findElement(By.xpath("//div[@id='X']")).click();
-//				driver.findElement(By.xpath("//div[@id='Y']")).click();
-//			}
 			driver.findElement(By.xpath("//p-treenode[2]/li/ul/p-treenode[1]/li/div/div/div")).click();
 			driver.findElement(By.xpath("//p-treenode[2]/li/ul/p-treenode[2]/li/div/div/div")).click();
 			List<WebElement> checkedElements = driver.findElements(By.xpath("//span[@class='ui-chkbox-icon ui-clickable fa fa-check']"));
@@ -205,11 +207,13 @@ public class JobPage extends BaseClass {
 		driver.findElement(By.xpath("//input[@type='text']")).sendKeys(outputFileName);
 		
 		if(geocodingType.equalsIgnoreCase("forward") && outputFormat.equalsIgnoreCase("CSV")) {
-			if(!driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[11]/div[3]/input")).isEnabled()) {
+			if(!driver.findElement(By.xpath("//input[@class='form-control ng-star-inserted']")).isEnabled()) {
 				System.out.print("****COORDINATE DROPDOWN DISABLED****: " + "\n");
-				System.out.print("****VALUE****: " + 
-						driver.findElement(By.xpath("/html/body/app-root/div/jhi-configuration/div[1]/div[11]/div[3]/input")).getAttribute("value") + "\n");
-			}	
+				Assert.assertTrue("Coordinate Value differ for CSV OutputFormat", driver.findElement(By.xpath("//input[@class='form-control ng-star-inserted']")).
+						getAttribute("value").equalsIgnoreCase("EPSG:4326"));
+			}else{
+				u.illegalStateException("Coordinate dropdown should be disabled");
+			}
 		}else if(geocodingType.equalsIgnoreCase("forward") &&
 				(outputFormat.equalsIgnoreCase("TAB")|| outputFormat.equalsIgnoreCase("SHP"))){
 			System.out.print("****COORDINATE DROPDOWN ENABLED****: " + "\n");
@@ -218,6 +222,7 @@ public class JobPage extends BaseClass {
 
 		driver.findElement(By.xpath("//button[@id='nextBtn']")).click();
 
+		//Step3
 		if(geocodingType.equalsIgnoreCase("forward")) {
 			if (!country.startsWith("Mapped")) {
 				ip.isGetTextContainsByXPATH(driver, "//ngb-modal-window/div/div/div/h5", "Country Not Mapped");
@@ -232,60 +237,77 @@ public class JobPage extends BaseClass {
 				new Select(driver.findElement(By.xpath("//select"))).selectByVisibleText(country);
 			} else {
 				ip.isGetTextContainsByXPATH(driver, "//h1", "Step 3: Geocode Options");
-				if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[1]/input")).isEnabled()) {
+				if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[1]/input")).isEnabled()) {
 					u.illegalStateException("Country dropdown should be disabled");
 				}
 			}
-			ip.isGetTextContainsByXPATH(driver, "//div[1]/h5", "Country");
-			ip.isElementPresentByXPATH(driver, "//div[1]/h5/a/i");
+
+			ip.isGetTextContainsByXPATH(driver, "//div/span", "Settings for initial Geocoding job");
+			ip.isElementPresentByXPATH(driver, "//a/i");
+			ip.isGetTextContainsByXPATH(driver, "//h5", "Country");
 			ip.isGetTextContainsByXPATH(driver, "//div[2]/h5", "Match Mode");
-			ip.isElementPresentByXPATH(driver, "//div[2]/h5/a/i");
 			ip.isGetTextContainsByXPATH(driver, "//div[3]/h5", "Multi Matched Address");
-			ip.isElementPresentByXPATH(driver, "//div[3]/h5/a/i");
-			ip.isGetTextContainsByXPATH(driver, "//td/h5", "Advanced Geocoding options for");
+			ip.isGetTextContainsByXPATH(driver, "//div[4]/div/div/span", "Settings for addresses that fail or do not match perfectly");
+			ip.isElementPresentByXPATH(driver, "//div[4]/div/div/a/i");
 
 			switch (advanceGeocoding) {
 				case "Increase Match Rate":
-					new Select(driver.findElement(By.xpath("//td[2]/select"))).selectByVisibleText(advanceGeocoding);
+					new Select(driver.findElement(By.xpath("//div[2]/div/select"))).selectByVisibleText(advanceGeocoding);
 					if (driver.findElement(By.xpath("//*[@id='selectMatchMode']")).isEnabled()) {
 						u.illegalStateException("Match Mode dropdown should be disabled");
 					}
+					Assert.assertTrue("Relax is NOT selected for Inc MR", driver.findElement(By.xpath("//*[@id='selectMatchMode']")).getAttribute("ng-reflect-model").
+							equalsIgnoreCase("relaxed"));
 
-					driver.findElement(By.xpath("//*[@id='selectMatchMode']")).getAttribute("ng-reflect-model").equalsIgnoreCase("relaxed");
-
-					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).isEnabled()) {
+					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[3]/select")).isEnabled()) {
 						u.illegalStateException("Multi Matched Address dropdown should be disabled");
 					}
-					driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).
-							getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first");
+					Assert.assertTrue("Accept First is NOT selected for Inc MR", driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[3]/select")).
+									getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first"));
+
 					break;
 				case "Increase Accuracy":
-					new Select(driver.findElement(By.xpath("//td[2]/select"))).selectByVisibleText(advanceGeocoding);
+					new Select(driver.findElement(By.xpath("//div[2]/div/select"))).selectByVisibleText(advanceGeocoding);
 					ip.isElementClickableByXpath(driver, "//select[@id='selectMatchMode']", 5);
-
-					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).isEnabled()) {
+					new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
+					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[3]/select")).isEnabled()) {
 						u.illegalStateException("Multi Matched Address dropdown should be disabled");
 					}
-					driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[2]/div[3]/select")).
-							getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first");
-
+					Assert.assertTrue("Accept First is NOT auto selected for 'Inc Acc' Multipass Setting",
+							driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[3]/select")).
+									getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first"));
+					break;
+				case "Custom":
+					new Select(driver.findElement(By.xpath("//div[2]/div/select"))).selectByVisibleText(advanceGeocoding);
+					ip.isElementClickableByXpath(driver, "//select[@id='selectMatchMode']", 5);
 					new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
+					if (driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[3]/select")).isEnabled()) {
+						u.illegalStateException("Multi Matched Address dropdown should be disabled");
+					}
+					Assert.assertTrue("Accept First is NOT auto selected for 'Custom' Multipass Setting",
+							driver.findElement(By.xpath("/html/body/app-root/div/geocode-options/div[1]/div/div[3]/div[3]/select")).
+									getAttribute("ng-reflect-model").equalsIgnoreCase("accept_first"));
+					new Select(driver.findElement(By.xpath("//div[3]/div/div/select"))).selectByVisibleText("Any");
+					new Select(driver.findElement(By.xpath("//div[3]/div[2]/div/select"))).selectByVisibleText("And");
+					new Select(driver.findElement(By.xpath("//select[2]"))).selectByVisibleText("80");
+					new Select(driver.findElement(By.xpath("//div[3]/div[3]/div/select"))).selectByVisibleText("Use singleline address formation");
+					new Select(driver.findElement(By.xpath("//div[3]/div/select[2]"))).selectByVisibleText("Relaxed");
 					break;
 				default:
-					new Select(driver.findElement(By.xpath("//td[2]/select"))).selectByVisibleText(advanceGeocoding);
+					new Select(driver.findElement(By.xpath("//div[2]/div/select"))).selectByVisibleText(advanceGeocoding);
 					ip.isElementClickableByXpath(driver, "//select[@id='selectMatchMode']", 5);
 					ip.isElementClickableByXpath(driver, "//div[3]/select", 5);
 					new Select(driver.findElement(By.xpath("//select[@id='selectMatchMode']"))).selectByVisibleText(matchMode);
 					new Select(driver.findElement(By.xpath("//div[3]/select"))).selectByVisibleText(multiMatch);
 			}
-			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
 		}else {
 			ip.isGetTextContainsByXPATH(driver, "//h1", "Step 3: Geocode Options");
 			ip.isGetTextContainsByXPATH(driver, "//div[1]/h5", "Distance");
 			ip.isGetTextContainsByXPATH(driver, "//div[2]/h5", "Coordinate System");
 			new Select(driver.findElement(By.xpath("//div[2]/select"))).selectByVisibleText(coordSystem);
 		}
-		
+
+		ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
 		driver.findElement(By.xpath("//button[@id='startJobBtn']")).click();
 		ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div", "Your job \"" + outputFileName + "\" has "
 				+ "been successfully started. We will notify you once it is complete.");
@@ -337,8 +359,8 @@ public class JobPage extends BaseClass {
 				try {
 					Thread.sleep(ms);
 					x++;
-					if (x == 10) {
-						u.illegalStateException("File running since 300 secs :" + outputFileName);
+					if (x == 15) {
+						u.illegalStateException("File running since 450 secs :" + outputFileName);
 					}
 				} catch (InterruptedException e) {
 					e.printStackTrace();
@@ -347,7 +369,7 @@ public class JobPage extends BaseClass {
 				driver.navigate().refresh();
 				break;
 			}
-		} while (x < 10);
+		} while (x < 15);
 	}
 
 	/**
@@ -393,6 +415,7 @@ public class JobPage extends BaseClass {
 		if(!secondName.contains("User")){
 			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
+			driver.findElement(By.xpath("//input[@id='titleFilter']")).click();
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
 			ip.isGetTextContainsByXPATH(driver, "//tr[1]/td/div", outputFileName);
@@ -493,8 +516,9 @@ public class JobPage extends BaseClass {
 			ip.isElementClickableByXpath(driver, "//button[@id='startJobBtn']", 60);
 			driver.findElement(By.xpath("//button[@id='startJobBtn']")).click();
 			waitForJobToGetComplete(u.getSecondName(loginID), outputFileName, 5000);
+//			ip.isElementClickableByXpath(driver, "//button[@id='refreshDashboard']", 60);
+//			driver.findElement(By.xpath("//button[@id='refreshDashboard']")).click();
 			ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
-			driver.findElement(By.xpath("//button[@id='refreshDashboard']")).click();
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 			driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outputFileName);
 			ip.invisibilityOfElementByXpath(driver, "//tr[2]/td/div");
@@ -516,7 +540,7 @@ public class JobPage extends BaseClass {
 	 */
 	public void verifyJobDetails(String userSecondName, String inputFileName, String geocodingType,
 								 String outputFields, String outputFormat, String coordSystem, String country,
-								 String matchMode, String totalRecords, String outFileName) {
+								 String matchMode, String totalRecords, String advanceGeocoding, String multiMatch, String outFileName) {
 		ip.isElementClickableByXpath(driver, "//input[@id='titleFilter']", 60);
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).clear();
 		driver.findElement(By.xpath("//input[@id='titleFilter']")).sendKeys(outFileName);
@@ -535,13 +559,32 @@ public class JobPage extends BaseClass {
 		ip.isElementClickableByXpath(driver, "//h1", 15);
 		driver.findElement(By.xpath("//h1")).getText().equalsIgnoreCase(outputFileName + "." + outputFormat);
 		ip.isTextPresentByCSS(driver, "div.alert.alert-success", "To view geocoded results, click on Download link.");
-		ip.invisibilityOfElementByCSS(driver, "div.alert.alert-success");
+		//ip.invisibilityOfElementByCSS(driver, "div.alert.alert-success");
+		driver.findElement(By.xpath("(//button[@type='button'])[2]")).click();
 
 		if(geocodingType.equalsIgnoreCase("reverse")){
-			ip.isGetTextContainsByXPATH(driver, "//div[2]/div[2]/div/div/div", "Reverse Geocode Breakdown");
+			ip.isGetTextContainsByXPATH(driver, "//geocode-result/div/div/div[2]/div[2]/div/div/div", "Reverse Geocode Breakdown");
 		}else{
-			ip.isGetTextContainsByXPATH(driver, "//div[2]/div[2]/div/div/div", "Geocode Breakdown");
+			if(inputFileName.contains("DPVwSeed")){
+				ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div",
+						"During the processing of your list, an artificially created address was detected. In accordance with the License Agreement between USPS " +
+								"and Precisely, this USPS product shall be used to process legitimately obtained addresses only, and shall not be used for the purpose " +
+								"of artificially creating address lists. Continuing use of this product requires compliance with all terms of the License Agreement. " +
+								"If the customer believes this address was identified in error, contact the Precisely.");
+				ip.isGetTextContainsByXPATH(driver, "//geocode-result/div/div/div[3]/div[2]/div/div/div", "Geocode Breakdown");
+			}else{
+				ip.isGetTextContainsByXPATH(driver, "//geocode-result/div/div/div[2]/div[2]/div/div/div", "Geocode Breakdown");
+			}
+
 			ip.isTextPresentByID(driver, "matchMode", "Match Mode: " + matchMode, 15);
+			ip.isGetTextContainsByXPATH(driver, "//div[4]/div", "Multi Matched Address: " + multiMatch, 15);
+			ip.isGetTextContainsByXPATH(driver, "//div[4]/div[2]", "Multipass Settings: " + advanceGeocoding, 15);
+			if(advanceGeocoding.equalsIgnoreCase("Custom")){
+				ip.isGetTextContainsByXPATH(driver, "//div[3]/div[1]", "Location Filter: Any", 15);
+				ip.isGetTextContainsByXPATH(driver, "//div[3]/div[2]", "AND", 15);
+				ip.isGetTextContainsByXPATH(driver, "//div[3]/div[3]", "Match Score Filter: <=80", 15);
+				ip.isGetTextContainsByXPATH(driver, "//div[3]/div[4]", "Input Format: Use singleline address formation with Relaxed match mode", 15);
+			}
 		}
 
 		ip.isTextPresentByID(driver, "fileName", "File Name: " + inputFileName.substring(0, inputFileName.indexOf(".")), 15);
@@ -568,9 +611,16 @@ public class JobPage extends BaseClass {
 			case "some":
 				Assert.assertTrue("Expected some count:8, actual: " + countTH.size(), countTH.size() == 8);
 				break;
+			case "dpv":
+				if(inputFileName.contains("DPVwSeed")){
+					Assert.assertTrue("Expected some count:6, actual: " + countTH.size(), countTH.size() == 6);
+				}else{
+					Assert.assertTrue("Expected some count:15, actual: " + countTH.size(), countTH.size() == 15);
+				}
+				break;
 			default:
 				if(geocodingType.equalsIgnoreCase("forward")){
-					Assert.assertTrue("Expected default count:35, actual: " + countTH.size(), countTH.size() == 35);
+					Assert.assertTrue("Expected default count:44, actual: " + countTH.size(), countTH.size() == 44);
 				}else{
 					Assert.assertTrue("Expected default count:37, actual: " + countTH.size(), countTH.size() == 37);
 				}

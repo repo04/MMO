@@ -84,6 +84,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	@DataProvider(name = "User1OutFileNames")
 	public static Object[][] User1OutFileNames(ITestContext context) throws Exception {
 		System.out.println("init User1OutFileNames");
+		user1OutFileNamesArray[0][0] = "DPVwoSeedMore49_Shp_FreeUSSA_User080421141112061";
 		return user1OutFileNamesArray;
 	}
 
@@ -129,7 +130,8 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 															   String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
-        a.login(userID);
+		totalJobs = totalJobs + 1;
+		a.login(userID);
         a.navigateToUploadFile();
         admin1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
@@ -143,6 +145,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 															  String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															  String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 															  String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
+        totalJobs = totalJobs + 1;
         a.login(userID);
         a.navigateToUploadFile();
         user1OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
@@ -157,6 +160,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 															   String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
+        totalJobs = totalJobs + 1;
         a.login(userID);
         a.navigateToUploadFile();
         admin2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
@@ -171,7 +175,8 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 															   String inputFileName, String geocodingType, String autoDrag, String dragColumns,
 															   String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
 															   String matchMode, String totalRecords, String advanceGeocoding, String multiMatch) throws Exception {
-		a.login(userID);
+        totalJobs = totalJobs + 1;
+        a.login(userID);
 		a.navigateToUploadFile();
 		user2OutFileNamesArray[0][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
 				outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);

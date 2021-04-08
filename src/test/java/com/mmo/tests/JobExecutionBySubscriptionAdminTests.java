@@ -1,9 +1,6 @@
 package com.mmo.tests;
 
-import com.mmo.util.Actions;
-import com.mmo.util.BaseClass;
-import com.mmo.util.DataProviderUtility;
-import com.mmo.util.EmailUtils;
+import com.mmo.util.*;
 import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
@@ -16,6 +13,8 @@ import java.util.Iterator;
 
 public class JobExecutionBySubscriptionAdminTests extends BaseClass {
     private Actions a = new Actions();
+    private SortCSV sort = new SortCSV();
+    private CompareFiles cmpr = new CompareFiles();
     static String[][] saJobWithOutFileNamesArray;
     static String[][] saOutFileNamesArray;
     Boolean check=true;
@@ -82,26 +81,29 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
         System.out.println("inputfile: " + inputFileName);
         if (m == 0){
             saOutFileNamesArray = new String[Integer.valueOf(inpRows)][1];
+            totalJobs = Integer.valueOf(inpRows);
         }
         a.navigateToUploadFile();
         System.out.println("m value: " + m);
         saOutFileNamesArray[m][0] = a.uploadFileConfigureAndStartJob(secondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
+//      saOutFileNamesArray[m][0] = "UnevenInvrtdComa_RG_FreeUS270121155055741";
         Reporter.log("outFileBySA: " + saOutFileNamesArray[m][0] + "<br/>", true);
         appendOutFileName(inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch, inpRows, saOutFileNamesArray[m][0]);
-//        saOutFileNamesArray[0][0] = "UnevenInvrtdComa_FG_FreeUS100820135236775";
-//        saOutFileNamesArray[1][0] = "JobSuccessNoGeocode_FG_FreeUS100820135236992";
+        Thread.sleep(45000);
+//      saOutFileNamesArray[0][0] = "InpTesting5_2_FreeUS270121155055621";
+//      saOutFileNamesArray[1][0] = "JobSuccessNoGeocode_FG_FreeUS100820135236992";
     }
 
-    //@Test(dataProvider = "checkValidations", groups = {"regressionSuite"})
+//    @Test(dataProvider = "checkValidations", groups = {"regressionSuite"})
     public void testUploadIncorrectFilesAndCheckValidations(String inputFileName, String geocodingType, String expectedMessage) throws Exception {
         a.navigateToDashboard();
         a.navigateToUploadFile();
         a.uploadIncorrectFilesAndCheckValidations(loginID, inputFileName, geocodingType, expectedMessage);
     }
 
-    //@Test(groups = {"regressionSuite"})
+//    @Test(groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobsFailureEmails() throws Exception {
         emailUtils.waitForEmailReceived("MapMarker Job Complete", EmailUtils.EmailFolder.JOBFAIL, failJobNames.size());
         Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker Job Complete", true, failJobNames.size(), EmailUtils.EmailFolder.JOBFAIL);
@@ -115,11 +117,11 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
         Reporter.log("Subscription Admin Verified Job Failure Emails(Quota for Frwd/Rev) <br/>", true);
     }
 
-    //@Test(dataProvider = "FreeUSSAAndJobDetails", groups = {"regressionSuite"})
+    @Test(dataProvider = "FreeUSSAAndJobDetails", groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
                                                                            String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                                            String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                                           String matchMode, String totalRecords, String outFileName) throws Exception {
+                                                                           String matchMode, String totalRecords, String advanceGeocoding, String multiMatch, String outFileName) throws Exception {
         System.out.println("inputfile: " + inputFileName);
         System.out.println("outFileName: " + outFileName);
         a.navigateToDashboard();
@@ -128,14 +130,17 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
             System.out.print("****SA Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName, 30000);
             a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
-            Reporter.log("Subscription Admin downloaded & verified dataTypeLength for output file: " + outFileName + "<br/>", true);
-            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
+            if(outputFormat.equalsIgnoreCase("CSV") && inputFileName.startsWith("FGCmpr")){
+                sort.sortCSVFile(outFileName);
+                cmpr.compareCSVFiles(outFileName, advanceGeocoding, multiMatch);
+            }
+            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch, outFileName);
             Reporter.log("Subscription Admin verified job details for output file: " + outFileName + "<br/>", true);
             a.navigateToDashboard();
         }
     }
 
-    //@Test(dataProvider = "SAOutFileNames", groups = {"regressionSuite"})
+    @Test(dataProvider = "SAOutFileNames", groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName) throws Exception {
         System.out.println("**outFileName: **" + outFileName + "\n");
         System.out.println("**final M value: **" + m + "\n");

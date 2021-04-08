@@ -25,13 +25,13 @@ public class SubAccountVerifyDetailTests extends BaseClass {
 
         ip.invisibilityOfElementByXpath(driver, "//a[contains(text(),'Billing & Plans')]");
 
-//        downloadDefaultTemplates[0] = "FRWD CSV";
-//        downloadDefaultTemplates[1] = "FRWD SHP";
-//        downloadDefaultTemplates[2] = "FRWD TAB";
-//        downloadDefaultTemplates[3] = "RVRS CSV";
-//        downloadDefaultTemplates[4] = "RVRS SHP";
-//        downloadDefaultTemplates[5] = "RVRS TAB";
-//        a.downloadAllDefaultTemplates(downloadDefaultTemplates);
+        downloadDefaultTemplates[0] = "FRWD CSV";
+        downloadDefaultTemplates[1] = "FRWD SHP";
+        downloadDefaultTemplates[2] = "FRWD TAB";
+        downloadDefaultTemplates[3] = "RVRS CSV";
+        downloadDefaultTemplates[4] = "RVRS SHP";
+        downloadDefaultTemplates[5] = "RVRS TAB";
+        a.downloadAllDefaultTemplates(downloadDefaultTemplates);
 
         a.navigateToProfilePage();
         a.verifyProfilePage(userID, userFirstName, userSecondName);

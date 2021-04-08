@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 public class JobCompletionTests extends BaseClass {
     private Actions a = new Actions();
-    int x = 1;
+    private int jv = 0;
     private int pqr = 1;
 
     @DataProvider(name = "AllJobDetails")
@@ -65,11 +65,14 @@ public class JobCompletionTests extends BaseClass {
     public void testAdminsVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
                                                                 String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                                 String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                                String matchMode, String totalRecords, String outFileName) throws Exception {
+                                                                String matchMode, String totalRecords, String advanceGeocoding, String multiMatch, String outFileName) throws Exception {
 
         System.out.println("inputfile: " + inputFileName);
         System.out.println("outFileName: " + outFileName);
-        if(x == 1){
+        System.out.print("****total jobs count****: " + totalJobs + "\n");
+
+        if(jv == 0){
+            System.out.println("**LOGGED**");
             a.login(userID);
         }
         a.verifyJobsShownToUser(userSecondName, outFileName);
@@ -77,38 +80,43 @@ public class JobCompletionTests extends BaseClass {
             System.out.print("****Admin Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName, 10000);
             a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
-            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
+            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch, outFileName);
             a.navigateToDashboard();
         }
-        x++;
-        if(x == 7){
+        jv++;
+        if(jv == totalJobs){
+            System.out.println("**LOGOUT**");
             a.logOut();
-            x = 1;
+            jv = 0;
         }
    }
 
     @Test(dataProvider = "AllUsersAndJobDetails", groups = {"regressionSuite"})
-    public void testUsersJobsJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
+    public void testUsersJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
                                                                String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                                String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                               String matchMode, String totalRecords, String outFileName) throws Exception {
+                                                               String matchMode, String totalRecords, String advanceGeocoding, String multiMatch, String outFileName) throws Exception {
         System.out.println("inputfile: " + inputFileName);
         System.out.println("outFileName: " + outFileName);
-        if(x == 1){
+        System.out.print("****total jobs count****: " + totalJobs + "\n");
+
+        if(jv == 0){
+            System.out.println("**LOGGED**");
             a.login(userID);
         }
-        x++;
         a.verifyJobsShownToUser(userSecondName, outFileName);
         if(outFileName.contains(userSecondName)){
             System.out.print("****User Out****:" + outFileName + "\n");
             a.waitforJobToGetComplete(userSecondName, outFileName, 10000);
-            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, outFileName);
+            a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch, outFileName);
             a.downloadOutputVerifyExtensionsAndDataTypeLength(userSecondName, outFileName, outputFormat);
             a.navigateToDashboard();
         }
-        if(x == 7){
+        jv++;
+        if(jv == totalJobs){
+            System.out.println("**LOGOUT**");
             a.logOut();
-            x = 1;
+            jv = 0;
         }
     }
 
@@ -116,19 +124,23 @@ public class JobCompletionTests extends BaseClass {
     public void testSubscriptionAdminVerifyAllJobsAreVisible(String userID, String userFirstName, String userSecondName,
                                                              String inputFileName, String geocodingType, String autoDrag, String dragColumns,
                                                              String dropFieldsToGeocode, String outputFields, String outputFormat, String coordSystem, String country,
-                                                             String matchMode, String totalRecords, String outFileName) throws Exception {
+                                                             String matchMode, String totalRecords, String advanceGeocoding, String multiMatch, String outFileName) throws Exception {
         System.out.println("inputfile: " + inputFileName);
         System.out.println("outFileName: " + outFileName);
-        if(x == 1){
+        System.out.print("****total jobs count****: " + totalJobs + "\n");
+
+        if(jv == 0){
+            System.out.println("**LOGGED**");
             a.login(userID);
         }
         a.verifyJobsShownToUser(userSecondName, outFileName);
-        x++;
-        if(x == 7){
+        jv++;
+        if(jv == totalJobs){
+            System.out.println("**LOGOUT**");
             a.logOut();
-            x = 1;
+            jv = 0;
         }
-   }
+    }
 
     @Test(dataProvider = "SubUsersOutFileNames", groups = {"regressionSuite"})
     public void testSubUsersVerifyJobCompleteEmail(String outFileName) throws Exception {

@@ -1,13 +1,13 @@
 package com.mmo.util;
 
+import org.testng.Assert;
+import org.testng.Reporter;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
-
-import org.testng.Assert;
-import org.testng.Reporter;
 
 /**
  * https://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java
@@ -63,8 +63,7 @@ public class UnzipUtility extends BaseClass {
 
 		ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
 		ZipEntry entry = zipIn.getNextEntry();
-		String findFile = zipActualFileName.substring(0, zipActualFileName.indexOf(".")) + "."
-				+ outFileFormat.toLowerCase();
+		String findFile = zipActualFileName.substring(0, zipActualFileName.indexOf(".")) + "." + outFileFormat.toLowerCase();
 		System.out.print("findFile: " + findFile + "\n");
 
 		Boolean fileFound = false;
@@ -83,9 +82,13 @@ public class UnzipUtility extends BaseClass {
 					if (entry.getName().contentEquals(findFile)) {
 						System.out.print("File found: " + findFile + "\n");
 						fileFound = true;
-						Reporter.log("File found in ZIP folder: " + findFile  + "<br/>");
+						Reporter.log("File found in ZIP folder: " + findFile  + "<br/>", true);
 						if(outFileFormat.equalsIgnoreCase("tab")){
-							verifyDataTypeLength(filePath);
+							if(findFile.contains("RevIn27700_NonExt") || findFile.contains("DPVwoSeedLess49")){
+								verifyDataTypeLength(filePath);
+								Reporter.log("Subscription Admin downloaded & verified dataTypeLength for output file: " +
+										findFile.substring(0, zipActualFileName.indexOf(".")) + "<br/>", true);
+							}
 						}
 					}
 				}
@@ -98,12 +101,14 @@ public class UnzipUtility extends BaseClass {
 		System.out.print("zipExtEntries size: " + zipExtEntries.size() + "\n");
 		if(zipExtEntries.size() != 0){
 			a.navigateToDashboard();
-			u.illegalStateException("Expected zip extension not found in Output ZIP folder");
+			u.illegalStateException("Expected zip extension's not found in Output ZIP folder");
 		}
+		zipIn = null;
 		return fileFound;
 	}
 
 	public void verifyDataTypeLength(String fileWithPath) {
+		System.out.print("INSIDE VERIFY DATA TYPE LENGTH" +  "\n");
 		System.out.println("fileWithPath: " + fileWithPath);
 
 		ArrayList<String> expTexts = new ArrayList<>();
@@ -113,13 +118,13 @@ public class UnzipUtility extends BaseClass {
 			expTexts.add("Longitude float ;");
 			expTexts.add("Latitude char (18) ;");
 			expTexts.add("inp_country char (3) ;");
-		}else if(fileWithPath.contains("Geocoding_Temp_SHP")){
-			expTexts.add("Sno largeint ;");
-			expTexts.add("Address char (254) ;");
-			expTexts.add("City char (10) ;");
-			expTexts.add("State char (10) ;");
-			expTexts.add("Postcode char (10) ;");
-			expTexts.add("Country char (3) ;");
+		}else if(fileWithPath.contains("DPVwoSeedLess49")){
+			expTexts.add("S_No_ integer ;");
+			expTexts.add("Add char (32) ;");
+			expTexts.add("Cit char (13) ;");
+			expTexts.add("Sta char (2) ;");
+			expTexts.add("Pos integer ;");
+			expTexts.add("Ctr char (3) ;");
 		}
 
 		BufferedReader reader = null;

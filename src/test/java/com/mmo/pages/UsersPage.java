@@ -73,7 +73,7 @@ public class UsersPage extends BaseClass {
     	String name = driver.findElement(By.xpath("//div[@class='header-username']")).getText();
 
 		if(name.equalsIgnoreCase(userFirstName + " " + userSecondName)){
-			//Assert.assertEquals(driver.findElement(By.xpath("//tr["+ x + "]/td[5]/a/i")).getAttribute("class"),"pbi-icon-mini pbi-ban", "Delete user link enabled");
+			Assert.assertEquals(driver.findElement(By.xpath("//tr["+ x + "]/td[5]/a/i")).getAttribute("class"),"pbi-icon-mini pbi-ban", "Delete user link enabled");
 		}else{
 			ip.isElementClickableByXpath(driver, "//tr["+ x + "]/td[5]/a/i", 60);
 		}

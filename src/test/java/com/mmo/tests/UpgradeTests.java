@@ -62,10 +62,11 @@ public class UpgradeTests extends BaseClass {
         executeJobUpgradeFreeto5k[0][0] = a.uploadFileConfigureAndStartJob(userSecondName, inputFileName, geocodingType, autoDrag, dragColumns, dropFieldsToGeocode,
                 outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch);
         Reporter.log("JobAfterUpgradeto5k: " + executeJobUpgradeFreeto5k[0][0] + "<br/>", true);
-        a.waitforJobToGetComplete("FreeUS260720161144", executeJobUpgradeFreeto5k[0][0], 30000);
+        a.waitforJobToGetComplete(userSecondName, executeJobUpgradeFreeto5k[0][0], 15000);
+        a.logOut();
     }
 
-    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
+    //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgrade5kToProfPlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.navigateToDashboard();
