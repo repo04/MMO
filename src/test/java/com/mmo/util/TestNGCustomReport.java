@@ -27,6 +27,7 @@ public class TestNGCustomReport extends TestListenerAdapter {
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
+        System.out.print("Inside TestName: " + iTestResult.getMethod().getMethodName() + "\n");
         //Do Nothing
     }
 

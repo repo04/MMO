@@ -9,6 +9,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Iterator;
 
 public class JobExecutionBySubscriptionAdminTests extends BaseClass {
@@ -26,7 +27,8 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
 
     @DataProvider(name = "SAJobs")
     public static Object[][] SAJobs(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "SAJobs");
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+                "executeJobs", "SAJobs");
         return retObjArr;
     }
 
@@ -57,7 +59,8 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
 
     @DataProvider(name = "checkValidations")
     public static Object[][] checkValidations(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "checkValidations", "checkValidations");
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+                "checkValidations", "checkValidations");
         return (retObjArr);
     }
 
@@ -96,14 +99,14 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
 //      saOutFileNamesArray[1][0] = "JobSuccessNoGeocode_FG_FreeUS100820135236992";
     }
 
-//    @Test(dataProvider = "checkValidations", groups = {"regressionSuite"})
+    @Test(dataProvider = "checkValidations", groups = {"regressionSuite"})
     public void testUploadIncorrectFilesAndCheckValidations(String inputFileName, String geocodingType, String expectedMessage) throws Exception {
         a.navigateToDashboard();
         a.navigateToUploadFile();
         a.uploadIncorrectFilesAndCheckValidations(loginID, inputFileName, geocodingType, expectedMessage);
     }
 
-//    @Test(groups = {"regressionSuite"})
+    @Test(groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobsFailureEmails() throws Exception {
         emailUtils.waitForEmailReceived("MapMarker Job Complete", EmailUtils.EmailFolder.JOBFAIL, failJobNames.size());
         Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker Job Complete", true, failJobNames.size(), EmailUtils.EmailFolder.JOBFAIL);

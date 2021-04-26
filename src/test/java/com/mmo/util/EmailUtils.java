@@ -375,9 +375,19 @@ public class EmailUtils extends BaseClass {
     public Boolean waitForEmailReceived(String emailSubject, EmailFolder emailFolder, int unreadEmails) throws Exception {
         Boolean emailsReceived = null;
         int z = 0;
-        int unreadCount;
+        int unreadCount = 0;
+        int check = 0;
         while (z < 13) {
-            unreadCount = getNumberOfUnreadMessagesByFolder(emailFolder);
+            do{
+                try{
+                    unreadCount = getNumberOfUnreadMessagesByFolder(emailFolder);
+                    check = 5;
+                }catch (Exception e){
+                    System.out.print("****IN EMAIL EXCPTN: ****" + "\n");
+                    new EmailUtils("mmoautomated@gmail.com", "Precisely@123","smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+                    check++;
+                }
+            }while(check < 5);
             System.out.print("****UNREAD: ****" + unreadCount + "\n");
             if (unreadEmails == unreadCount) {
                 System.out.print("****INSIDE IF: ****" + unreadCount + "\n");

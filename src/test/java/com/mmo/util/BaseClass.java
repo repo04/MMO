@@ -142,7 +142,7 @@ public class BaseClass {
      */
     @AfterTest(alwaysRun = true, groups = {"prerequisite"})
     public void tearDown() throws Exception {
-//        EmailUtils.storeClose();
-//        driver.quit();
+        EmailUtils.storeClose();
+        driver.quit();
     }
 }

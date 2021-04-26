@@ -92,9 +92,9 @@ public class Transform implements IAnnotationTransformer {
 
         if ("testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength");
-            DependentMethods = new String[1];
-            //DependentMethods[0] = "testUploadIncorrectFilesAndCheckValidations";
-            DependentMethods[0] = "testSubscriptionAdminUploadFileConfigureAndStartGeocoding";
+            DependentMethods = new String[2];
+            DependentMethods[0] = "testUploadIncorrectFilesAndCheckValidations";
+            DependentMethods[1] = "testSubscriptionAdminUploadFileConfigureAndStartGeocoding";
             annotation.setDependsOnMethods(DependentMethods);
             annotation.setAlwaysRun(true);
         }

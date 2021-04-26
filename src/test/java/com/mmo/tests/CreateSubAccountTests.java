@@ -22,36 +22,36 @@ public class CreateSubAccountTests extends BaseClass {
     @DataProvider(name = "SubscriptionAdminCreateAdminDetails")
     public static Object[][] SubscriptionAdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateAdminDetails");
-        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSA_Admin080421140959@gmail.com";
-        subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
-        subscriptionAdminCreateAdminArray[0][2] = "FreeUSSA_Admin080421140959";
+//        subscriptionAdminCreateAdminArray[0][0] = "mmoAutomated+FreeUSSA_Admin080421140959@gmail.com";
+//        subscriptionAdminCreateAdminArray[0][1] = "mmoAutomated";
+//        subscriptionAdminCreateAdminArray[0][2] = "FreeUSSA_Admin080421140959";
         return (subscriptionAdminCreateAdminArray);
     }
 
     @DataProvider(name = "SubscriptionAdminCreateUserDetails")
     public static Object[][] SubscriptionAdminCreateUserDetails(ITestContext context) throws Exception {
         System.out.println("init SubscriptionAdminCreateUserDetails");
-        subscriptionAdminCreateUserArray[0][0] = "mmoAutomated+FreeUSSA_User080421141112@gmail.com";
-        subscriptionAdminCreateUserArray[0][1] = "mmoAutomated";
-        subscriptionAdminCreateUserArray[0][2] = "FreeUSSA_User080421141112";
+//        subscriptionAdminCreateUserArray[0][0] = "mmoAutomated+FreeUSSA_User080421141112@gmail.com";
+//        subscriptionAdminCreateUserArray[0][1] = "mmoAutomated";
+//        subscriptionAdminCreateUserArray[0][2] = "FreeUSSA_User080421141112";
         return (subscriptionAdminCreateUserArray);
     }
 
     @DataProvider(name = "AdminCreateAdminDetails")
     public static Object[][] AdminCreateAdminDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateAdminDetails");
-        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSAd_Admin080421141223@gmail.com";
-        adminCreateAdminArray[0][1] = "mmoAutomated";
-        adminCreateAdminArray[0][2] = "FreeUSAd_Admin080421141223";
+//        adminCreateAdminArray[0][0] = "mmoAutomated+FreeUSAd_Admin080421141223@gmail.com";
+//        adminCreateAdminArray[0][1] = "mmoAutomated";
+//        adminCreateAdminArray[0][2] = "FreeUSAd_Admin080421141223";
         return (adminCreateAdminArray);
     }
 
     @DataProvider(name = "AdminCreateUserDetails")
     public static Object[][] AdminCreateUserDetails(ITestContext context) throws Exception {
         System.out.println("init AdminCreateUserDetails");
-        adminCreateUserArray[0][0] = "mmoAutomated+FreeUSAd_User080421141339@gmail.com";
-        adminCreateUserArray[0][1] = "mmoAutomated";
-        adminCreateUserArray[0][2] = "FreeUSAd_User080421141339";
+//        adminCreateUserArray[0][0] = "mmoAutomated+FreeUSAd_User080421141339@gmail.com";
+//        adminCreateUserArray[0][1] = "mmoAutomated";
+//        adminCreateUserArray[0][2] = "FreeUSAd_User080421141339";
         return (adminCreateUserArray);
     }
 

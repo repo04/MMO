@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Iterator;
 
 public class DegradeTests extends BaseClass {
@@ -19,7 +20,8 @@ public class DegradeTests extends BaseClass {
 
     @DataProvider(name = "Deg5ktoFree")
     public static Object[][] Deg5ktoFree(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "Deg5ktoFree");
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+                "executeJobs", "Deg5ktoFree");
         return retObjArr;
     }
 

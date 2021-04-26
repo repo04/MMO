@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Iterator;
 
 public class UpgradeTests extends BaseClass {
@@ -20,7 +21,8 @@ public class UpgradeTests extends BaseClass {
 
     @DataProvider(name = "UpgFreeto5k")
     public static Object[][] UpgFreeto5k(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "UpgFreeto5k");
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+                "executeJobs", "UpgFreeto5k");
         return retObjArr;
     }
 

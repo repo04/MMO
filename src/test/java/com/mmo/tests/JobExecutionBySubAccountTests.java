@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.util.Iterator;
 
 public class JobExecutionBySubAccountTests extends BaseClass {
@@ -23,25 +24,29 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 
 	@DataProvider(name = "Admin1Jobs")
 	public static Object[][] Admin1Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "Admin1Jobs");
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+				"executeJobs", "Admin1Jobs");
 		return (retObjArr);
 	}
 
 	@DataProvider(name = "User1Jobs")
 	public static Object[][] User1Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "User1Jobs");
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+				"executeJobs", "User1Jobs");
 		return (retObjArr);
 	}
 
 	@DataProvider(name = "Admin2Jobs")
 	public static Object[][] Admin2Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "Admin2Jobs");
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+				"executeJobs", "Admin2Jobs");
 		return (retObjArr);
 	}
 
 	@DataProvider(name = "User2Jobs")
 	public static Object[][] User2Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray("D:\\MMOnline\\Automation\\workspace\\tests\\src\\test\\resources\\NEW.xls", "executeJobs", "User2Jobs");
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+				"executeJobs", "User2Jobs");
 		return (retObjArr);
 	}
 
@@ -84,7 +89,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	@DataProvider(name = "User1OutFileNames")
 	public static Object[][] User1OutFileNames(ITestContext context) throws Exception {
 		System.out.println("init User1OutFileNames");
-		user1OutFileNamesArray[0][0] = "DPVwoSeedMore49_Shp_FreeUSSA_User080421141112061";
+//		user1OutFileNamesArray[0][0] = "DPVwoSeedMore49_Shp_FreeUSSA_User080421141112061";
 		return user1OutFileNamesArray;
 	}
 
