@@ -71,7 +71,8 @@ public class EmailUtils extends BaseClass {
     public EmailUtils(String username, String password, String server, EmailFolder emailFolder) throws MessagingException {
         Properties props = System.getProperties();
         try {
-            props.load(new FileInputStream(new File("D:/MMOnline/Automation/workspace/tests/src/test/resources/email.properties")));
+            //props.load(new FileInputStream(new File("D:/MMOnline/Automation/workspace/tests/src/test/resources/email.properties")));
+            props.load(this.getClass().getClassLoader().getResourceAsStream("email.properties"));
         } catch(Exception e) {
             e.printStackTrace();
             System.exit(-1);
