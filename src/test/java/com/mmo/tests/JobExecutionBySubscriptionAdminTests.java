@@ -27,7 +27,8 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
 
     @DataProvider(name = "SAJobs")
     public static Object[][] SAJobs(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+                        File.separator + "resources" + File.separator + "New.xls",
                 "executeJobs", "SAJobs");
         return retObjArr;
     }
@@ -59,7 +60,8 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
 
     @DataProvider(name = "checkValidations")
     public static Object[][] checkValidations(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+                        File.separator + "resources" + File.separator + "New.xls",
                 "checkValidations", "checkValidations");
         return (retObjArr);
     }

@@ -21,7 +21,8 @@ public class UpgradeTests extends BaseClass {
 
     @DataProvider(name = "UpgFreeto5k")
     public static Object[][] UpgFreeto5k(ITestContext context) throws Exception {
-        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+        Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+                        File.separator + "resources" + File.separator + "New.xls",
                 "executeJobs", "UpgFreeto5k");
         return retObjArr;
     }

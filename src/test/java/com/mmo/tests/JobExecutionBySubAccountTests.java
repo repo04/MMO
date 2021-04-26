@@ -24,28 +24,32 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 
 	@DataProvider(name = "Admin1Jobs")
 	public static Object[][] Admin1Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+						File.separator + "resources" + File.separator + "New.xls",
 				"executeJobs", "Admin1Jobs");
 		return (retObjArr);
 	}
 
 	@DataProvider(name = "User1Jobs")
 	public static Object[][] User1Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+						File.separator + "resources" + File.separator + "New.xls",
 				"executeJobs", "User1Jobs");
 		return (retObjArr);
 	}
 
 	@DataProvider(name = "Admin2Jobs")
 	public static Object[][] Admin2Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+						File.separator + "resources" + File.separator + "New.xls",
 				"executeJobs", "Admin2Jobs");
 		return (retObjArr);
 	}
 
 	@DataProvider(name = "User2Jobs")
 	public static Object[][] User2Jobs(ITestContext context) throws Exception {
-		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "test" + File.separator + "resources" + File.separator + "New.xls",
+		Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
+						File.separator + "resources" + File.separator + "New.xls",
 				"executeJobs", "User2Jobs");
 		return (retObjArr);
 	}
