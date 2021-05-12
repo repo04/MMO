@@ -3,7 +3,6 @@ package com.mmo.tests;
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import com.mmo.util.DataProviderUtility;
-import com.mmo.util.EmailUtils;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
@@ -131,7 +130,7 @@ public class JobExecutionBySubAccountTests extends BaseClass {
 	public void testJobExecutionLogIn(ITestContext context) throws Exception {
 		a.navigateToHomePage();
 		a.navigateToLogin();
-		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
+		//emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
 	}
 
 	@Test(dataProvider = "Admin1IdAndInputJobDetails", groups = {"regressionSuite"})

@@ -18,8 +18,8 @@ public class Transform implements IAnnotationTransformer {
             System.out.println("Inside testSubscriptionAdminVerifyDetails");
             DependentMethods = new String[2];
             DependentMethods[0] = "com.mmo.tests.SignUpTests.testSignUpFreeUSUserAndCompleteEmailRegistration";
-//            DependentMethods[1] = "com.mmo.tests.SignUpTests.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
             DependentMethods[1] = "com.mmo.tests.SignUpTests.testSignUpPaid5kUserAndCompleteEmailRegistration";
+//            DependentMethods[1] = "com.mmo.tests.SignUpTests.testSignUpFreeNonUSUserAndCompleteEmailRegistration";
 //            DependentMethods[3] = "com.mmo.tests.SignUpTests.testSignUpPaidProfUserAndCompleteEmailRegistration";
             annotation.setDependsOnMethods(DependentMethods);
         }
@@ -82,13 +82,13 @@ public class Transform implements IAnnotationTransformer {
             annotation.setAlwaysRun(true);
         }
 
-        if ("testSubscriptionAdminVerifyJobsFailureEmails".equals(testMethod.getName())) {
+        /*if ("testSubscriptionAdminVerifyJobsFailureEmails".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyJobsFailureEmails");
             DependentMethods = new String[1];
             DependentMethods[0] = "testUploadIncorrectFilesAndCheckValidations";
             annotation.setDependsOnMethods(DependentMethods);
             annotation.setAlwaysRun(true);
-        }
+        }*/
 
         if ("testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength");
@@ -99,12 +99,12 @@ public class Transform implements IAnnotationTransformer {
             annotation.setAlwaysRun(true);
         }
 
-        if ("testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly".equals(testMethod.getName())) {
+        /*if ("testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly".equals(testMethod.getName())) {
             System.out.println("Inside testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly");
             DependentMethods = new String[1];
             DependentMethods[0] = "testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength";
             annotation.setDependsOnMethods(DependentMethods);
-        }
+        }*/
 
         if ("testAdmin1UploadFileConfigureAndStartGeocoding".equals(testMethod.getName()) || "testAdmin2UploadFileConfigureAndStartGeocoding".equals(testMethod.getName())) {
             System.out.println("Inside testAdmin1/2JobsVisibleCompletionAndVerifyDetails");
@@ -138,13 +138,13 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testSubUsersVerifyJobCompleteEmail".equals(testMethod.getName())) {
+        /*if ("testSubUsersVerifyJobCompleteEmail".equals(testMethod.getName())) {
             System.out.println("Inside testSubUsersVerifyJobCompleteEmail");
             DependentMethods = new String[2];
             DependentMethods[0] = "testAdminsVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength";
             DependentMethods[1] = "testUsersJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength";
             annotation.setDependsOnMethods(DependentMethods);
-        }
+        }*/
 
         if ("testUpgradeFreeTo5kPlanAndCheckEmail".equals(testMethod.getName())) {
             System.out.println("Inside testUpgradeFreeTo5kPlanAndCheckEmail");
@@ -160,13 +160,13 @@ public class Transform implements IAnnotationTransformer {
             annotation.setDependsOnMethods(DependentMethods);
         }
 
-        if ("testUpgrade5kToProfPlanAndCheckEmail".equals(testMethod.getName())) {
+        /*if ("testUpgrade5kToProfPlanAndCheckEmail".equals(testMethod.getName())) {
             System.out.println("Inside testUpgrade5kToProfPlan");
             DependentMethods = new String[1];
             DependentMethods[0] = "testExecuteJobAfterUpgrade";
             annotation.setDependsOnMethods(DependentMethods);
             annotation.setAlwaysRun(true);
-        }
+        }*/
 
         if ("testDegrade5kToFreePlanAndCheckEmail".equals(testMethod.getName())) {
             System.out.println("Inside testDegrade5kToFreePlanAndCheckEmail");

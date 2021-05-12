@@ -2,6 +2,8 @@ package com.mmo.pages;
 
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
+import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Select;
 
@@ -13,6 +15,7 @@ public class SignUpPage extends BaseClass{
 	private static String userEmailId;
 	private static String userFirstName;
 	private static String userSecondName;
+	private static String userSubID;
 	private String dateAndTime;
 	public Actions a = new Actions();
 
@@ -245,10 +248,119 @@ public class SignUpPage extends BaseClass{
 		driver.findElement(By.xpath("//a[contains(text(),'Click here to proceed.')]")).click();
 	}
 
-	/**
-	 * @return userDetails
-	 */
+	public void signUpUserThroughAPI(String plan, String region, String token) {
+		RequestSpecification request = RestAssured.given();
+		String createSubscriptionAdmin = null;
+
+		dateAndTime = u.currentDateTime();
+		this.userFirstName = "mmoAutomated";
+
+		if(plan.equalsIgnoreCase("Free")){
+			if(!region.equalsIgnoreCase("US")) {
+				this.userSecondName = "FreeNonUS" + dateAndTime;
+			}else{
+				this.userSecondName = "FreeUS" + dateAndTime;
+				userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
+				createSubscriptionAdmin = "{\n" +
+						"  \"provisioningType\": \"Web\",\n" +
+						"  \"productId\": \"GeoCoding\",\n" +
+						"  \"country\": \"US\",\n" +
+						"  \"soldToBpn\": \"\",\n" +
+						"  \"contacts\": [{\n" +
+						"    \"role\": \"SubscriptionAdmin\",\n" +
+						"    \"email\": \"" + this.userEmailId + "\",\n" +
+						"    \"title\": \"Mr.\",\n" +
+						"    \"firstName\": \"" + this.userFirstName + "\",\n" +
+						"    \"lastName\": \" " + this.userSecondName + "\",\n" +
+						"    \"companyName\": \"PRECISELY\",\n" +
+						"    \"contactAddress\": {\n" +
+						"      \"addressLine1\": \"13 Route 111\",\n" +
+						"      \"city\": \"Derry\",\n" +
+						"      \"stateOrProvince\": \"NH\",\n" +
+						"      \"country\": \"US\",\n" +
+						"      \"postalCode\": \"03038-4107\"\n" +
+						"    },\n" +
+						"    \"credentials\": {\n" +
+						"      \"password\": {\n" +
+						"        \"value\": \"Precisely@123\"\n" +
+						"      }\n" +
+						"    }\n" +
+						"  }],\n" +
+						"  \"pbPlanIds\": [\n" +
+						"    \"GC_Free_Trial\"\n" +
+						"  ]\n" +
+						"}";
+			}
+		}else{
+			this.userSecondName = "5k" + dateAndTime;
+			userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
+			createSubscriptionAdmin = "{\n" +
+					"\t\"provisioningType\": \"Web\",\n" +
+					"\t\"productId\": \"GeoCoding\",\n" +
+					"\t\"country\": \"US\",\n" +
+					"\t\"soldToBpn\": \"\",\n" +
+					"\t\"contacts\": [\n" +
+					"\t\t{\n" +
+					"\t\t\t\"role\": \"SubscriptionAdmin\",\n" +
+					"\t\t\t\"email\": \"" + this.userEmailId + "\",\n" +
+					"\t\t\t\"title\": \"Mr.\",\n" +
+					"\t\t\t\"firstName\": \"" + this.userFirstName + "\",\n" +
+					"\t\t\t\"lastName\": \"" + this.userSecondName + "\",\n" +
+					"\t\t\t\"companyName\": \"PRECISELY\",\n" +
+					"\t\t\t\"contactAddress\": {\n" +
+					"\t\t\t\t\"addressLine1\": \"13 Route 111\",\n" +
+					"\t\t\t\t\"city\": \"Derry\",\n" +
+					"\t\t\t\t\"stateOrProvince\": \"NH\",\n" +
+					"\t\t\t\t\"country\": \"US\",\n" +
+					"\t\t\t\t\"postalCode\": \"03038-4107\"\n" +
+					"\t\t\t},\n" +
+					"\t\t\t\"credentials\": {\n" +
+					"\t\t\t\t\"password\": {\n" +
+					"\t\t\t\t\t\"value\": \"Precisely@123\"\n" +
+					"\t\t\t\t}\n" +
+					"\t\t\t}\n" +
+					"\t\t}\n" +
+					"\t],\n" +
+					"\t\"pbPlanIds\": [\n" +
+					"\t\t\"GC_5K_Monthly\"\n" +
+					"\t],\n" +
+					"\t\"paymentInfo\": [\n" +
+					"\t\t{\n" +
+					"\t\t\t\"paymentType\": \"SUBSCRIPTION\",\n" +
+					"\t\t\t\"ccInfo\": {\n" +
+					"\t\t\t\t\"cardNumber\": \"3566002020360505\",\n" +
+					"\t\t\t\t\"expirationDate\": \"11/2024\",\n" +
+					"\t\t\t\t\"cardFirstName\": \"JCB\",\n" +
+					"\t\t\t\t\"cardLastName\": \"CARD\",\n" +
+					"\t\t\t\t\"cvv\": \"123\",\n" +
+					"\t\t\t\t\"ccAddress\": {\n" +
+					"\t\t\t\t\t\"addressLine1\": \"13 Route 111\",\n" +
+					"\t\t\t\t\t\"city\": \"Derry\",\n" +
+					"\t\t\t\t\t\"stateOrProvince\": \"NH\",\n" +
+					"\t\t\t\t\t\"country\": \"US\",\n" +
+					"\t\t\t\t\t\"postalCode\": \"03038-4107\"\n" +
+					"\t\t\t\t}\n" +
+					"\t\t\t}\n" +
+					"\t\t}\n" +
+					"\t]\n" +
+					"}";
+		}
+		
+		this.userSubID = request.header("Authorization", "Bearer " + token)
+				.header("Content-Type", "application/json")
+				.header("X-PB-TransactionId", "Test3")
+				.body(createSubscriptionAdmin)
+				.post("/saase2e/services/v2/subscriptions")
+				.then().statusCode(201)
+				.extract()
+				.path("subscription.subscriptionId");
+	}
+
 	public String getUserDetails() {
 		return this.userEmailId;
+	}
+
+	public String getSubscriptionID() {
+		return this.userSubID;
 	}
 }

@@ -10,14 +10,12 @@ import java.io.IOException;
 public class CompareFiles extends BaseClass{
 
 	private Actions a = new Actions();
-	String actFile;
 	String expFile;
 	boolean areEqual = true;
 
 	public void compareCSVFiles(String actualFile, String advanceGeocoding, String multiMatch) {
 		BufferedReader reader1 = null;
 		BufferedReader reader2 = null;
-		actFile = actualFile;
 		try {
 			reader1 = new BufferedReader(new FileReader(defaultDownloadPath + File.separator + actualFile + File.separator + actualFile + "SRTD.csv"));
 
@@ -61,12 +59,12 @@ public class CompareFiles extends BaseClass{
 			} else {
 				Reporter.log("Two files have different content. They differ at line " + lineNum, true);
 				Reporter.log("File1 has " + line1 + " and File2 has " + line2 + " at line " + lineNum, true);
-			}
-		}catch (Exception e) {
-			if(!areEqual){
 				a.navigateToDashboard();
+				System.out.println("EXP 1");
 				u.illegalStateException("Act/Exp " + actualFile + "/" + expFile + " Files have different content");
 			}
+		}catch (IOException e) {
+			//do nothing
 		}finally {
 			if(reader1 !=null ){
 				try {

@@ -3,7 +3,6 @@ package com.mmo.tests;
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import com.mmo.util.DataProviderUtility;
-import com.mmo.util.EmailUtils;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
@@ -40,18 +39,18 @@ public class DegradeTests extends BaseClass {
 
     @Test(dataProvider = "Paid5kUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testDegrade5kToFreePlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
+//      emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToDashboard();
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "Free");
         Reporter.log("5k user degraded to Free <br/>", true);
-        textInMessage[0] = "Your MapMarker plan has been updated.";
+/*      textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
         emailUtils.waitForEmailReceived("Your MapMarker subscription has been updated", EmailUtils.EmailFolder.PLANCHANGE, 1);
         emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
-        Reporter.log("5k user degraded to Free - Email successfully received <br/>", true);
+        Reporter.log("5k user degraded to Free - Email successfully received <br/>", true);*/
     }
 
     @Test(dataProvider = "Paid5kLoginAndDeg5ktoFreeJobDetails", groups = {"regressionSuite"})

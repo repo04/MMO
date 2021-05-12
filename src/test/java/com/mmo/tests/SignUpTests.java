@@ -1,11 +1,15 @@
 package com.mmo.tests;
 
-import com.mmo.util.*;
+import com.mmo.util.Actions;
+import com.mmo.util.BaseClass;
+import com.mmo.util.DataProviderUtility;
 import org.testng.ITestContext;
+import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.Reporter;
+
+import java.util.Iterator;
 
 public class SignUpTests extends BaseClass{
 
@@ -13,18 +17,25 @@ public class SignUpTests extends BaseClass{
 	static String freeNonUSUser;
 	static String paid5kUser;
 	static String profUser;
+	static String[][] userSubID = new String[1][1];
 	static String[][] freeUSUserArray = new String[1][3];
 	static String[][] freeNonUSUserArray = new String[1][3];
 	static String[][] paid5kUserArray = new String[1][3];
 	static String[][] profUserArray = new String[1][3];
 	private Actions a = new Actions();
 
+	@DataProvider(name = "UserSubID")
+	public static Object[][] UserSubID(ITestContext context) throws Exception {
+		System.out.println("init UserSubID");
+		return userSubID;
+	}
+
 	@DataProvider(name = "FreeUSUserDetails")
     public static Object[][] FreeUSUserDetails(ITestContext context) throws Exception {
         System.out.println("init FreeUSUserDetails");
-//		freeUSUserArray[0][0] = "mmoautomated+FreeUS080421134249@gmail.com";
+//		freeUSUserArray[0][0] = "mmoautomated+FreeUS120521170813@gmail.com";
 //		freeUSUserArray[0][1] = "mmoAutomated";
-//		freeUSUserArray[0][2] = "FreeUS080421134249";
+//		freeUSUserArray[0][2] = "FreeUS120521170813";
 		return freeUSUserArray;
     }
 	
@@ -40,9 +51,9 @@ public class SignUpTests extends BaseClass{
     @DataProvider(name = "Paid5kUserDetails") 	
     public static Object[][] Paid5kUserDetails(ITestContext context) throws Exception {
         System.out.println("init Paid5kUserDetails");
-//		paid5kUserArray[0][0] = "mmoAutomated+5k080421134407@gmail.com";
+//		paid5kUserArray[0][0] = "mmoAutomated+5kpaiduser@gmail.com";
 //		paid5kUserArray[0][1] = "mmoAutomated";
-//		paid5kUserArray[0][2] = "5k080421134407";
+//		paid5kUserArray[0][2] = "5kpaiduser";
 		return paid5kUserArray;
     }
 	
@@ -75,6 +86,12 @@ public class SignUpTests extends BaseClass{
 		return DataProviderUtility.append2DArrayVertically(Paid5kUserDetails(context));
 	}
 
+	@DataProvider(name = "FreeUSUserSubIdDetails")
+	public static Iterator<Object[]> FreeUSUserSubIdDetails(ITestContext context) throws Exception {
+		System.out.println("init FreeUSUserSubIdDetails");
+		return DataProviderUtility.cartesianProviderFrom(FreeUSUserDetails(context), UserSubID(context));
+	}
+
 	@BeforeClass(groups = {"prerequisite"})
 	public void testVerifyHomePage() throws Exception {
 		a.navigateToHomePage();
@@ -84,21 +101,39 @@ public class SignUpTests extends BaseClass{
 
 	@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeUSUserAndCompleteEmailRegistration() throws Exception {
-		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
+//		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
-		freeUSUser =  a.signUpUser("free", "US", "N");
+		freeUSUser =  a.signUpUserThroughAPI( "free","US", bearerTokenID);
+		Reporter.log("signUpFreeUSUserID: " + freeUSUser + " created <br/>", true);
 		freeUSUserArray[0][0] = freeUSUser;
 		freeUSUserArray[0][1] = u.getFirstName(freeUSUser);
 		freeUSUserArray[0][2] = u.getSecondName(freeUSUser);
-		Reporter.log("signUpFreeUSUserID: " + freeUSUser + " created <br/>", true);
-		emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
+		userSubID[0][0] = a.getSubId();
+		Reporter.log("userSubID: " + userSubID[0][0] + " created <br/>", true);
+		/*emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
 		Reporter.log("Free US User Email Received" + "<br/>", true);
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", freeUSUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(freeUSUser, u.getFirstName(freeUSUser), u.getSecondName(freeUSUser), claimTokenID);
-		Reporter.log("Free US user registered" + "<br/>", true);
+		Reporter.log("Free US user registered" + "<br/>", true);*/
 	}
 
-//	@Test(groups = {"regressionSuite"})
+	@Test(groups = {"regressionSuite"})
+	public void testSignUpPaid5kUserAndCompleteEmailRegistration() throws Exception {
+//		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.navigateToHomePage();
+		paid5kUser =  a.signUpUserThroughAPI("5k", "US", bearerTokenID);
+		Reporter.log("signUpPaid5kUserID: " + paid5kUser + " created <br/>", true);
+		paid5kUserArray[0][0] = paid5kUser;
+		paid5kUserArray[0][1] = u.getFirstName(paid5kUser);
+		paid5kUserArray[0][2] = u.getSecondName(paid5kUser);
+		/*emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
+		Reporter.log("Paid 5k US User Email Received" + "<br/>", true);
+		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", paid5kUser, EmailUtils.EmailFolder.STARTUSINGMMO);
+		a.completeRegistration(paid5kUser, u.getFirstName(paid5kUser), u.getSecondName(paid5kUser), claimTokenID);
+		Reporter.log("Paid US user registered" + "<br/>", true);*/
+	}
+
+	/*@Test(groups = {"regressionSuite"})
 	public void testSignUpFreeNonUSUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -112,25 +147,9 @@ public class SignUpTests extends BaseClass{
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", freeNonUSUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(freeNonUSUser, u.getFirstName(freeNonUSUser), u.getSecondName(freeNonUSUser), claimTokenID);
 		Reporter.log("Non Free US user registered" + "<br/>", true);
-	}
+	}*/
 
-	@Test(groups = {"regressionSuite"})
-	public void testSignUpPaid5kUserAndCompleteEmailRegistration() throws Exception {
-		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
-		a.navigateToHomePage();
-		paid5kUser =  a.signUpUser("5k", "US", "N");
-		paid5kUserArray[0][0] = paid5kUser;
-		paid5kUserArray[0][1] = u.getFirstName(paid5kUser);
-		paid5kUserArray[0][2] = u.getSecondName(paid5kUser);
-		Reporter.log("signUpPaid5kUserID: " + paid5kUser + " created <br/>", true);
-		emailUtils.waitForEmailReceived("You're ready to start using MapMarker", EmailUtils.EmailFolder.STARTUSINGMMO, 1);
-		Reporter.log("Paid 5k US User Email Received" + "<br/>", true);
-		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", paid5kUser, EmailUtils.EmailFolder.STARTUSINGMMO);
-		a.completeRegistration(paid5kUser, u.getFirstName(paid5kUser), u.getSecondName(paid5kUser), claimTokenID);
-		Reporter.log("Paid US user registered" + "<br/>", true);
-	}
-
-	//@Test(groups = {"regressionSuite"})
+	/*@Test(groups = {"regressionSuite"})
 	public void testSignUpPaidProfUserAndCompleteEmailRegistration() throws Exception {
 		emailUtils.deleteAllEmails(EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.navigateToHomePage();
@@ -144,5 +163,5 @@ public class SignUpTests extends BaseClass{
 		String claimTokenID = emailUtils.getToken("You're ready to start using MapMarker", profUser, EmailUtils.EmailFolder.STARTUSINGMMO);
 		a.completeRegistration(profUser, u.getFirstName(profUser), u.getSecondName(profUser), claimTokenID);
 		Reporter.log("Prof US user registered" + "<br/>", true);
-	}
+	}*/
 }

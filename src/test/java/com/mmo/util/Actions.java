@@ -57,6 +57,17 @@ public class Actions extends BaseClass{
 		return su.getUserDetails();
 	}
 
+	public String signUpUserThroughAPI(String plan, String region, String token) {
+		SignUpPage su = new SignUpPage();
+		su.signUpUserThroughAPI(plan, region, token);
+		return su.getUserDetails();
+	}
+
+	public String getSubId() {
+		SignUpPage su = new SignUpPage();
+		return su.getSubscriptionID();
+	}
+
 	public void navigateToSignUpForAddProductFlow(String plan, String addProductFlow) {
 		SignUpPage su = new SignUpPage();
 		su.navigateToSignUpForAddProductFlow(plan, addProductFlow);
@@ -148,6 +159,12 @@ public class Actions extends BaseClass{
 		up.createUser(userType, userRole);
     	return up.getSubUserDetails();
     }
+
+	public String createUserThroughAPI(String userType, String userRole, String bearerToken, String subID) {
+		UsersPage up = new UsersPage();
+		up.createUserThroughAPI(userType, userRole, bearerToken, subID);
+		return up.getSubUserDetails();
+	}
 
 	public void deleteUser(String userID) {
 		UsersPage up = new UsersPage();

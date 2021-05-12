@@ -1,6 +1,8 @@
 package com.mmo.pages;
 
 import com.mmo.util.BaseClass;
+import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -39,7 +41,7 @@ public class UsersPage extends BaseClass {
 			this.userSecondName = this.userSecondName + userRole + this.dateAndTime;
 			new Select(driver.findElement(By.xpath("//select[@id='accessLevel']"))).selectByVisibleText("User");
     	}
-    	userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
+    	this.userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
 		driver.findElement(By.xpath("//input[@id='firstName']")).clear();
 		driver.findElement(By.xpath("//input[@id='firstName']")).sendKeys(this.userFirstName);
 		driver.findElement(By.xpath("//input[@id='lastName']")).clear();
@@ -49,8 +51,82 @@ public class UsersPage extends BaseClass {
 		driver.findElement(By.xpath("//button[@id='createUserBtn']")).click();
 		ip.isGetTextContainsByXPATH(driver, "//div[@id='toast-container']/div/div", "User has been successfully created.");
 	}
-    
-    public void verifyUserDetailInUsersList(String userID, String userFirstName, String userSecondName, String role) {
+
+	public void createUserThroughAPI(String userType, String userRole, String bearerToken, String subID) {
+		String role;
+		this.userFirstName = "mmoAutomated";
+		this.dateAndTime = u.currentDateTime();
+
+		if (userType.contains("FreeUS")) {
+			this.userSecondName = "FreeUS";
+		} else if (userType.contains("FreeNonUS")) {
+			this.userSecondName = "FreeNonUS";
+		} else if (userType.contains("5k")) {
+			this.userSecondName = "5k";
+		} else {
+			this.userSecondName = "Prof";
+		}
+
+		if (userRole.contains("Admin")) {
+			this.userSecondName = this.userSecondName + userRole + this.dateAndTime;
+			role = "Admin";
+		} else {
+			this.userSecondName = this.userSecondName + userRole + this.dateAndTime;
+			role = "User";
+		}
+
+		this.userEmailId = this.userFirstName + "+" + this.userSecondName + "@gmail.com";
+
+		RequestSpecification request3 = RestAssured.given();
+
+		String createSubUser = "{\n" +
+				"\t\"profile\": {\n" +
+				"\t\t\"firstName\": \"" + this.userFirstName + "\",\n" +
+				"\t\t\"lastName\": \"" + this.userSecondName +"\",\n" +
+				"\t\t\"email\": \"" + this.userEmailId + "\",\n" +
+				"\t\t\"login\": \""+ this.userEmailId + "\",\n" +
+				"\t\t\"pbAdministrator\": true\n" +
+				"\t},\n" +
+				"    \"credentials\": {\n" +
+				"        \"password\": {\n" +
+				"                    \"value\": \"Precisely@123\"\n" +
+				"                }\n" +
+				"    }\n" +
+				"}";
+
+		request3.header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", "application/json")
+				.body(createSubUser)
+				.post("/saase2e/reserved/v3/userServices/idp/users")
+				.then()
+				.statusCode(201);
+
+		RequestSpecification request4 = RestAssured.given();
+
+		String assignRoleToSubUser = "{\n" +
+				"\t\"membershipData\": {\n" +
+				"\t\t\"membershipStatus\": \"ACTIVE\",\n" +
+				"\t\t\"roles\": [\n" +
+				"\t\t\t\"" + role +"\"\n" +
+				"\t\t]\n" +
+				"\t},\n" +
+				"\t\"user\": {\n" +
+				"\t\t\"id\": \"" + this.userEmailId + "\",\n" +
+				"\t\t\"firstName\": \"" + this.userFirstName + "\",\n" +
+				"\t\t\"lastName\": \"" + this.userSecondName + "\",\n" +
+				"\t\t\"isUserExisting\": false\n" +
+				"\t}\n" +
+				"}";
+
+		request4.header("Authorization", "Bearer " + bearerToken)
+				.header("Content-Type", "application/json")
+				.body(assignRoleToSubUser)
+				.post("/saase2e/v3/subscriptionServices/subscriptions/" + subID + "/users")
+				.then()
+				.statusCode(201);
+	}
+
+	public void verifyUserDetailInUsersList(String userID, String userFirstName, String userSecondName, String role) {
     	ip.isElementPresentByXPATH(driver, "//tbody[@class='ui-table-tbody']");
     	WebElement getRows = driver.findElement(By.xpath("//tbody[@class='ui-table-tbody']"));
     	List<WebElement> TotalRowsList = getRows.findElements(By.tagName("tr"));

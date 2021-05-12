@@ -1,6 +1,8 @@
 package com.mmo.util;
 
 import com.thoughtworks.selenium.webdriven.JavascriptLibrary;
+import io.restassured.RestAssured;
+import io.restassured.specification.RequestSpecification;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -650,5 +652,16 @@ public class Utility {
 
 	public String getSecondName(String userID) {
 		return userID.substring(userID.indexOf("+") + 1, userID.indexOf("@"));
+	}
+
+	public String generateToken(){
+		RequestSpecification request = RestAssured.given();
+		return request.header("Authorization",
+				"Basic VHl0Zjh4MXVCS0dqdGlicGFxYWxtY29Ya0pvaHl0QXU6QjdES0tBZFl4MWdIOXM2YQ==")
+				.body("grant_type=client_credentials")
+				.post("/oauth/token")
+				.then().statusCode(200)
+				.extract()
+				.path("access_token");
 	}
 }

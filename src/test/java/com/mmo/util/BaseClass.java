@@ -1,5 +1,6 @@
 package com.mmo.util;
 
+import io.restassured.RestAssured;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -7,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Reporter;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -39,6 +41,7 @@ public class BaseClass {
     public static Message[] Emails = null;
     public static ArrayList<String> failJobNames = new ArrayList<>();
     public static int totalJobs;
+    public static String bearerTokenID;
 
     //driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 	
@@ -69,9 +72,11 @@ public class BaseClass {
         System.out.println("env: " + envValue);
         System.out.println("browser: " + browserValue);
         System.out.println("test: " + testValue);
+        RestAssured.baseURI = "https://api-qa.precisely.services";
         defaultDownloadPath = directory.getCanonicalPath() + File.separator + "data" + File.separator + "downloadedFiles";
+        bearerTokenID = u.generateToken();
 
-        emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123","smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
+//      emailUtils =  new EmailUtils("mmoautomated@gmail.com", "Precisely@123","smtp.gmail.com", EmailUtils.EmailFolder.STARTUSINGMMO);
 
         if(envValue.equalsIgnoreCase("qa"))
         {
@@ -96,8 +101,13 @@ public class BaseClass {
                 options.addArguments("--disable-extensions");
                 options.addArguments("--disable-gpu");
                 options.addArguments("--dns-prefetch-disable");
+                options.addArguments("--disable-dev-shm-usage");
                 options.setExperimentalOption("prefs", prefs);
+
+                DesiredCapabilities cap = new DesiredCapabilities();
+                cap.setCapability(ChromeOptions.CAPABILITY, options);
                 driver = new ChromeDriver(options);
+//                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), cap);
                 Reporter.log("Browser: " + browser + "<br/>");
                 break;
             case "ie":
@@ -142,7 +152,6 @@ public class BaseClass {
      */
     @AfterTest(alwaysRun = true, groups = {"prerequisite"})
     public void tearDown() throws Exception {
-        EmailUtils.storeClose();
         driver.quit();
     }
 }

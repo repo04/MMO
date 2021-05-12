@@ -1,7 +1,6 @@
 package com.mmo.tests;
 
 import com.mmo.util.*;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.AfterClass;
@@ -28,8 +27,7 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
     @DataProvider(name = "SAJobs")
     public static Object[][] SAJobs(ITestContext context) throws Exception {
         Object[][] retObjArr = u.getTableArray(directory.getCanonicalPath() + File.separator + "src" + File.separator + "test" +
-                        File.separator + "resources" + File.separator + "New.xls",
-                "executeJobs", "SAJobs");
+                        File.separator + "resources" + File.separator + "New.xls","executeJobs", "SAJobs");
         return retObjArr;
     }
 
@@ -76,8 +74,8 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
     public void testJobsBySALogin(String userID, String userFirstName, String userSecondName) throws Exception {
         loginID = userID;
         a.login(userID);
-        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBFAIL);
-        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
+//        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBFAIL);
+//        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.JOBSUCCESS);
     }
 
     @Test(dataProvider = "SAIdAndInputJobDetails", groups = {"regressionSuite"})
@@ -108,20 +106,6 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
         a.uploadIncorrectFilesAndCheckValidations(loginID, inputFileName, geocodingType, expectedMessage);
     }
 
-    @Test(groups = {"regressionSuite"})
-    public void testSubscriptionAdminVerifyJobsFailureEmails() throws Exception {
-        emailUtils.waitForEmailReceived("MapMarker Job Complete", EmailUtils.EmailFolder.JOBFAIL, failJobNames.size());
-        Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker Job Complete", true, failJobNames.size(), EmailUtils.EmailFolder.JOBFAIL);
-        System.out.println("failJobCount: " + failJobNames.size());
-        for(String jobName: failJobNames){
-            System.out.println("Fail Job Name: " + jobName);
-            if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(jobName, loginID, false, "Y")){
-                u.illegalStateException("Job failure email not found for: " + jobName);
-            }
-        }
-        Reporter.log("Subscription Admin Verified Job Failure Emails(Quota for Frwd/Rev) <br/>", true);
-    }
-
     @Test(dataProvider = "FreeUSSAAndJobDetails", groups = {"regressionSuite"})
     public void testSubscriptionAdminVerifyJobsVisibleCompletionDetailsDownloadCheckExtensionsAndDataTypeLength(String userID, String userFirstName, String userSecondName,
                                                                            String inputFileName, String geocodingType, String autoDrag, String dragColumns,
@@ -142,24 +126,6 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
             a.verifyJobDetails(userSecondName, inputFileName, geocodingType, outputFields, outputFormat, coordSystem, country, matchMode, totalRecords, advanceGeocoding, multiMatch, outFileName);
             Reporter.log("Subscription Admin verified job details for output file: " + outFileName + "<br/>", true);
             a.navigateToDashboard();
-        }
-    }
-
-    @Test(dataProvider = "SAOutFileNames", groups = {"regressionSuite"})
-    public void testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName) throws Exception {
-        System.out.println("**outFileName: **" + outFileName + "\n");
-        System.out.println("**final M value: **" + m + "\n");
-        int p = outFileName.indexOf("Free");
-        int q = outFileName.length();
-        String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
-        if(abc == 1) {
-            emailUtils.waitForEmailReceived("MapMarker File Ready", EmailUtils.EmailFolder.JOBSUCCESS, m);
-            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true, m, EmailUtils.EmailFolder.JOBSUCCESS);
-            abc++;
-            Assert.assertTrue(Emails.length == m, "Expected unread messages:" + m + ", actual: " + Emails.length);
-        }
-        if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false, "N")){
-            u.illegalStateException("Job completion email not found for: " + outFileName);
         }
     }
 
@@ -192,4 +158,36 @@ public class JobExecutionBySubscriptionAdminTests extends BaseClass {
         }
         m++;
     }
+
+    /*@Test(groups = {"regressionSuite"})
+    public void testSubscriptionAdminVerifyJobsFailureEmails() throws Exception {
+        emailUtils.waitForEmailReceived("MapMarker Job Complete", EmailUtils.EmailFolder.JOBFAIL, failJobNames.size());
+        Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker Job Complete", true, failJobNames.size(), EmailUtils.EmailFolder.JOBFAIL);
+        System.out.println("failJobCount: " + failJobNames.size());
+        for(String jobName: failJobNames){
+            System.out.println("Fail Job Name: " + jobName);
+            if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(jobName, loginID, false, "Y")){
+                u.illegalStateException("Job failure email not found for: " + jobName);
+            }
+        }
+        Reporter.log("Subscription Admin Verified Job Failure Emails(Quota for Frwd/Rev) <br/>", true);
+    }*/
+
+    /*@Test(dataProvider = "SAOutFileNames", groups = {"regressionSuite"})
+    public void testSubscriptionAdminVerifyJobCompleteEmailAndAccessDetailsDirectly(String outFileName) throws Exception {
+        System.out.println("**outFileName: **" + outFileName + "\n");
+        System.out.println("**final M value: **" + m + "\n");
+        int p = outFileName.indexOf("Free");
+        int q = outFileName.length();
+        String userID = "mmoAutomated+" + outFileName.substring(p, q-3) + "@gmail.com";
+        if(abc == 1) {
+            emailUtils.waitForEmailReceived("MapMarker File Ready", EmailUtils.EmailFolder.JOBSUCCESS, m);
+            Emails = emailUtils.getMessagesBySubjectInFolder("MapMarker File Ready", true, m, EmailUtils.EmailFolder.JOBSUCCESS);
+            abc++;
+            Assert.assertTrue(Emails.length == m, "Expected unread messages:" + m + ", actual: " + Emails.length);
+        }
+        if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false, "N")){
+            u.illegalStateException("Job completion email not found for: " + outFileName);
+        }
+    }*/
 }

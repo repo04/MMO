@@ -3,7 +3,6 @@ package com.mmo.tests;
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import com.mmo.util.DataProviderUtility;
-import com.mmo.util.EmailUtils;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.BeforeClass;
@@ -42,17 +41,17 @@ public class UpgradeTests extends BaseClass {
 
     @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgradeFreeTo5kPlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
-        emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
+        //emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
         a.navigateToBillingPlan();
         a.changePlan(userID, userFirstName, userSecondName, "5k");
         Reporter.log("Free user upgraded to 5k <br/>", true);
-        textInMessage[0] = "Your MapMarker plan has been updated.";
+/*      textInMessage[0] = "Your MapMarker plan has been updated.";
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
         emailUtils.waitForEmailReceived("Your MapMarker subscription has been updated", EmailUtils.EmailFolder.PLANCHANGE, 1);
         emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated",userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
-        Reporter.log("Free user upgraded to 5k - Email successfully received <br/>", true);
+        Reporter.log("Free user upgraded to 5k - Email successfully received <br/>", true);*/
     }
 
     @Test(dataProvider = "FreeUSLoginAndUpgFreeto5kJobDetails", groups = {"regressionSuite"})
@@ -69,7 +68,7 @@ public class UpgradeTests extends BaseClass {
         a.logOut();
     }
 
-    //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
+    /*@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgrade5kToProfPlanAndCheckEmail(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.navigateToDashboard();
@@ -85,7 +84,7 @@ public class UpgradeTests extends BaseClass {
        Reporter.log("5k user upgraded to Prof Email - successfully received <br/>", true);
     }
 
-    //@Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
+    @Test(dataProvider = "FreeUSUserDetails", dataProviderClass = SignUpTests.class, groups = {"regressionSuite"})
     public void testUpgradeFreeToProfPlan(String userID, String userFirstName, String userSecondName) throws Exception {
         emailUtils.deleteAllEmails(EmailUtils.EmailFolder.PLANCHANGE);
         a.login(userID);
@@ -96,5 +95,5 @@ public class UpgradeTests extends BaseClass {
         textInMessage[1] = "Thank you for= updating your MapMarker plan. " +
                 "Please visit the below link to view your Map=Marker Dashboard.";
        emailUtils.isTextPresentInMessage("Your MapMarker subscription has been updated", userID, textInMessage, EmailUtils.EmailFolder.PLANCHANGE);
-    }
+    }*/
 }

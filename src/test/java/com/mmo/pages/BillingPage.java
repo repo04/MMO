@@ -3,7 +3,6 @@ package com.mmo.pages;
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
 public class BillingPage extends BaseClass {
@@ -43,9 +42,9 @@ public class BillingPage extends BaseClass {
         }else{
             ip.isURLContains(driver, "?plan=free");
             ip.isURLContains(driver, "thanks/geocoding");
-            ip.isGetTextContainsByXPATH(driver, "//p[@id='successtext']", "Success!");
-            ip.isGetTextContainsByXPATH(driver, "//p[@id='youraccttext']", "Your subscription has been successfully updated. Redirecting to dashboard.");
         }
+        ip.isGetTextContainsByXPATH(driver, "//p[@id='successtext']", "Success!");
+        ip.isGetTextContainsByXPATH(driver, "//p[@id='youraccttext']", "Your subscription has been successfully updated. Redirecting to dashboard.");
 
         ip.isURLContains(driver, "/dashboard");
         u.waitTillSpinnerDisable(driver, "//div[starts-with(@class,'spinner-sample')]");
@@ -100,19 +99,19 @@ public class BillingPage extends BaseClass {
             ip.isElementPresentByXPATH(driver, "//button[contains(text(),'Upgrade Plan')]");
             ip.isGetTextContainsByXPATH(driver, "//div[4]/div/div/h2", "Payment Information");
             Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[1]/div/div/input")).
-                    getAttribute("ng-reflect-model"),"CARD NAME NEW", "Card Name does not match");
+                    getAttribute("ng-reflect-model"),"JCB CARD", "Card Name does not match");
             Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[2]/div[1]/div/div/input")).
                     getAttribute("ng-reflect-model"),"**** **** **** 0505", "Card Number does not match");
             Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[2]/div[2]/div/input")).
                     getAttribute("ng-reflect-model"),"11/2024", "Exp date does not match");
             Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[3]/div/div/input")).
-                    getAttribute("ng-reflect-model"),"1 Global Vw", "Street does not match");
+                    getAttribute("ng-reflect-model"),"13 Route 111", "Street does not match");
             Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[5]/div[1]/div/input")).
-                    getAttribute("ng-reflect-model"),"12180-8371", "PostCode does not match");
+                    getAttribute("ng-reflect-model"),"03038-4107", "PostCode does not match");
             Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[5]/div[2]/div/input")).
-                    getAttribute("ng-reflect-model"),"Troy", "City does not match");
+                    getAttribute("ng-reflect-model"),"Derry", "City does not match");
             Assert.assertEquals(driver.findElement(By.xpath("//select[@class='form-control']/option")).getText(),
-                    "New York", "State does not match");
+                    "New Hampshire", "State does not match");
         }
 
         if(userSecondName.contains("FreeNonUS")){
@@ -152,8 +151,8 @@ public class BillingPage extends BaseClass {
             default :
                 ip.isGetTextContainsByXPATH(driver, "//div[2]/div/div/div/div/h2", "Pay as you go 5k");
                 ip.isGetTextContainsByXPATH(driver, "//h4[2]", "5,000 geocodes");
-                ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[4]", "$54.00");
-                ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[5]", "$54.00");
+                ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[4]", "$50.00");
+                ip.isGetTextContainsByXPATH(driver, "//tr[1]/td[5]", "$50.00");
 
                 /*driver.findElement(By.xpath("//td[6]/button")).click();
 
@@ -181,10 +180,10 @@ public class BillingPage extends BaseClass {
         driver.findElement(By.xpath("//button[contains(.,'Update Card')]")).click();
         ip.isElementClickableByXpath(driver, "//input[@type='text']", 60);
         driver.findElement(By.xpath("//input[@type='text']")).clear();
-        driver.findElement(By.xpath("//input[@type='text']")).sendKeys("CARD 2");
+        driver.findElement(By.xpath("//input[@type='text']")).sendKeys("AMEX");
         ip.isElementClickableByXpath(driver, "(//input[@type='text'])[2]", 60);
         driver.findElement(By.xpath("(//input[@type='text'])[2]")).clear();
-        driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("NAME 2");
+        driver.findElement(By.xpath("(//input[@type='text'])[2]")).sendKeys("CARD");
         ip.frameToBeAvailableByXpathAndSwitchToIt(driver,"/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/form/div[2]/div/div/div/div/iframe");
         ip.isElementClickableByXpath(driver, "//input[@id='recurly-hosted-field-input']", 60);
         driver.findElement(By.xpath("//input[@id='recurly-hosted-field-input']")).clear();
@@ -195,17 +194,18 @@ public class BillingPage extends BaseClass {
         driver.findElement(By.xpath("(//input[@type='tel'])[3]")).sendKeys("1234");
         driver.switchTo().parentFrame();
         ip.isElementClickableByXpath(driver, "(//input[@type='text'])[3]", 60);
-        driver.findElement(By.xpath("(//input[@type='text'])[3]")).clear();
-        driver.findElement(By.xpath("(//input[@type='text'])[3]")).sendKeys("1 Global View");
-        driver.findElement(By.xpath("(//input[@type='text'])[5]")).clear();
-        driver.findElement(By.xpath("(//input[@type='text'])[5]")).sendKeys("12180");
-        driver.findElement(By.xpath("(//input[@type='text'])[6]")).clear();
-        driver.findElement(By.xpath("(//input[@type='text'])[6]")).sendKeys("TROY");
-        new Select(driver.findElement(By.xpath("//select"))).selectByVisibleText("New York");
+//        driver.findElement(By.xpath("(//input[@type='text'])[3]")).clear();
+//        driver.findElement(By.xpath("(//input[@type='text'])[3]")).sendKeys("1 Global View");
+//        driver.findElement(By.xpath("(//input[@type='text'])[5]")).clear();
+//        driver.findElement(By.xpath("(//input[@type='text'])[5]")).sendKeys("12180");
+//        driver.findElement(By.xpath("(//input[@type='text'])[6]")).clear();
+//        driver.findElement(By.xpath("(//input[@type='text'])[6]")).sendKeys("TROY");
+//        new Select(driver.findElement(By.xpath("//select"))).selectByVisibleText("New York");
         driver.findElement(By.xpath("//button[@id='validateAddressBtn']")).click();
-        ip.isGetTextContainsByXPATH(driver, "//td[2]/div","1 Global Vw", 15);
-        ip.isGetTextContainsByXPATH(driver, "//td[2]/div[3]","Troy, New York", 15);
-        ip.isGetTextContainsByXPATH(driver, "//td[2]/div[4]","12180-8371", 15);
+//        ip.isGetTextContainsByXPATH(driver, "//td[2]/div","1 Global Vw", 15);
+//        ip.isGetTextContainsByXPATH(driver, "//td[2]/div[3]","Troy, New York", 15);
+//        ip.isGetTextContainsByXPATH(driver, "//td[2]/div[4]","12180-8371", 15);
+        ip.isElementClickableByXpath(driver, "//input[@name='confirmAddrRadio']", 15);
         driver.findElement(By.xpath("//input[@name='confirmAddrRadio']")).click();
         driver.findElement(By.xpath("//button[@id='submitPaymentBtn']")).click();
         ip.isGetTextContainsByXPATH(driver, "//div[4]/div[2]/div/div/div",
@@ -213,18 +213,18 @@ public class BillingPage extends BaseClass {
 
         ip.isElementPresentByXPATH(driver, "/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[1]/div/div/input");
         Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[1]/div/div/input")).
-                getAttribute("ng-reflect-model"),"CARD 2 NAME 2", "Card Name does not match");
+                getAttribute("ng-reflect-model"),"AMEX CARD", "Card Name does not match");
         Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[2]/div[1]/div/div/input")).
                 getAttribute("ng-reflect-model"),"**** **** **** 0005", "Card Number does not match");
         Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[2]/div[2]/div/input")).
                 getAttribute("ng-reflect-model"),"1/2025", "Exp date does not match");
-        Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[3]/div/div/input")).
+        /*Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[3]/div/div/input")).
                 getAttribute("ng-reflect-model"),"1 Global Vw", "Street does not match");
         Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[5]/div[1]/div/input")).
                 getAttribute("ng-reflect-model"),"12180-8371", "PostCode does not match");
         Assert.assertEquals(driver.findElement(By.xpath("/html/body/app-root/div/billing/div[1]/div/div[4]/div[2]/div[5]/div[2]/div/input")).
                 getAttribute("ng-reflect-model"),"Troy", "City does not match");
         Assert.assertEquals(driver.findElement(By.xpath("//select[@class='form-control']/option")).getText(),
-                "New York", "State does not match");
+                "New York", "State does not match");*/
     }
 }

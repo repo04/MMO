@@ -3,8 +3,6 @@ package com.mmo.tests;
 import com.mmo.util.Actions;
 import com.mmo.util.BaseClass;
 import com.mmo.util.DataProviderUtility;
-import com.mmo.util.EmailUtils;
-import org.testng.Assert;
 import org.testng.ITestContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -142,7 +140,7 @@ public class JobCompletionTests extends BaseClass {
         }
     }
 
-    @Test(dataProvider = "SubUsersOutFileNames", groups = {"regressionSuite"})
+    /*@Test(dataProvider = "SubUsersOutFileNames", groups = {"regressionSuite"})
     public void testSubUsersVerifyJobCompleteEmail(String outFileName) throws Exception {
         System.out.println("**outFileName: **" + outFileName + "\n");
         int p = outFileName.indexOf("Free");
@@ -157,5 +155,5 @@ public class JobCompletionTests extends BaseClass {
         if(!emailUtils.testVerifyJobCompleteEmailAndAccessDetailsDirectly(outFileName, userID, false, "N")){
             u.illegalStateException("Job completion email not found for: " + outFileName);
         }
-    }
+    }*/
 }
